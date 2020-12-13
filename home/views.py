@@ -9,9 +9,6 @@ from django.shortcuts import render
 # from old_site.models import Index, About, Cv, Notes, Code, Visuals
 
 
-
-
-
 def index(request):
     return render(request, 'home/index.html')
 
