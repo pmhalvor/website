@@ -2,21 +2,21 @@
 	<html>
 		<head>
 			<title>code</title>
-			<link rel="stylesheet" type="text/css" href="../css/main.css">
-			<link rel="stylesheet" type="text/css" href="../css/code.css">
+            {% load static %}
+			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+			<link rel="stylesheet" type="text/css" href="{% static 'css/code.css' %}">
 		</head>
 
 		<body>
-            
-			<nav>
-				<ul>
-					<li><a href="index.html#bar">home</a></li>
-					<li><a href="about.html">about</a></li>
-					<li><a href="cv.html">cv</a></li>
-					<li><a href="code.html">codes</a></li>
-					<li><a href="notes.html">notes</a></li>
-					<li><a href="visuals.html">visuals</a></li>
-				</ul>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home:index' %}">home</a></li>
+                    <li><a href="{% url 'home:about' %}">about</a></li>
+                    <li><a href="{% url 'home:cv' %}"></a></li>
+                    <li><a href="{% url 'home:code' %}">codes</a></li>
+                    <li><a href="{% url 'home:notes' %}">notes</a></li>
+                    <li><a href="{% url 'home:visuals' %}">visuals</a></li>
+                </ul>
             </nav>
 			
 			<div class="container">
