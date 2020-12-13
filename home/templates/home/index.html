@@ -4,7 +4,7 @@
             {% load static %}
 			<title>home</title>
 			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-			<link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
+			<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 		</head>
 
 		<body>
@@ -22,16 +22,12 @@
                 <ul>
                     <li><a href="{% url 'home:index' %}">home</a></li>
                     <li><a href="{% url 'home:about' %}">about</a></li>
-                    <li><a href="{% url 'home:cv' %}"></a>cv</li>
+                    <li><a href="{% url 'home:cv' %}">cv</a></li>
                     <li><a href="{% url 'home:code' %}">codes</a></li>
                     <li><a href="{% url 'home:notes' %}">notes</a></li>
                     <li><a href="{% url 'home:visuals' %}">visuals</a></li>
                 </ul>
             </nav>
-
-            
-
-            
 
             <div class="container">
                 <img src="{% static 'img/lookingcolors.jpg' %}" class="avatar"/>
