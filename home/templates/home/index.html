@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 	<html>
 		<head>
-			<title>PMCH</title>
-			<link rel="stylesheet" type="text/css" href="../css/main.css">
-			<link rel="stylesheet" type="text/css" href="../css/home.css">
+			<title>about</title>
+			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+			<link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
 		</head>
 
 		<body>
-			<header>
+            <header>
 				<div class="banner">
-					<img src="../img/dripcut.jpg" class="driphead">
+					<img src="{% static 'img/dripcut.jpg' %}' %}" class="driphead">
 					<div class="firstname" id="first"><em>PER</em></div>
 					<div class="middlename" id="middle"><em>MORTEN</em></div>
 					<div class="lastname" id="last"><em>HALVORSEN</em></div>
 				</div>
 
             </header>
-            
-			<nav id="bar">
-				<ul>
-					<li><a href="index.html#bar">home</a></li>
-					<li><a href="about.html">about</a></li>
-					<li><a href="cv.html">cv</a></li>
-					<li><a href="code.html">codes</a></li>
-					<li><a href="notes.html">notes</a></li>
-					<li><a href="visuals.html">visuals</a></li>
-				</ul>
+
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home:index' %}">home</a></li>
+                    <li><a href="{% url 'home:about' %}">about</a></li>
+                    <li><a href="{% url 'home:cv' %}"></a></li>
+                    <li><a href="{% url 'home:code' %}">codes</a></li>
+                    <li><a href="{% url 'home:notes' %}">notes</a></li>
+                    <li><a href="{% url 'home:visuals' %}">visuals</a></li>
+                </ul>
             </nav>
+
+            
+
             
 
             <div class="container">
-                <img src="../img/lookingcolors.jpg" class="avatar"/>
+                <img src="{% static 'img/lookingcolors.jpg' %}" class="avatar"/>
                 <h1> A nerdy, data-oriented, house-enthusiast</h1>
                 <p>
                     Hey there, and welcome to my site. <br>
@@ -38,32 +41,32 @@
                 </p>
 
                 <div class="row">
-                    <a href="../notes/SpotifyVisuals.html" class="card">
-                        <img src="../img/Spotify.png" class="card">
+                    <a href="{% static 'notes/SpotifyVisuals.html' %}" class="card">
+                        <img src="{% static 'img/Spotify.png' %}" class="card">
                         <h3 style="color:red"><em>Playing w/ Spotify API</em></h3>
                     </a>
-                    <a href="../notes/Privacy.html" class="card">
-                        <img src="../img/private.png" class="card">
+                    <a href="{% static 'notes/Privacy.html' %}" class="card">
+                        <img src="{% static 'img/private.png' %}" class="card">
                         <h3 style="color:red"><em>Differential privacy</em></h3>
                     </a>
-                    <a href="../notes/LinearLogarithmicPolynomialRegressions.html" class="card">
-                        <img src="../img/LinearQuad.png" class="card">
+                    <a href="{% static 'notes/LinearLogarithmicPolynomialRegressions.html' %}" class="card">
+                        <img src="{% static 'img/LinearQuad.png' %}" class="card">
                         <h3 style="color:red"><em>Linear models</em></h3>
                     </a>
-                    <a href="../notes/sklearnTools.html" class="card">
-                        <img src="../img/sklearn.png" class="card">
+                    <a href="{% static 'notes/sklearnTools.html' %}" class="card">
+                        <img src="{% static 'img/sklearn.png' %}" class="card">
                         <h3 style="color:red"><em>Intro to SciKit-Learn</em></h3>
                     </a>
-                    <a href="../notes/Reproducibility.html" class="card">
-                        <img src="../img/again.png" class="card">
+                    <a href="{% static 'notes/Reproducibility.html' %}" class="card">
+                        <img src="{% static 'img/again.png' %}" class="card">
                         <h3 style="color:red"><em>Reproducibility</em></h3>
                     </a>
-                    <a href="../notes/Trees.html" class="card">
-                        <img src="../img/Trees.png" class="card">
+                    <a href="{% static 'notes/Trees.html' %}" class="card">
+                        <img src="{% static 'img/Trees.png' %}" class="card">
                         <h3 style="color:red"><em>Classification trees</em></h3>
                     </a>
-                    <a href="../notes/VariableExclusion.html" class="card">
-                        <img src="../img/PC.png" class="card">
+                    <a href="{% static 'notes/VariableExclusion.html' %}" class="card">
+                        <img src="{% static 'img/PC.png' %}" class="card">
                         <h3 style="color:red"><em>Variable exclusion</em></h3>
                     </a>
                 </div>
