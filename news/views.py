@@ -13,7 +13,7 @@ from django.views import generic
 #    template_name = ''
 
 def index(request):
-    f = open('../static/pages/index.html')
+    f = open('/../static/pages/index.html')
     lines = f.read()
     f.close()
     return HttpResponse(lines)
