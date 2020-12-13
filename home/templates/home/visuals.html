@@ -12,7 +12,7 @@
                 <ul>
                     <li><a href="{% url 'home:index' %}">home</a></li>
                     <li><a href="{% url 'home:about' %}">about</a></li>
-                    <li><a href="{% url 'home:cv' %}"></a></li>
+                    <li><a href="{% url 'home:cv' %}">cv</a></li>
                     <li><a href="{% url 'home:code' %}">codes</a></li>
                     <li><a href="{% url 'home:notes' %}">notes</a></li>
                     <li><a href="{% url 'home:visuals' %}">visuals</a></li>
@@ -21,17 +21,17 @@
 			
 			<div class="container">
 				<a href= "https://github.com/pmhalvor/site/nb/data_science_tools" class="card">
-					<img src="../img/python.png" class="card">
+					<img src="{% static 'img/python.png' %}" class="card">
 					<h3>Diverse projects in Python</h3>
 					<p>Some typical data science analysis using matplotlib and seaborn.</p>
 				</a>
-				<a href= "../notes/SpotifyVisuals.html" class="card">
-					<img src="../img/Spotify.png" class="card">
+				<a href= "{% static notes/SpotifyVisuals.html" class="card">
+					<img src="{% static 'img/Spotify.png' %}" class="card">
 					<h3>Spotify API</h3>
 					<p>Some visuals using data from the Spotify API</p>
 				</a>
-				<a href= "../notes/project2.html" class="card">
-					<img src="../img/github.png" class="card">
+				<a href= "{% static notes/project2.html" class="card">
+					<img src="{% static 'img/github.png' %}" class="card">
 					<h3>The first part of project 2</h3>
 					<p>Some simple data analysis for project in IN-STK5000</p>
 				</a>

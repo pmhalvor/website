@@ -12,7 +12,7 @@
                 <ul>
                     <li><a href="{% url 'home:index' %}">home</a></li>
                     <li><a href="{% url 'home:about' %}">about</a></li>
-                    <li><a href="{% url 'home:cv' %}"></a></li>
+                    <li><a href="{% url 'home:cv' %}">cv</a></li>
                     <li><a href="{% url 'home:code' %}">codes</a></li>
                     <li><a href="{% url 'home:notes' %}">notes</a></li>
                     <li><a href="{% url 'home:visuals' %}">visuals</a></li>
@@ -20,7 +20,7 @@
             </nav>
 			
 			<div class="container">
-				<img src="https://media-exp1.licdn.com/dms/image/C4E03AQGztnbdA-UPxw/profile-displayphoto-shrink_400_400/0?e=1610582400&v=beta&t=NGMQrwLzgfPlLK_hr4M7qe7MU9cZZ0NozZkR0pI-s_k" class="avatarcv">
+				<img src="{% static img/lookingcolors.jpg}" class="avatarcv">
 				<h1 class="cv1">Per Morten Christopher Halvorsen </h1>
 				<h3 class="cv3">Currently studying Data Science (MSc) at the University of Oslo with a focus on Natural Language Processing</h3>
 				<h3 class="cv3">Previously studied Mathematics with Informatics (BSc) at the University of Oslo with a focus on Data Science</h3>
