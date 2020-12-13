@@ -13,4 +13,7 @@ from django.views import generic
 #    template_name = ''
 
 def index(request):
-    return HttpResponse('presenting the news index')
+    f = open('../static/pages/index.html')
+    lines = f.read()
+    f.close()
+    return HttpResponse(lines)
