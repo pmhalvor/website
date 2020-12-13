@@ -13,4 +13,6 @@ class Post(models.Model):
 
 
 class CV(models.Model):
-    
+    maintitle = models.CharField('main', max_length=200)
+    subtitle = models.CharField('sub', max_length=200)
+    title = models.CharField('main', max_length=200)
