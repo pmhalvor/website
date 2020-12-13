@@ -13,22 +13,22 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request, 'old_site/index.html')
+    return render(request, 'home/index.html')
 
 def about(request):
-    return render(request, 'old_site/about.html')
+    return render(request, 'home/about.html')
 
 def code(request):
-    return render(request, 'old_site/code.html')
+    return render(request, 'home/code.html')
 
 def cv(request):
-    return render(request, 'old_site/cv.html')
+    return render(request, 'home/cv.html')
 
 def notes(request):
-    return render(request, 'old_site/notes.html')
+    return render(request, 'home/notes.html')
 
 def visuals(request):
-    return render(request, 'old_site/visuals.html')
+    return render(request, 'home/visuals.html')
 
 
 
