@@ -12,7 +12,8 @@ from home.models import Cv
 class CvView(generic.ListView):
     template_name = 'home/cv_empty.html'
     context_object_name = 'section_category_list'
-    return Cv.objects.all()
+    der get_quesryset(self):
+        return Cv.objects.all()
 
 
 
