@@ -1,24 +1,17 @@
 language: python
 
-python:
-	- "3.7"
-
-	- "3.8"
+python: "3.8"
 
 services:
-
 	- postgres
 
 env:
-	
-	- DJANGO=3.1 DB=postgres
+	- DJANGO=3.1 DB=psql
 
 install:
-
 	- pip install -r requirements.txt
 
 before_script:
-
 	- psql -c 'CREATE DATABASE travis_ci_test;' -U postgres
 
 
