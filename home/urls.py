@@ -10,7 +10,7 @@ urlpatterns=[
     #.com/home/codes/
     path('code/', views.code, name='code'),
     #.com/home/cv
-    path('cv/', views.cv, name='cv'),
+    path('cv/', views.CvView.as_view(), name='cv'),
     #.com/home/notes
     path('notes/', views.notes, name='notes'),
     #.com/home/visuals
