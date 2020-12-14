@@ -25,7 +25,7 @@ SECRET_KEY = 'c76y8nc7o7nelf*1#dx=@90s62#ixlkj+u!=)&w50w2m$^ou7t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['174.138.5.19', 'www.perhalvorsen.com', '.perhalvorsen.com'] #.domain.com allows for subdomains (later)
+ALLOWED_HOSTS = ['174.138.5.19', 'perhalvorsen.com', '.perhalvorsen.com'] #.domain.com allows for subdomains (later)
 
 
 # Application definition
