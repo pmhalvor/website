@@ -14,7 +14,7 @@ class CvView(generic.ListView):
     context_object_name = 'cv_list'
 
     def get_queryset(self):
-        return Cv.objects.filter(cat='Work')
+        return Cv.objects.all()
 
 
 
