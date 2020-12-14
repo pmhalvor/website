@@ -26,9 +26,10 @@
 				<h3 class="cv3">Previously studied Mathematics with Informatics (BSc) at the University of Oslo with a focus on Data Science</h3>
 
 
-                {% for item in cv_list %}
+				<h2>Work</h2>
+				{% for item in cv_list %}
+					{% if item.cat=='Work' %}
                     <div class="sectioncv">
-						<h2>{{ item.cat }}</h2>
 						<p class="JobTitle">{{ item.main }}</p>
 						<p class="explain">{{ item.loc }}</br>
 							<em>{{ item.sub }}</em><br/>
@@ -36,6 +37,17 @@
 						</p>
                     </div>
                 {% endfor %}
+				<h2>Education</h2>
+				{% for item in cv_list %}
+					{% if item.cat=='Education' %}
+                    <div class="sectioncv">
+						<p class="JobTitle">{{ item.main }}</p>
+							<em>{{ item.sub }}</em><br/>
+							{{ item.start.month }} {{ item.start.year }} - {{ item.stop.month }} {{ item.stop.year }}<br/>
+						</p>
+                    </div>
+                {% endfor %}
+				
 
 						
 			</div>
