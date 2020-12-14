@@ -1,22 +1,12 @@
+before_script: 
+  - "psql -c 'CREATE DATABASE travis_ci_test;' -U postgres"
+env: 
+  - "DJANGO 3.1"
+  - DB=postgres
+install: 
+  - "pip install -r requirements.txt"
 language: python
-
 python: "3.8"
-
+script: 
+  - "python manage.py test"
 services: postgres
-
-addons:
-	postgresql: "12"
-
-env:
-	- DJANGO 3.1 
-	- DB=postgres
-
-install:
-	- pip install -r requirements.txt
-
-before_script:
-	- psql -c 'CREATE DATABASE travis_ci_test;' -U postgres
-
-
-script:
-	- python manage.py test
