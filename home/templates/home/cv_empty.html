@@ -33,7 +33,7 @@
 							<p class="JobTitle">{{ item.main }}</p>
 							<p class="explain">{{ item.loc }}</br>
 								<em>{{ item.sub }}</em><br/>
-								{{ item.start|date: "F Y"}}  - {{ item.stop|date: "F Y"}} <br/>
+								{{ item.start|date:"F Y"}}  - {{ item.stop|date:"F Y"}} <br/>
 							</p>
 						</div>
 					{% endif %}
@@ -45,7 +45,7 @@
 							<p class="JobTitle">{{ item.main }}</p>
 							<p class="explain">{{ item.loc }}</br>
 								<em>{{ item.sub }}</em><br/>
-								{{ item.start|date: "F Y" }}  - {{ item.stop|date: "F Y" }} <br/>
+								{{ item.start|date:"F Y" }}  - {{ item.stop|date:"F Y" }} <br/>
 							</p>
 						</div>
 					{% endif %}
