@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
+from home.models import Cv
 
 # my code
 # from django.http import HttpResponse, HttpResponseRedirect
@@ -8,10 +9,10 @@ from django.views import generic
 # from django.urls import reverse
 # from old_site.models import Index, About, Cv, Notes, Code, Visuals
 
-class IndexView(generic.ListView):
+class CvView(generic.ListView):
     template_name = 'home/cv_empty.html'
     context_object_name = 'section_category_list'
-    
+    return Cv.objects.all()
 
 
 
