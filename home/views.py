@@ -1,12 +1,18 @@
 from django.shortcuts import render
+from django.views import generic
 
 # my code
 # from django.http import HttpResponse, HttpResponseRedirect
 # from django.utils import timezone
 # from django.shortcuts import get_object_or_404, render
 # from django.urls import reverse
-# from django.views import generic
 # from old_site.models import Index, About, Cv, Notes, Code, Visuals
+
+class IndexView(generic.ListView):
+    template_name = 'home/cv_empty.html'
+    context_object_name = 'section_category_list'
+    
+
 
 
 def index(request):

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+	<html>
+		<head>
+			<title>cv</title>
+            {% load static %}
+			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+			<link rel="stylesheet" type="text/css" href="{% static 'css/cv.css' %}">
+		</head>
+
+		<body>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home:index' %}">home</a></li>
+                    <li><a href="{% url 'home:about' %}">about</a></li>
+                    <li><a href="{% url 'home:cv' %}">cv</a></li>
+                    <li><a href="{% url 'home:code' %}">codes</a></li>
+                    <li><a href="{% url 'home:notes' %}">notes</a></li>
+                    <li><a href="{% url 'home:visuals' %}">visuals</a></li>
+                </ul>
+            </nav>
+			
+			<div class="container">
+				<img src="{% static 'img/lookingcolors.jpg' %}" class="avatarcv">
+				<h1 class="cv1">Per Morten Christopher Halvorsen </h1>
+				<h3 class="cv3">Currently studying Data Science (MSc) at the University of Oslo with a focus on Natural Language Processing</h3>
+				<h3 class="cv3">Previously studied Mathematics with Informatics (BSc) at the University of Oslo with a focus on Data Science</h3>
+
+
+                {% for category in section_category_list %}
+                    <div class="sectioncv">
+                        <h2>{{ category }}</h2>
+                    </div>
+                {% endfor %}
+
+						
+			</div>
+
+
+			<footer>
+	    		<ul>
+	        		<li><a href="mailto:pmchalvorsen@gmail.com">email</a></li>
+	        		<li><a href="https://github.com/pmhalvor">github</a></li>
+	        		<li><a href="https://www.linkedin.com/in/pmhalvor">linkedin</a></li>
+				</ul>
+			</footer>
+		</body>
+
+	</html>
