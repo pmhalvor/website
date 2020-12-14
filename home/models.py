@@ -9,6 +9,5 @@ class Cv(models.Model):
     start_time = models.DateTimeField('start')
     stop_time  = models.DateTimeField('stop')
 
-
     def __str__(self):
         return self.main_title
