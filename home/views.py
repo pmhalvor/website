@@ -13,6 +13,8 @@ class CvView(generic.ListView):
     template_name = 'home/cv_empty.html'
     context_object_name = 'cv_list'
 
+    model = Cv 
+    
     def get_queryset(self):
         return Cv.objects.all()
 
