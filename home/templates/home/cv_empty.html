@@ -29,23 +29,25 @@
 				<h2>Work</h2>
 				{% for item in cv_list %}
 					{% if item.cat=='Work' %}
-                    <div class="sectioncv">
-						<p class="JobTitle">{{ item.main }}</p>
-						<p class="explain">{{ item.loc }}</br>
-							<em>{{ item.sub }}</em><br/>
-							{{ item.start.month}} {{ item.start.year }} - {{ item.stop.month}} {{ item.stop.year }}<br/>
-						</p>
-                    </div>
+						<div class="sectioncv">
+							<p class="JobTitle">{{ item.main }}</p>
+							<p class="explain">{{ item.loc }}</br>
+								<em>{{ item.sub }}</em><br/>
+								{{ item.start.month}} {{ item.start.year }} - {{ item.stop.month}} {{ item.stop.year }}<br/>
+							</p>
+						</div>
+					{% endif %}
                 {% endfor %}
 				<h2>Education</h2>
 				{% for item in cv_list %}
 					{% if item.cat=='Education' %}
-                    <div class="sectioncv">
-						<p class="JobTitle">{{ item.main }}</p>
-							<em>{{ item.sub }}</em><br/>
-							{{ item.start.month }} {{ item.start.year }} - {{ item.stop.month }} {{ item.stop.year }}<br/>
-						</p>
-                    </div>
+						<div class="sectioncv">
+							<p class="JobTitle">{{ item.main }}</p>
+								<em>{{ item.sub }}</em><br/>
+								{{ item.start.month }} {{ item.start.year }} - {{ item.stop.month }} {{ item.stop.year }}<br/>
+							</p>
+						</div>
+					{% endif %}
                 {% endfor %}
 				
 
