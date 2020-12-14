@@ -28,7 +28,7 @@
 
 				<h2>Work</h2>
 				{% for item in cv_list %}
-					{% if item.cat=='Work' %}
+					{% if item.cat == "Work" %}
 						<div class="sectioncv">
 							<p class="JobTitle">{{ item.main }}</p>
 							<p class="explain">{{ item.loc }}</br>
@@ -40,7 +40,7 @@
                 {% endfor %}
 				<h2>Education</h2>
 				{% for item in cv_list %}
-					{% if item.cat=='Education' %}
+					{% if item.cat == "Education" %}
 						<div class="sectioncv">
 							<p class="JobTitle">{{ item.main }}</p>
 								<em>{{ item.sub }}</em><br/>
