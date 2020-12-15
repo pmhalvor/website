@@ -3,6 +3,7 @@
 		<head>
 			<title>cv</title>
             {% load static %}
+            {% load mathfilters %}
 			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 			<link rel="stylesheet" type="text/css" href="{% static 'css/cv.css' %}">
 		</head>
@@ -20,41 +21,47 @@
             </nav>
 			
 			<div class="container">
-				<img src="{% static 'img/lookingcolors.jpg' %}" class="avatarcv">
+				<img src="{% static 'img/.jpg' %}" class="avatarcv">
 				<h1 class="cv1">Per Morten Christopher Halvorsen </h1>
 				<h3 class="cv3">Currently studying Data Science (MSc) at the University of Oslo with a focus on Natural Language Processing</h3>
 				<h3 class="cv3">Previously studied Mathematics with Informatics (BSc) at the University of Oslo with a focus on Data Science</h3>
 
+				<div class="sectioncv">
+					<h2 style="color:#0000f2">Education</h2>
+					{% for item in edu_list %}
+						<p class="JobTitle">{{ item.main }}</p>
+						<p class="explain">{{ item.loc }}</br>
+							<em>{{ item.sub }}</em><br/>
+							{{ item.start|date:"M Y" }} - {{ item.stop|date:"M Y" }} <br/>
+						</p>
+					{% endfor %}
+				</div>
 
-				<h2>Work</h2>
-				{% for item in cv_list %}
-					{% if item.cat == "Work" %}
-						<div class="sectioncv">
-							<p class="JobTitle">{{ item.main }}</p>
-							<p class="explain">{{ item.loc }}</br>
+				<div class="sectioncv">
+					<h2 style="color:#0000f2">Languages</h2>
+					{% for item in lang_list %}
+						<p class="JobTitle">{{ item.main }}</p>
+						<p class="explain" style="font-size: smaller;">
+							{% if item.sub != " " %}
 								<em>{{ item.sub }}</em><br/>
-								{{ item.start|date:"F Y"}}  - {{ item.stop|date:"F Y"}} <br/>
-							</p>
-						</div>
-					{% endif %}
-                {% endfor %}
-				<h2>Education</h2>
-				{% for item in cv_list %}
-					{% if item.cat == "Education" %}
-						<div class="sectioncv">
-							<p class="JobTitle">{{ item.main }}</p>
-							<p class="explain">{{ item.loc }}</br>
-								<em>{{ item.sub }}</em><br/>
-								{{ item.start|date:"F Y" }}  - {{ item.stop|date:"F Y" }} <br/>
-							</p>
-						</div>
-					{% endif %}
-                {% endfor %}
-				
+							{% endif %}
+							{{ now.year|sub:item.start.year }} yr {{ now.month|sub:item.start.month }} m
+						</p>
+					{% endfor %}
+				</div>
 
+				<div class="sectioncv">
+					<h2 style="color:#0000f2">Work</h2>
+					{% for item in work_list %}
+						<p class="JobTitle">{{ item.main }}</p>
+						<p class="explain">{{ item.loc }}</br>
+							<em>{{ item.sub }}</em><br/>
+							{{ item.start|date:"M Y"}} - {{ item.stop|date:"M Y"}} <br/>
+						</p>
+					{% endfor %}
+				</div>
 						
 			</div>
-
 
 			<footer>
 	    		<ul>

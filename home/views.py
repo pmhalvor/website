@@ -1,20 +1,21 @@
 from django.shortcuts import render
 from django.views import generic
 from home.models import Cv
-
-# my code
-# from django.http import HttpResponse, HttpResponseRedirect
-# from django.utils import timezone
-# from django.shortcuts import get_object_or_404, render
-# from django.urls import reverse
-# from old_site.models import Index, About, Cv, Notes, Code, Visuals
+from django.utils import timezone
 
 class CvView(generic.ListView):
     template_name = 'home/cv_empty.html'
-    context_object_name = 'cv_list'
+    model = Cv 
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cv_list'] = Cv.objects.all()
+        context['work_list'] = Cv.objects.filter(cat='Work')
+        context['edu_list'] = Cv.objects.filter(cat='Education')
+        context['lang_list'] = Cv.objects.filter(cat='Language').order_by('start')
+        context['now'] = timezone.now()
 
-    def get_queryset(self):
-        return Cv.objects.all()
+        return context
 
 
 
