@@ -40,7 +40,7 @@
                 <div class="row">
                     {% for item in update_list %}
                         <a href="{{ item.file_loc }}" class="card">
-                            <img src="{{ item.img_loc }}" class="card">
+                            <img src="{{ item.img_loc.url }}" class="card">
                             <h3 style="color:red"><em>{{ item.title }}</em></h3>
                         </a>
                     {% endfor %}
@@ -60,46 +60,6 @@
             
             
 		</body>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146435196-1"></script>
-            <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                
-                gtag('config', 'UA-146435196-1');
-		</script> -->
+		
 </html>
 
-<!-- 
-<div class="row">
-    <a href="{% static 'notes/SpotifyVisuals.html' %}" class="card">
-        <img src="{% static 'img/Spotify.png' %}" class="card">
-        <h3 style="color:red"><em>Playing w/ Spotify API</em></h3>
-    </a>
-    <a href="{% static 'notes/Privacy.html' %}" class="card">
-        <img src="{% static 'img/private.png' %}" class="card">
-        <h3 style="color:red"><em>Differential privacy</em></h3>
-    </a>
-    <a href="{% static 'notes/LinearLogarithmicPolynomialRegressions.html' %}" class="card">
-        <img src="{% static 'img/LinearQuad.png' %}" class="card">
-        <h3 style="color:red"><em>Linear models</em></h3>
-    </a>
-    <a href="{% static 'notes/sklearnTools.html' %}" class="card">
-        <img src="{% static 'img/sklearn.png' %}" class="card">
-        <h3 style="color:red"><em>Intro to SciKit-Learn</em></h3>
-    </a>
-    <a href="{% static 'notes/Reproducibility.html' %}" class="card">
-        <img src="{% static 'img/again.png' %}" class="card">
-        <h3 style="color:red"><em>Reproducibility</em></h3>
-    </a>
-    <a href="{% static 'notes/Trees.html' %}" class="card">
-        <img src="{% static 'img/Trees.png' %}" class="card">
-        <h3 style="color:red"><em>Classification trees</em></h3>
-    </a>
-    <a href="{% static 'notes/VariableExclusion.html' %}" class="card">
-        <img src="{% static 'img/PC.png' %}" class="card">
-        <h3 style="color:red"><em>Variable exclusion</em></h3>
-    </a>
-</div>
--->

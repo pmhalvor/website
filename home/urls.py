@@ -4,7 +4,6 @@ from . import views
 app_name='home'
 urlpatterns=[
     #.com/home/
-    # path('', views.UpdateView.as_view(), name='index'),
     path('', views.index, name='index'),
     #.com/home/about
     path('about/', views.about, name='about'),
@@ -17,3 +16,9 @@ urlpatterns=[
     #.com/home/visuals
     path('visuals', views.visuals, name='visuals'),
 ]
+
+
+# this should only be for new branches
+
+
+# path('', views.UpdateView.as_view(), name='index'),
