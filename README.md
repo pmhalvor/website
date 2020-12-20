@@ -1,4 +1,4 @@
-# perhalvorsen.com Release v1.0: Static
+# perhalvorsen.com Release v1.0.1: Static
 
 Hello and welcome to my site!
 
