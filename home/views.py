@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from home.models import Cv, Update
+from home.models import Cv
 from django.utils import timezone
 
 class CvView(generic.ListView):
@@ -79,14 +79,6 @@ def visuals(request):
 # class CodeView(generic.DetailView):
 #     model = Question
 #     template_name = 'old_site/code.html'
-
-#     def get_queryset(self):
-#         return Question.objects.filter(pub_date__lte=timezone.now())
-
-
-# class CvView(generic.DetailView):
-#     model = Question
-#     template_name = 'old_site/cv.html'
 
 #     def get_queryset(self):
 #         return Question.objects.filter(pub_date__lte=timezone.now())
