@@ -11,5 +11,3 @@ _Note: the repository has changed location to:_
 The site should be used as a portfolio, shining light on some of the projects I've taken part in. 
 If there are any malfunctions on your end, send me an email or pull request, and I'll work on 
 fixing it. 
-
-
