@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from config import DJANGO_SECRET, POSTGRES_PASSWORD
+import os
+try: 
+    from config import DJANGO_SECRET, POSTGRES_PASSWORD
+except:
+    DJANGO_SECRET = os.environ['DJANGO_SECRET']
+    POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = DJANGO_SECRET
+SECRET_KEY = POSTGRES_PASSWORD
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -131,4 +136,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # For file uploads to db
 MEDIA_URL ='/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
