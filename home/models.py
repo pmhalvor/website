@@ -1,5 +1,4 @@
 from django.db import models
-# from .storage import ExistingFileStorage
 
 # Create your models here.
 
