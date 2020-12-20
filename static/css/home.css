@@ -102,9 +102,9 @@ div.row{
     white-space: nowrap;
     padding: 10px;
 }
-a.card{
-    width: 275px;
-    height: 373px;
+div.card{
+    width: 250px;
+    height: 333px;
     background-color: seashell;
     border-radius: 5px;
     display: inline-block;
@@ -112,10 +112,15 @@ a.card{
     padding-right: 10px;
     text-align: center;
 }
+h3{
+    color: red;
+    font-size: smaller;
+}
 img.card{
-    height: 250px;
-    width: 250px;
+    height: 225px;
+    width: 225px;
     border-radius: 10px;
     margin-top:20px;
 }
+
 

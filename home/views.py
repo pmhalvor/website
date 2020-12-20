@@ -4,7 +4,7 @@ from home.models import Cv, Update
 from django.utils import timezone
 
 class CvView(generic.ListView):
-    template_name = 'home/cv_empty.html'
+    template_name = 'home/cv.html'
     model = Cv 
     
     def get_context_data(self, **kwargs):
@@ -18,8 +18,15 @@ class CvView(generic.ListView):
         return context
 
 
-def index(request):
-    return render(request, 'home/index.html')
+class UpdateView(generic.ListView):
+    template_name = 'home/index.html'
+    model = Update
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['update_list'] = Update.objects.all().order_by('-pub_date')[:7] # most recent 7
+        return context
+
 
 def about(request):
     return render(request, 'home/about.html')
@@ -27,25 +34,11 @@ def about(request):
 def code(request):
     return render(request, 'home/code.html')
 
-def cv(request):
-    return render(request, 'home/cv.html')
-
 def notes(request):
     return render(request, 'home/notes.html')
 
 def visuals(request):
     return render(request, 'home/visuals.html')
-
-
-
-# class UpdateView(generic.ListView):
-#     template_name = 'home/index_empty.html'
-#     model = Update
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['update_list'] = Update.objects.all().order_by('pub_date')
-#         return context
 
 
 

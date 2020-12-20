@@ -16,7 +16,3 @@ urlpatterns=[
     #.com/home/visuals
     path('visuals', views.visuals, name='visuals'),
 ]
-
-
-# this should only be for new branches
-
