@@ -10,15 +10,9 @@ urlpatterns=[
     #.com/home/codes/
     path('code/', views.code, name='code'),
     #.com/home/cv
-    path('cv/', views.CvView.as_view(), name='cv'),
+    path('cv/', views.CvView.as_view(), name='cv'),     # new for this branch
     #.com/home/notes
     path('notes/', views.notes, name='notes'),
     #.com/home/visuals
     path('visuals', views.visuals, name='visuals'),
 ]
-
-
-# this should only be for new branches
-
-
-# path('', views.UpdateView.as_view(), name='index'),

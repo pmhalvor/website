@@ -13,22 +13,3 @@ class Cv(models.Model):
 
     def __str__(self):
         return self.main
-
-### need to make it so that updates with same file name replace the previous versions.
-### need to figure out how to properly link to these files/images
-### maybe try selecting from already in database?
-###     would point is to show updaets....?
-### point to absolute links?
-###     but media/fiels is not available..?
-
-
-# efs = ExistingFileStorage()
-class Update(models.Model):
-    title = models.CharField('title', max_length=200)
-    descr = models.CharField('description', max_length=200)
-    file_loc = models.FileField(upload_to='files/', default='files/SpotifyVisuals.html')
-    img_loc  = models.ImageField(upload_to='img/', default='img/lookingcolors.jpg')
-    pub_date = models.DateTimeField('pub_date')
-
-    def __str__(self):
-        return self.title
