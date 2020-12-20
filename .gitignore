@@ -1,5 +1,6 @@
 /siteenv
 
+config.py
 
 
 # settings file that shouldnt be public 

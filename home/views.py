@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from home.models import Cv
+from home.models import Cv, Update
 from django.utils import timezone
 
 class CvView(generic.ListView):
@@ -17,7 +17,14 @@ class CvView(generic.ListView):
 
         return context
 
+class UpdateView(generic.ListView):
+    template_name = 'home/index_empty.html'
+    model = Update
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['update_list'] = Update.objects.all().order_by('pub_date')
+        return context
 
 def index(request):
     return render(request, 'home/index.html')

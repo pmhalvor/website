@@ -1,4 +1,5 @@
 from django.db import models
+# from .storage import ExistingFileStorage
 
 # Create your models here.
 
@@ -12,3 +13,14 @@ class Cv(models.Model):
 
     def __str__(self):
         return self.main
+
+# efs = ExistingFileStorage()
+class Update(models.Model):
+    title = models.CharField('title', max_length=200)
+    descr = models.CharField('description', max_length=200)
+    file_loc = models.FileField(upload_to='notes/', default='notes/SpotifyVisuals.html')
+    img_loc  = models.ImageField(upload_to='img/', default='img/lookingcolors.jpg')
+    pub_date = models.DateTimeField('pub_date')
+
+    def __str__(self):
+        return self.title
