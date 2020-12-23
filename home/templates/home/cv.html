@@ -11,7 +11,7 @@
 		<body>
             <nav>
                 <ul>
-                    <li><a href="{% url 'home:index' %}">home</a></li>
+                    <li><a href="{% url 'home:index' %}#return">home</a></li>
                     <li><a href="{% url 'home:about' %}">about</a></li>
                     <li><a href="{% url 'home:cv' %}">cv</a></li>
                     <li><a href="{% url 'home:code' %}">codes</a></li>
@@ -23,20 +23,9 @@
 			<div class="container">
 				<img src="{% static 'img/headshot.jpg' %}" class="avatarcv">
 				<h1 class="cv1">Per Morten Christopher Halvorsen </h1>
-				<h3 class="cv3">Currently studying Data Science (MSc) at the University of Oslo with a focus on Natural Language Processing</h3>
-				<h3 class="cv3">Previously studied Mathematics with Informatics (BSc) at the University of Oslo with a focus on Data Science</h3>
-
-				<div class="sectioncv">
-					<h2 style="color:#0000f2">Education</h2>
-					{% for item in edu_list %}
-						<p class="JobTitle">{{ item.main }}</p>
-						<p class="explain">{{ item.loc }}</br>
-							<em>{{ item.sub }}</em><br/>
-							{{ item.start|date:"M Y" }} - {{ item.stop|date:"M Y" }} <br/>
-						</p>
-					{% endfor %}
-				</div>
-
+				<h3 class="cv3">Currently studying Data Science (MSc) </br> at the University of Oslo with a focus on Natural Language Processing</h3>
+				<h3 class="cv3">Previously studied Math with Informatics (BSc) </br> at the University of Oslo with a focus on Data Science</h3>
+				
 				<div class="sectioncv">
 					<h2 style="color:#0000f2">Languages</h2>
 					{% for item in lang_list %}
@@ -46,6 +35,17 @@
 								<em>{{ item.sub }}</em><br/>
 							{% endif %}
 							{{ now.year|sub:item.start.year }} yr {{ now.month|sub:item.start.month }} m
+						</p>
+					{% endfor %}
+				</div>
+
+				<div class="sectioncv">
+					<h2 style="color:#0000f2">Education</h2>
+					{% for item in edu_list %}
+						<p class="JobTitle">{{ item.main }}</p>
+						<p class="explain">{{ item.loc }}</br>
+							<em>{{ item.sub }}</em><br/>
+							{{ item.start|date:"M Y" }} - {{ item.stop|date:"M Y" }} <br/>
 						</p>
 					{% endfor %}
 				</div>

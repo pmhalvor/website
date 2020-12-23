@@ -1,3 +1,4 @@
+from home.models import *
 from django.utils import timezone
 
 def get_columns(model):

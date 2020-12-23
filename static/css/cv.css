@@ -9,6 +9,7 @@ div.container{
     margin-top: 5%;
     font-size: 1.5em;
     z-index: -1;
+    text-align: center;
 }
 div.sectioncv{
 	display: inline-block;
@@ -30,9 +31,8 @@ h1 {
 }
 h3.cv3{
     text-align: right;
-	text-shadow: 2px 2px 2px #7f7f7f;
-    margin-right: 6%;
-    margin-left: 50%;
+    text-shadow: 2px 2px 2px #7f7f7f;
+    margin: 3%
 }
 img{
     border-radius: 50%;
@@ -45,9 +45,11 @@ img{
 }
 
 p.JobTitle{
+    text-align: left;
     font-weight: 600;
 }
 p.explain{
     font-weight: 400;
+    text-align: left;
     margin-top: -20px;
 }

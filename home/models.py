@@ -14,9 +14,19 @@ class Cv(models.Model):
         return self.main
 
 class Update(models.Model):
-    title = models.CharField('title', max_length=30)
+    title = models.CharField('title', max_length=50)
     descr = models.CharField('description', max_length=200)
     file_loc = models.URLField('url', max_length=200)
+    img_loc  = models.ImageField(upload_to='img/', default='img/lookingcolors.jpg')
+    pub_date = models.DateTimeField('pub_date')
+
+    def __str__(self):
+        return self.title
+
+class Notes(models.Model):
+    title = models.CharField('title', max_length=50)
+    descr = models.CharField('description', max_length=200)
+    file_loc = models.FileField(upload_to='notes/')
     img_loc  = models.ImageField(upload_to='img/', default='img/lookingcolors.jpg')
     pub_date = models.DateTimeField('pub_date')
 

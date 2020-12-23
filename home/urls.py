@@ -12,7 +12,7 @@ urlpatterns=[
     #.com/home/cv
     path('cv/', views.CvView.as_view(), name='cv'),
     #.com/home/notes
-    path('notes/', views.notes, name='notes'),
+    path('notes/', views.NotesView.as_view(), name='notes'),
     #.com/home/visuals
     path('visuals', views.visuals, name='visuals'),
 ]

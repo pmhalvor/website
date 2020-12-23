@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from home.models import Cv, Update
+from home.models import Cv, Update, Notes
 from django.utils import timezone
 
 class CvView(generic.ListView):
@@ -26,6 +26,16 @@ class UpdateView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['update_list'] = Update.objects.all().order_by('-pub_date')[:7] # most recent 7
         return context
+
+class NotesView(generic.ListView):
+    template_name = 'home/notes_empty.html'
+    model = Notes
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['notes_list'] = Notes.objects.all().order_by('-pub_date')
+        return context
+
 
 
 def about(request):

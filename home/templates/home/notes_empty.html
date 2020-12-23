@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 	<html>
 		<head>
-			<title>visuals</title>
+			<title>notes</title>
             {% load static %}
 			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 			<link rel="stylesheet" type="text/css" href="{% static 'css/notes.css' %}">
@@ -20,31 +20,21 @@
             </nav>
 			
 			<div class="container">
-				<div class="card">
-					<a href= "https://github.com/pmhalvor/website/tree/master/static/nb/data_science_tools" class="card">
-						<img src="{% static 'img/python.png' %}" class="card">
-						<h3>Diverse projects in Python</h3>
-						<p>Some typical data science analysis using matplotlib and seaborn.</p>
-					</a>
-				</div>
-					
-				<div class="card">
-					<a href= "{% static notes/SpotifyVisuals.html" class="card">
-						<img src="{% static 'img/Spotify.png' %}" class="card">
-						<h3>Spotify API</h3>
-						<p>Some visuals using data from the Spotify API</p>
-					</a>
-				</div>				
-				<div class="card">
-					<a href= "{% static notes/project2.html" class="card">
-						<img src="{% static 'img/github.png' %}" class="card">
-						<h3>The first part of project 2</h3>
-						<p>Some simple data analysis for project in IN-STK5000</p>
-					</a>
-				</div>
+				{% for item in notes_list %}
+					<div class="card">
+						<a href="{{ item.file_loc.url }}" class="card">
+							<img src="{{ item.img_loc.url }}" class="card">
+							<h3>{{ item.title }}</h3>
+							<p style="font-size:smaller"> {{ item.descr }} </p>
+						</a>
+					</div>
+				{% endfor %}
+
 			</div>
+			
+			
 
-
+			
 			<footer>
 	    		<ul>
 	        		<li><a href="mailto:pmchalvorsen@gmail.com">email</a></li>
