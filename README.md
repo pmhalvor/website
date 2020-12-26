@@ -1,13 +1,23 @@
-# perhalvorsen.com Release v1.0.3: Dynamic Home Page
+# perhalvorsen.com Release v1.0.4: Dynamic Notes Page
 
 Hello and welcome to my site!
 
 
-This third release presents the home page dynamically.
-Each recently updated post is pulled from a database where the updates are tracked.
+This release presents the notes page dynamically. A database on the server tracks the following columns:
+
+|  id    |  title   |  descr   |  file_loc  |  img_loc  |
+|--------|----------|----------|------------|-----------|
+| _uuid_ | _string_ | _string_ | _url_      |  _string_ |
+
+
+Changelog:
+- 1.0.4: Notes stored in database on server. Page items are pulled dynamically using Django.
+- 1.0.3: Home page updates stored in database on server. Items pulled dynamically from Django.
+- 1.0.2: Cv entries stored in database. Served dynamically using Django.
+- 1.0.1: Static site from previous deploy hosted from server.
 
 
 
-The site should be used as a portfolio, shining light on some of the projects I've taken part in. 
-If there are any malfunctions on your end, send me an email or pull request, and I'll work on 
-fixing it. 
+I use this site as a portfolio, shining light on some of the projects I've taken part in.
+If there are any malfunctions on your end, send me an email or pull request, and I'll work on
+fixing it.
