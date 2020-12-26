@@ -4,9 +4,9 @@ Hello and welcome to my site!
 
 
 This release presents the notes page dynamically. A database on the server tracks the following columns:
------------------------------------------------------
+
 |  id  |  title  |  descr  |  file_loc  |  img_loc  |
------------------------------------------------------
+|------|---------|---------|------------|-----------|
 
 
 Changelog:
