@@ -38,7 +38,6 @@ ALLOWED_HOSTS = ['174.138.5.19', 'perhalvorsen.com', '.perhalvorsen.com', '127.0
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
-    'news.apps.NewsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

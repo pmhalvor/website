@@ -1,0 +1,568 @@
+[33mcommit 208627870462409cd74ea7651842749e0cb902eb[m[33m ([m[1;36mHEAD -> [m[1;32mstable/1.0.4[m[33m, [m[1;31morigin/stable/1.0.4[m[33m)[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sat Dec 26 16:52:47 2020 +0100
+
+    add more to table descript
+
+[33mcommit 2ae6614f66f87431c9a2883b9ad7fb25e9cb2d3f[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sat Dec 26 16:47:45 2020 +0100
+
+    correct table in description
+
+[33mcommit 708eee1a9e8cbdbef43e14e0d6092f0c8b734571[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sat Dec 26 16:43:06 2020 +0100
+
+    update version description
+
+[33mcommit 208b87a6409684914daf91eecaa3025320e6e980[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sat Dec 26 15:52:26 2020 +0100
+
+    add lavkarbo.hmtl manually
+
+[33mcommit 4b3df16235b4aeb0672d9ae07e100db0d9522f5a[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Wed Dec 23 23:51:06 2020 +0000
+
+    implement notes to db
+
+[33mcommit 52c24a5605d957ec2cc16f5ba4adff73b1c6e74d[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Wed Dec 23 20:14:26 2020 +0000
+
+    last commit before version 1.4
+
+[33mcommit 9279354940b90c99caa10b5cb9d1b7f7bf0127ba[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Tue Dec 22 23:24:05 2020 +0100
+
+    add nltk image
+
+[33mcommit 9d43eb6e880d8f56a1e375f77c3deb9e740c1ac8[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Tue Dec 22 23:11:06 2020 +0100
+
+    updated nlp note1
+
+[33mcommit 392a66dc529256b44b41b5d26848406c539eb052[m[33m ([m[1;31morigin/stable/1.0.3[m[33m, [m[1;32mstable/1.0.3[m[33m)[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 22:32:05 2020 +0000
+
+    finish update loader for home
+
+[33mcommit 59fb62fceb4063fa07897221533bfbf8c4b4e7cf[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 20:47:49 2020 +0000
+
+    preparing for update implementation
+
+[33mcommit 614134bd4512174d51034ebb6c268a3c53c87eb1[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 20:21:23 2020 +0000
+
+    add newest readme (v1.0.3)
+
+[33mcommit 54cfb8b49a05bee3deac96df6402e218d219ccf8[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 13:25:34 2020 +0000
+
+    get rid of test_int causing error
+
+[33mcommit d6d4e5228e7a1dbfe6e7154c57ce4910458f27c5[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 13:11:59 2020 +0000
+
+    add Pillow to requirements
+
+[33mcommit 502bea56f5fdb57e5444c6da44a61092fba7164f[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 13:10:04 2020 +0000
+
+    update requirements for travis
+
+[33mcommit 6d6ad6db8dbf8fac68c06154690c89354ad0db50[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 12:45:21 2020 +0000
+
+    fix travis
+
+[33mcommit 5a079f0a012481ad604c8c893118a56f0af58cef[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 11:36:16 2020 +0000
+
+    final commit before release v1.0
+
+[33mcommit fe08a975e9f4eb9968fef069ee1452da19ae6e38[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 10:58:59 2020 +0000
+
+    changes are updating for some reason...
+
+[33mcommit 0b68f469c7dddd26570d59865331e5fa51a4ea75[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 03:03:23 2020 +0000
+
+    fix travis error
+
+[33mcommit 2281a1630d16984d3b3880214e42b8942319aa72[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 00:55:57 2020 +0000
+
+    Fix trouble with env var
+
+[33mcommit 50afc40619eef786ab3fca5b8d666f10082161a5[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 20 00:25:35 2020 +0000
+
+    Start updates from db
+
+[33mcommit a047235a1524478aed085f6cf1d1b2d1adce41a7[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Tue Dec 15 17:28:53 2020 +0100
+
+    add headshot to img
+
+[33mcommit fa8549479a9aacd6e88f1569a25847a108e24ba1[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Tue Dec 15 16:27:39 2020 +0000
+
+    add correct headshot cv
+
+[33mcommit 90de580d5303624e1cebf1b6961660ba10af03e1[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Tue Dec 15 16:26:44 2020 +0000
+
+    finish cv
+
+[33mcommit c50d309b3f11da5d25e8bd62d8524b00186e9830[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:55:56 2020 +0100
+
+    maybe the space ewas the prob
+
+[33mcommit 4968dc7c5f6d787a20c5e93c89e0c36c7f64ff20[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:54:08 2020 +0100
+
+    following django docs
+
+[33mcommit 06ef7619884a0efd3c7ccc4d5721b79ae99b7b68[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:50:47 2020 +0100
+
+    exact format from stackoverflow
+
+[33mcommit e520419933b747ce728d77ba080feaed13632820[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:49:04 2020 +0100
+
+    strftime cv template
+
+[33mcommit d73cff4c0d928f78b8efb74f792497d308d98e3a[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:46:37 2020 +0100
+
+    formatting string datetimes
+
+[33mcommit 73e39362478f6f9ae8ed53f550ea5801e06e0985[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:40:52 2020 +0100
+
+    attempt month dstring formatting
+
+[33mcommit 01aeb10e19260117c498baec3fa24cc8df719237[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:38:32 2020 +0100
+
+    Format education template correctly
+
+[33mcommit 2bc99870195d3616236876e8dcae89c9349bfc4a[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:33:10 2020 +0100
+
+    make sure all Cv items are being returned
+
+[33mcommit d0e0f5537f32c23aef7993b6b87ddda384c96bee[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:31:24 2020 +0100
+
+    debugging tempalte error
+
+[33mcommit d4943388a0998802f6ad2f54f099c40637b2cc45[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:27:15 2020 +0100
+
+    forgot endifs
+
+[33mcommit ed1da8e5e3cf4973f0e8125274899a2ee0c7ffa7[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:25:01 2020 +0100
+
+    add education to cv
+
+[33mcommit 39b2f8dde63605fe85c85fbd74edba6b57344b97[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:10:50 2020 +0100
+
+    get rid of string format of dateitme html
+
+[33mcommit 1e00d90063205fdf174fb654984b119c863c099e[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:09:18 2020 +0100
+
+    fix html
+
+[33mcommit 906d0ca369282e7e74e545d6e3389c0e3e750440[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 23:02:12 2020 +0100
+
+    try to fix CvView error
+
+[33mcommit cfc25ae5da0d361c5dd221ebe48e336ad8199fa3[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 21:59:12 2020 +0000
+
+    small change in view to help?
+
+[33mcommit 4ba3b332ebf7d4bdbc7cc1044e057362ea202beb[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 22:56:45 2020 +0100
+
+    fix html cv_empty
+
+[33mcommit 05c4f59e5596ee2d714a51f87a35324ccbc2c6af[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 22:54:08 2020 +0100
+
+    set model for cv view
+
+[33mcommit 06caf15731748aa74d0187d8b5980e9170867689[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 22:52:11 2020 +0100
+
+    for html insert
+
+[33mcommit d2de49eea9a1f002a6e7afb236ed1eb481d14ed6[m
+Merge: 767bc91 ee318bc
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 21:41:06 2020 +0000
+
+    fix merge
+
+[33mcommit 767bc918cc95d853e95753c260f5dafb63e11b9e[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 21:39:37 2020 +0000
+
+    locally changed view
+
+[33mcommit ee318bc9abe9c08d4065e96e6f60e5d282cf5f63[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 22:38:43 2020 +0100
+
+    fix small errors in view
+
+[33mcommit a22c1a7a50ea0e17a976e457f4c8a6b6c807af22[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 22:29:36 2020 +0100
+
+    tweaking view cv model
+
+[33mcommit 8e091c2de06957925bc52514af3039c53f589829[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 22:26:21 2020 +0100
+
+    try model cv
+
+[33mcommit 52c8672b1d83b4e86715f4be759fbd4836f9356f[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 17:28:52 2020 +0100
+
+    Add cv model
+
+[33mcommit cae6695b23923d0781aadb2412078d84ec9f9096[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 17:19:48 2020 +0100
+
+    start db for cv
+
+[33mcommit fe4c2f723fe1d85f33be5c0745173d3bdd12b730[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 16:36:53 2020 +0100
+
+    readd settings to git
+
+[33mcommit 389fe982f821dcc2a3e77eff908947cba071e9da[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 15:32:11 2020 +0000
+
+    add req file (hard coded)
+
+[33mcommit 760fd97aa7c70ecc91d14ee99bd9a809d424a887[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 16:28:31 2020 +0100
+
+    fix yaml accordning to net linter
+
+[33mcommit e25815fc7e7dafab97cd64b4e752c2b0c71bf0d1[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 16:25:32 2020 +0100
+
+    tinkering w travis
+
+[33mcommit 21fadb36c28489a647483d02f8e6e980404feec7[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 16:19:01 2020 +0100
+
+    alter travis file
+
+[33mcommit 9e4baa155e16c241f26b7e8dec18179c8eb2d730[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 15:06:03 2020 +0000
+
+    add CI (second sttempt)
+
+[33mcommit 9da53bf4b5e0542b1177bfbff5c9ec6b042772c2[m
+Merge: f705c20 4f59c9b
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 15:04:35 2020 +0000
+
+    Merge branch 'master' of github.com:pmhalvor/website
+
+[33mcommit f705c20cdc013e2510a82f3ebcba55a76fa844ae[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 15:04:13 2020 +0000
+
+    another attempt
+
+[33mcommit 4f59c9b2324bb53d28f818004915b5209cede8f9[m
+Author: perhalvorsen <31341520+pmhalvor@users.noreply.github.com>
+Date:   Mon Dec 14 15:51:50 2020 +0100
+
+    Delete settings.py
+
+[33mcommit 24d8efeac5df115691b0169755d8931f36751946[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 14:49:54 2020 +0000
+
+    hide settings from github
+
+[33mcommit 70bacae26866b13b62c80b26b307f3185b4f3b0b[m
+Merge: 88128a4 586ff1b
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 14:47:28 2020 +0000
+
+    Merge branch 'master' of github.com:pmhalvor/website
+
+[33mcommit 88128a4e1613f1a9cfee7427f5951975fc806fea[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Mon Dec 14 14:47:16 2020 +0000
+
+    first attempt at CI
+
+[33mcommit 586ff1b7ef501a514a1d61321e90b23bd50dd676[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 16:46:25 2020 +0100
+
+    change allowed hosts
+
+[33mcommit df758ff70524b0ae792e37f65ed5d50974f7335e[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 16:41:02 2020 +0100
+
+    update allowed hosts
+
+[33mcommit dfaee03c6a27eafde6fcc6754acb880adf414ef3[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 16:29:26 2020 +0100
+
+    change front page
+
+[33mcommit 6921b03bd28ceabd37373f0b7dc0bf49a5a3bbba[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 16:18:59 2020 +0100
+
+    fix cv img
+
+[33mcommit ae665dba71ac515b1dd9a8aa56b4b9e4d9b0a370[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 16:16:37 2020 +0100
+
+    more small fixes on templats
+
+[33mcommit 0ce3024d13f86b5cf7cb617a8e7455826c9d90db[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 16:13:06 2020 +0100
+
+    fix all local pnting imgs
+
+[33mcommit 0173d4798d92241eef022a051a2e00d22217d96f[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 16:07:57 2020 +0100
+
+    make sure right css is called for index
+
+[33mcommit 82bef8e2659d0a7d77deeb93f3aa1e968d534f20[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 16:05:58 2020 +0100
+
+    fix remaining error in index
+
+[33mcommit e87c95b2b6a4143b87697f6ede989344a8791530[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 16:04:06 2020 +0100
+
+    attempt to navigate to img from css
+
+[33mcommit aee5cad9d5c2fc2f54c799f05ce3a6016a0d5720[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 16:01:23 2020 +0100
+
+    move img out of css
+
+[33mcommit 13ccaa689b51fee8e63e99941b7430ed09f917a5[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 15:58:00 2020 +0100
+
+    point to img from css
+
+[33mcommit 72d7cd399bb8c03b96b2af34b946271c09aaa18b[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 14:54:17 2020 +0000
+
+    collected static
+
+[33mcommit d01a3af7f5ca87795d0eb2ab5253f18c2d9b5fb7[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 15:50:59 2020 +0100
+
+    fix nav bar on all templates
+
+[33mcommit cb59517fc8712a35b9df9cb0300d0326fc0ac14c[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 15:46:58 2020 +0100
+
+    add static tag to about template
+
+[33mcommit 79e17dc646dfc3c95ee1749bd6d0580d434e7188[m
+Merge: afaa905 42d144b
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 15:45:12 2020 +0100
+
+    Merge branch 'master' of github.com:pmhalvor/websi
+
+[33mcommit afaa90550e27925d52b897233f3b1b85577c5945[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 15:44:04 2020 +0100
+
+    fix change in both places betwn cmt
+
+[33mcommit 42d144b59a9aabe56c5fbb08d34b6449f39ed56e[m
+Merge: 708c2fe 802d826
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 14:35:55 2020 +0000
+
+    Merge branch 'master' of github.com:pmhalvor/website
+
+[33mcommit 708c2fef30753f082e82d8de718b84ee937fa50f[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 14:35:14 2020 +0000
+
+    no need for load url in index
+
+[33mcommit 802d8266490eba85737543310e6a41d4b0564f71[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 15:34:10 2020 +0100
+
+    move files for access in css
+
+[33mcommit ff0e8f30c5196e6a291529d7d11b1488a5bec2c4[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 15:24:54 2020 +0100
+
+    load tags to fix links
+
+[33mcommit ae3f68ff7e80ceb6d5127f123710397e11e35398[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 15:19:51 2020 +0100
+
+    merge all files to home branch
+
+[33mcommit 34fbf94c3b4ba9b6f6cac30bad2718265666e07d[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 14:51:12 2020 +0100
+
+    update settings to include home
+
+[33mcommit 88625924a6bb514d91aceac125d722b255b6c877[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 14:36:44 2020 +0100
+
+    update path
+
+[33mcommit fdfde11dc98e889d4eed4bcf06c3ee641a586a9d[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 14:26:36 2020 +0100
+
+    static files from old site now render home
+
+[33mcommit cf8c68247f78b94de31007a2049189c5bcc8eaab[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 12:15:34 2020 +0000
+
+    add old site as own app
+
+[33mcommit 446ac64e63c7c510b779d525a7073d789e3fc23b[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 04:06:59 2020 +0100
+
+    add backslah
+
+[33mcommit 71ede2ed3c7ad8573dc50d9b1a42087479523824[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 04:05:44 2020 +0100
+
+    brute force static index as home
+
+[33mcommit e38e2ddad560433bd821db0a3294469a9edbfa10[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 03:53:04 2020 +0100
+
+    fix models
+
+[33mcommit 8425a12280b59795d1d3f273addc136fb5ba6c7a[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 03:49:52 2020 +0100
+
+    add more static pages from old
+
+[33mcommit 484926c2180fd3c9ea5acd8cad5f39d345464812[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 02:39:06 2020 +0100
+
+    fix missing comma
+
+[33mcommit d28f320935252a0372e35bd245e3c1acff5a461f[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 02:37:52 2020 +0100
+
+    make post model in VSC (easier)
+
+[33mcommit 50555f09529d8f3db588c02622b07bc8d9f7130a[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 02:26:27 2020 +0100
+
+    copy files from old site
+
+[33mcommit f27e7386a5e227a16b4c63b9dad33745a9785549[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sun Dec 13 01:14:34 2020 +0000
+
+    start dev on news app
+
+[33mcommit 3ac95e2c75b36c5f3e8795c1c17f4528b29e860a[m
+Author: pmhalvor <pmchalvorsen@gmail.com>
+Date:   Sat Dec 12 23:04:49 2020 +0000
+
+    add site setup on server
