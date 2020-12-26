@@ -1,4 +1,4 @@
-# perhalvorsen.com Release v1.0.4: Dynamic Notes Page
+# perhalvorsen.com Development Branch
 
 Hello and welcome to my site!
 
