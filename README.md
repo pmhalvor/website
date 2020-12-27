@@ -5,6 +5,9 @@ Hello and welcome to my site!
 This is the development branch. Go to master branch for the most up to date version of the site.
 Otherwise, explore the different versions through branches.
 
+Currently working on:
+- radio branch for newest listens on Spotify
+
 Changelog:
 - 1.0.4: Notes stored in database on server. Page items are pulled dynamically using Django.
 - 1.0.3: Home page updates stored in database on server. Items pulled dynamically from Django.

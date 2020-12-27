@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['174.138.5.19', 'perhalvorsen.com', '.perhalvorsen.com', '127.0
 # Application definition
 
 INSTALLED_APPS = [
+    'radio.apps.RadioConfig',
     'home.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
