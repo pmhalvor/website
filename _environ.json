@@ -1,0 +1,7 @@
+{
+	"DJANGO_SECRET":"c76y8nc7o7nelf*1#dx=@90s62#ixlkj+u!=)&w50w2m$^ou7t",
+	"POSTGRES_PASSWORD":"AsimovISaac.73",
+	"AZURE_STORAGE":"DefaultEndpointsProtocol=https;AccountName=spotifyhistory;AccountKey=DTUMCNrl9+TBIow20qer5i/3wBZZAbH4D/8cFYG1MiN6jmV2UpbjB9WVwjb+QRl+qAd4WozSdWedFt1IfJVDBQ==;EndpointSuffix=core.windows.net",
+	"SPOTIFY_CLIENT_ID":"9656ff22d7604d078e98e54a1870b92d",
+	"SPOTIFY_CLIENT_SECRET": "fb911aa2dad04fd7be1754b2d94d0ac6"
+}

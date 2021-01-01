@@ -75,17 +75,17 @@ def df_to_csv(df=None) -> str:
     except:
         return df
 
-# Upload csv to FileShare
-def upload(csv_file=None) -> bool:
-    if csv_file:
-        try:
-            file_share_client = get_fileshare_client('history.csv')
-            file_share_client.upload_file(csv_file)
-            return True
-        except:
-            return False
-    else:
-        return csv_file
+# # Upload csv to FileShare
+# def upload(csv_file=None) -> bool:
+#     if csv_file:
+#         try:
+#             file_share_client = get_fileshare_client('history.csv')
+#             file_share_client.upload_file(csv_file)
+#             return True
+#         except:
+#             return False
+#     else:
+#         return csv_file
 
 # Run
 def run() -> bool:
@@ -93,15 +93,9 @@ def run() -> bool:
     token = get_token()
     data = get_recents(token=token)
     csv_df, latest = download_to_df()
+    print(csv_df.tail())
     spot_df = json_to_df(data=data, latest=latest)
-    if spot_df.size > 0:
-        updated_df = combine_dfs(csv_df, spot_df)
-        logging.info(updated_df)
-        print(updated_df)
-        csv_file = df_to_csv(updated_df)
-        return upload(csv_file)
-    else:
-        return None
+    
 
 
 if __name__=='__main__':

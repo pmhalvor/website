@@ -21,7 +21,12 @@
 
 			<div class="container">
                 <h1>
-                    {{ response }}
+					{% for item in recents %}
+						<h2>{{ item.artist }}</h2>
+						<h3>{{ item.name }}</h3>
+						<p> {{ item.played_at }}</p>
+						---
+					{% endfor %}
                 </h1>
             </div>
 			
