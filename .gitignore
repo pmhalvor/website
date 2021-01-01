@@ -2,6 +2,4 @@
 
 config.py
 
-
-# settings file that shouldnt be public 
-# settings.py
+_environ.py
