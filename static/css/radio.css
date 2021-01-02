@@ -1,0 +1,43 @@
+/*  PAGE SPECIFIC  */
+div.container{
+    background-color: rgb(37,37,37);
+    color: white;
+    border-radius: 13px;
+    font-family:'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    margin-right: 15px;
+    font-size: 1em;
+    margin: 5%;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
+h3{
+    color: red;
+}
+
+
+/*  GRAPH/PLOTS  */
+
+
+
+/*  SUGGESTIONS  */
+
+
+
+/*  NOW PLAYING  */
+
+
+/*  RECENTLY PLAYED  */ 
+
+div.entry{
+    display: inline-block;
+    text-align: center;
+    word-wrap: normal;
+    width: 330px;
+}
+
+div.row{
+    overflow: auto;
+    padding: 10px;
+}

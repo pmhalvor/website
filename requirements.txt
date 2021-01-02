@@ -6,3 +6,5 @@ pytz==2020.4
 sqlparse==0.4.1
 django-mathfilters
 Pillow
+pandas
+azure-storage-file-share

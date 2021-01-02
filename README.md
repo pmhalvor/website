@@ -6,7 +6,11 @@ This is the development branch. Go to master branch for the most up to date vers
 Otherwise, explore the different versions through branches.
 
 Currently working on:
-- radio branch for newest listens on Spotify
+- radio branch [.../radio](perhalvorsen.com/radio):
+    - newest listens on Spotify
+    - now playing artwork & song position
+    - suggestions
+    - graphs and plots
 
 Changelog:
 - 1.0.4: Notes stored in database on server. Page items are pulled dynamically using Django.
