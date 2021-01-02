@@ -3,6 +3,8 @@ from django.views import generic
 from django.http import HttpResponse
 from .worker.song_history import get_recents
 from .worker.authorize import get_token
+from datetime import datetime, timedelta
+
 
 
 def index(request):
@@ -21,7 +23,8 @@ def recents():
 
 	if data:
 		for song in data[:20]:
-			played_at = song['played_at']
+			played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%S.%fZ')
+							+ timedelta(hours=1))[:-3]
 			name = song['track']['name'].replace(',','')
 			song_id = song['track']['id']
 			artist = song['track']['artists'][0]['name'].replace(',','')
