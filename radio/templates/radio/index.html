@@ -20,14 +20,30 @@
             </nav>
 
 			<div class="container">
-                <h1>
+				<div class="playing">
+					<h1>now playing</h1>
+					<img src="{{ current.artwork }}" class="artwork">
+					<div class="progresstrack">
+						<div class="progressbar"></div>
+					</div>
+				</div>
+
+				<h1 style="text-align: right;">recently played</h1>
+                <ul class="row">
+					<div class="describe">
+						<h5>played at</h5>
+						<h2>artist</h2>
+						<h3>track</h3>
+					</div>
 					{% for item in recents %}
-						<h2>{{ item.artist }}</h2>
-						<h3>{{ item.name }}</h3>
-						<p> {{ item.played_at }}</p>
-						---
+						<li class="entry">
+							<h5> {{ item.played_at }}</h5>
+							<h2>{{ item.artist }}</h2>
+							<h3>{{ item.name }}</h3>
+						</li>
 					{% endfor %}
-                </h1>
+				</ul>
+				
             </div>
 			
 
