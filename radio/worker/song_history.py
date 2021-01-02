@@ -9,7 +9,7 @@ import requests as r
 
 # Request recently played
 def get_recents(token) -> dict:
-    URL = "https://api.spotify.com/v1/me/player/recently-played"    # api-endpoint for current playback
+    URL = "https://api.spotify.com/v1/me/player/recently-played"    # api-endpoint for recently played
     HEAD = {'Authorization': 'Bearer '+token}                       # provide auth. crendtials
     PARAMS = {'limit':50}	                                        # default here is 20
     return r.get(url=URL, headers=HEAD, params=PARAMS).json()
@@ -75,17 +75,16 @@ def df_to_csv(df=None) -> str:
     except:
         return df
 
-# # Upload csv to FileShare
-# def upload(csv_file=None) -> bool:
-#     if csv_file:
-#         try:
-#             file_share_client = get_fileshare_client('history.csv')
-#             file_share_client.upload_file(csv_file)
-#             return True
-#         except:
-#             return False
-#     else:
-#         return csv_file
+def get_current(token) -> dict:
+    URL = "https://api.spotify.com/v1/me/player"                    # api-endpoint for current playback
+    HEAD = {'Authorization': 'Bearer '+token}                       # provide auth. crendtials
+    content = r.get(url=URL, headers=HEAD)
+    if content.status_code == 200:
+        return content.json()
+    else:
+        return {}
+
+
 
 # Run
 def run() -> bool:
