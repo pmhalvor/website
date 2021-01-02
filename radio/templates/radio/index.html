@@ -23,8 +23,10 @@
 				<div class="playing">
 					<h1>now playing</h1>
 					<img src="{{ current.artwork }}" class="artwork">
+					<h2>{{ current.artist }}</h2>
+					<h3>{{ current.track }}</h3>
 					<div class="progresstrack">
-						<div class="progressbar"></div>
+						<div class="progressbar" style="width:{{ current.progress }}%;">{{ current.progress }}%</div>
 					</div>
 				</div>
 

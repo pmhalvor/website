@@ -53,9 +53,9 @@ def current():
 		track = data['item']['name']
 		artist = data['item']['artists'][0]['name']
 		duration = data['item']['duration_ms']
-		progress = data['progress_ms']
+		progress = round(data['progress_ms']/duration*100, ndigits=1)
 	else:
-		artwork  = 'https://perhalvorsen.com/media/img/Spotify.png'
+		artwork  = 'https://perhalvorsen.com/media/img/empty_album.png'
 		track    = 'nothing playing'
 		artist   = ''
 		duration = 10 

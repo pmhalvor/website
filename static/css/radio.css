@@ -1,5 +1,5 @@
 /*  PAGE SPECIFIC  */
-div.container{
+.container{
     background-color: rgb(37,37,37);
     color: white;
     border-radius: 13px;
@@ -11,7 +11,9 @@ div.container{
     padding-right: 10px;
     text-align: center;
 }
-
+h1{
+    font-style: italic;
+}
 
 
 /*  GRAPH/PLOTS  */
@@ -37,9 +39,11 @@ div.container{
 }
 .progressbar{
     background-color: rgb(70, 137, 70);
-    width: 25%;
+    font-size: xx-small;
     height: 10px;
     border-radius: 3px;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 
 
