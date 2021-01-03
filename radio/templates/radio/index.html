@@ -1,62 +1,108 @@
-<!DOCTYPE html>
-	<html>
-		<head>
-			<title>radio</title>
-            {% load static %}
-			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-			<link rel="stylesheet" type="text/css" href="{% static 'css/radio.css' %}">
-		</head>
 
-		<body>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'home:index' %}#return">home</a></li>
-                    <li><a href="{% url 'home:about' %}">about</a></li>
-                    <li><a href="{% url 'home:cv' %}">cv</a></li>
-                    <li><a href="{% url 'home:code' %}">codes</a></li>
-                    <li><a href="{% url 'home:notes' %}">notes</a></li>
-                    <li><a href="{% url 'home:visuals' %}">visuals</a></li>
-                </ul>
-            </nav>
+<html>
+	<head>
+		<title>radio</title>
+		{% load static %}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/radio.css' %}">
+		
+	</head>
 
-			<div class="container">
-				<div class="playing">
-					<h1>now playing</h1>
-					<img src="{{ current.artwork }}" class="artwork">
-					<h2>{{ current.artist }}</h2>
-					<h3>{{ current.track }}</h3>
-					<div class="progresstrack">
-						<div class="progressbar" style="width:{{ current.progress }}%;">{{ current.progress }}%</div>
-					</div>
+	<body>
+		<nav>
+			<ul>
+				<li><a href="{% url 'home:index' %}#return">home</a></li>
+				<li><a href="{% url 'home:about' %}">about</a></li>
+				<li><a href="{% url 'home:cv' %}">cv</a></li>
+				<li><a href="{% url 'home:code' %}">codes</a></li>
+				<li><a href="{% url 'home:notes' %}">notes</a></li>
+				<li><a href="{% url 'home:visuals' %}">visuals</a></li>
+			</ul>
+		</nav>
+
+		<div class="container">
+			<p>
+				Welcome to the site radio. <br>
+				Here you can see what I'm currently listening to, 
+				and some of the recents songs I've heard. <br>
+				This web-app is still in development, 
+				so check back in later for even more cool features. <br>
+			</p>
+			<div class="playing">
+				<h1>now playing</h1>
+				<img src="{{ current.artwork }}" class="artwork" id="artwork">
+				<h2 id="playingArtist">{{ current.artist }}</h2>
+				<h3 id="playingTrack">{{ current.track }}</h3>
+				<div class="progresstrack">
+					<div class="progressbar" id="bar"></div>
 				</div>
+			</div>
 
-				<h1 style="text-align: right;">recently played</h1>
-                <ul class="row">
-					<div class="describe">
-						<h5>played at</h5>
-						<h2>artist</h2>
-						<h3>track</h3>
-					</div>
-					{% for item in recents %}
-						<li class="entry">
-							<h5> {{ item.played_at }}</h5>
-							<h2>{{ item.artist }}</h2>
-							<h3>{{ item.name }}</h3>
-						</li>
-					{% endfor %}
-				</ul>
-				
-            </div>
+
+			<br>
+			<br>
+			<br>
+
+			<h1 style="text-align: right;">recently played</h1>
+			<ul class="row">
+				<div class="describe">
+					<h5>played at</h5>
+					<h2>artist</h2>
+					<h3>track</h3>
+				</div>
+				{% for item in recents %}
+					<li class="entry">
+						<h5> {{ item.played_at }}</h5>
+						<h2>{{ item.artist }}</h2>
+						<h3>{{ item.name }}</h3>
+					</li>
+				{% endfor %}
+			</ul>
 			
+		</div>
+		
 
-			
-			<footer>
-	    		<ul>
-	        		<li><a href="mailto:pmchalvorsen@gmail.com">email</a></li>
-	        		<li><a href="https://github.com/pmhalvor">github</a></li>
-	        		<li><a href="https://www.linkedin.com/in/pmhalvor">linkedin</a></li>
-				</ul>
-			</footer>
-		</body>
+		
+		<footer>
+			<ul>
+				<li><a href="mailto:pmchalvorsen@gmail.com">email</a></li>
+				<li><a href="https://github.com/pmhalvor">github</a></li>
+				<li><a href="https://www.linkedin.com/in/pmhalvor">linkedin</a></li>
+			</ul>
+		</footer>
+		<script type="text/javascript" >
+		var progressbar = document.getElementById("bar");
 
-	</html>
+		var duration = "{{ current.duration }}"*1;
+		var progress = "{{ current.progress }}"*1;
+		var percentage;
+
+		function updateProgress(){
+			progress = progress + 1000;
+			if (duration==0){
+				// do nothing
+				return;
+			}
+			else if (progress<duration) {
+				percentage = Math.round(100*progress/duration);
+				progressbar.style.width = percentage +"%";
+				progressbar.innerHTML = percentage +"%";
+				return percentage;
+			}
+			else {
+				// location.reload(true);  // find way to reload only this div's elements, not whole page
+				var playingArtist = document.getElementById("playingArtist");
+				var playingTrack = document.getElementById("playingTrack");
+				var artwork = document.getElementById("artwork");
+				playingArtist.innerHTML = "Refresh page for next song";
+				playingTrack.innerHTML  = "(CTRL + F5)";
+				artwork.src = "https://perhalvorsen.com/media/img/empty_album.png";
+				clearInterval(updating);
+			}
+		}
+
+		var updating = setInterval(updateProgress, 1000);
+		</script>
+	</body>
+
+</html>

@@ -54,13 +54,13 @@ def current():
 		track = data['item']['name']
 		artist = data['item']['artists'][0]['name']
 		duration = data['item']['duration_ms']
-		progress = round(data['progress_ms']/duration*100, ndigits=1)
+		progress = data['progress_ms'] #round(data['progress_ms']/duration*100, ndigits=1)
 	except:
 	# else:
 		artwork  = 'https://perhalvorsen.com/media/img/empty_album.png'
 		track    = 'nothing playing'
 		artist   = ''
-		duration = 10 
+		duration = 0 
 		progress = 0
 
 	content['artwork'] = artwork

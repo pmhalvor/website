@@ -26,7 +26,8 @@ h1{
 
 /*  NOW PLAYING  */
 .playing{
-    width:  200px;
+    width:  30%;
+    margin: 0 auto;
 }
 .artwork{
     height: 200px;
@@ -44,6 +45,7 @@ h1{
     border-radius: 3px;
     padding-top: 1px;
     padding-bottom: 1px;
+    /* width: var(--progressbar-w); */
 }
 
 
