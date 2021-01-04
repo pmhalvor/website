@@ -21,7 +21,7 @@ class Update(models.Model):
     pub_date = models.DateTimeField('pub_date')
 
     def __str__(self):
-        return self.title
+        return self.title, self.file_loc
 
 class Notes(models.Model):
     title = models.CharField('title', max_length=50)
@@ -31,4 +31,15 @@ class Notes(models.Model):
     pub_date = models.DateTimeField('pub_date')
 
     def __str__(self):
-        return self.title
+        return self.title, self.file_loc
+
+
+class Code(models.Model):
+    title = models.CharField('title', max_length=50)
+    descr = models.CharField('description', max_length=200)
+    url = models.URLField('url', max_length=200)
+    img_loc  = models.ImageField(upload_to='img/', default='img/lookingcolors.jpg')
+    pub_date = models.DateTimeField('pub_date')
+
+    def __str__(self):
+        return self.title +' '+ self.url

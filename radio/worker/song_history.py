@@ -6,9 +6,12 @@ from datetime import datetime
 import io, json, logging
 import pandas as pd 
 import requests as r
+from .authorize import get_token
 
 # Request recently played
-def get_recents(token) -> dict:
+def get_recents(token=None) -> dict:
+    if not token:
+        token = get_token()
     URL = "https://api.spotify.com/v1/me/player/recently-played"    # api-endpoint for recently played
     HEAD = {'Authorization': 'Bearer '+token}                       # provide auth. crendtials
     PARAMS = {'limit':50}	                                        # default here is 20
@@ -75,7 +78,10 @@ def df_to_csv(df=None) -> str:
     except:
         return df
 
-def get_current(token) -> dict:
+# Get currently playing
+def get_current(token=None) -> dict:
+    if not token:
+        token = get_token()
     URL = "https://api.spotify.com/v1/me/player"                    # api-endpoint for current playback
     HEAD = {'Authorization': 'Bearer '+token}                       # provide auth. crendtials
     content = r.get(url=URL, headers=HEAD)
