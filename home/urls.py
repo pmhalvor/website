@@ -8,11 +8,11 @@ urlpatterns=[
     #.com/home/about
     path('about/', views.about, name='about'),
     #.com/home/codes/
-    path('code/', views.code, name='code'),
+    path('code/', views.CodeView.as_view(), name='code'),
     #.com/home/cv
     path('cv/', views.CvView.as_view(), name='cv'),
     #.com/home/notes
     path('notes/', views.NotesView.as_view(), name='notes'),
     #.com/home/visuals
-    path('visuals', views.visuals, name='visuals'),
+    path('visuals/', views.visuals, name='visuals'),
 ]

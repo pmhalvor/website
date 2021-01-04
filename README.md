@@ -1,18 +1,12 @@
-# perhalvorsen.com Development Branch
+# perhalvorsen.com Release version 1.0.5
 
 Hello and welcome to my site!
 
-This is the development branch. Go to master branch for the most up to date version of the site.
-Otherwise, explore the different versions through branches.
-
-Currently working on:
-- radio branch [.../radio](perhalvorsen.com/radio):
-    - newest listens on Spotify
-    - now playing artwork & song position
-    - suggestions
-    - graphs and plots
+This version of the site serves the items on the codes page dynamically from
+ a database on the server where the site is hosted.
 
 Changelog:
+- 1.0.5: Code stored in database on server. Items served dynamically using Django.
 - 1.0.4: Notes stored in database on server. Page items are pulled dynamically using Django.
 - 1.0.3: Home page updates stored in database on server. Items pulled dynamically from Django.
 - 1.0.2: Cv entries stored in database. Served dynamically using Django.

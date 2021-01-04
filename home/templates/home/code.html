@@ -8,58 +8,22 @@
 		</head>
 
 		<body>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'home:index' %}#return">home</a></li>
-                    <li><a href="{% url 'home:about' %}">about</a></li>
-                    <li><a href="{% url 'home:cv' %}">cv</a></li>
-                    <li><a href="{% url 'home:code' %}">codes</a></li>
-                    <li><a href="{% url 'home:notes' %}">notes</a></li>
-                    <li><a href="{% url 'home:visuals' %}">visuals</a></li>
-                </ul>
-            </nav>
+            {% include "includes/navbar.html" %}
 			
 			<div class="container">
-				<div class="card">
-					<a href= "https://github.com/pmhalvor/Hello_World_II/tree/master/Python" class="card">
-						<img src="{% static 'img/python.png' %}" class="card">
-						<h3>Diverse projects in Python</h3>
-						<p>Entry level python projects within astronomy, web-scrapping, and simple parsing.</p>
-					</a>
-				</div>
-				<div class="card">
-					<a href= "https://github.com/pmhalvor/Hello_World_II/tree/master/Java" class="card">
-						<img src="{% static 'img/java.png' %}" class="card">
-						<h3>Diverse projects in Java</h3>
-						<p>Entry level projects using threads, JavaFX, and other Java basics.</p>
-					</a>
-				</div>
-				<div class="card">
-					<a href= "https://github.com/pmhalvor" class="card">
-						<img src="{% static 'img/github.png' %}" class="card">
-						<h3>The rest of my repositories</h3>
-						<p>More code can be found at my GitHub.</p>
-					</a>
-				</div>
-				<div class="card">
-					<a href= "https://mybinder.org/v2/gh/pmhalvor/site/543933d0afb7d9a69c88f2b9123e160c8044e794" class="card">
-						<img src="{% static 'img/mb.png' %}" class="card">
-						<h3>Some Jupyter Notebooks</h3>
-						<p>A mybinder containing some runnable Jupyter notebooks I've made for various reasons. Navigate to `notebooks` or `nb`</p>
-					</a>
-				</div>
-
-				
+				{% for item in code_list %}
+					<div class="card">
+						<a href= "{{ item.file_loc.url }}" class="card">
+							<img src="{{ item.img_loc.url }}" class="card">
+							<h3>{{ item.title }}</h3>
+							<p>{{  item.descr }}</p>
+						</a>
+					</div>
+				{% endfor %}
 			</div>
 
 
-			<footer>
-	    		<ul>
-	        		<li><a href="mailto:pmchalvorsen@gmail.com">email</a></li>
-	        		<li><a href="https://github.com/pmhalvor">github</a></li>
-	        		<li><a href="https://www.linkedin.com/in/pmhalvor">linkedin</a></li>
-				</ul>
-			</footer>
+			{% include "includes/footer.html" %}
 		</body>
 
 	</html>

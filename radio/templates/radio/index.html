@@ -31,7 +31,9 @@
 			</p>
 			<div class="playing">
 				<h1>now playing</h1>
-				<img src="{{ current.artwork }}" class="artwork" id="artwork">
+				<a href="{{ current.url }}">
+					<img src="{{ current.artwork }}" class="artwork" id="artwork">
+				</a>
 				<h2 id="playingArtist">{{ current.artist }}</h2>
 				<h3 id="playingTrack">{{ current.track }}</h3>
 				<div class="progresstrack">
@@ -54,8 +56,12 @@
 				{% for item in recents %}
 					<li class="entry">
 						<h5> {{ item.played_at }}</h5>
-						<h2>{{ item.artist }}</h2>
-						<h3>{{ item.name }}</h3>
+						<a href="{{ item.artist_url }}">
+							<h2 style="color:white">{{ item.artist }}</h2>
+						</a>
+						<a href="{{ item.track_url }}">
+							<h3>{{ item.name }}</h3>
+						</a>
 					</li>
 				{% endfor %}
 			</ul>
