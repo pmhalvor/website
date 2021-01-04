@@ -19,8 +19,8 @@
             </header>
 
             
-            <nav>
-                <ul id="#return">
+            <nav id="#return">
+                <ul>
                     <li><a href="{% url 'home:index' %}#return">home</a></li>
                     <li><a href="{% url 'home:about' %}">about</a></li>
                     <li><a href="{% url 'home:cv' %}">cv</a></li>
@@ -30,7 +30,7 @@
                 </ul>
             </nav>
 
-            <div class="container">
+            <div class="container" >
                 <img src="{% static 'img/lookingcolors.jpg' %}" class="avatar"/>
                 <h1> A nerdy, data-oriented, house-enthusiast</h1>
                 <p>

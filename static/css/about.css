@@ -12,18 +12,13 @@ img.avatar{
 	height: 300px;
 	width: 300px;
 	float: left;
-	margin-left: 0px;
-	margin-top: -15px;
+	margin-left: -3%;
+	margin-top: -30px;
 }
 div.container{
-    background-color: rgb(222, 229, 222);
-    border-radius: 13px;
-    font-family:'Source Sans Pro', sans-serif;
     font-weight: 600;
 	text-align: right;
     font-size: 1.3em;
-    margin-right: 15px;
-    margin-top: 5%;
 }
 p{
     margin-left: 30%;
