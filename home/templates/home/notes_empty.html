@@ -22,10 +22,10 @@
 			<div class="container">
 				{% for item in notes_list %}
 					<div class="card">
-						<a href="{{ item.file_loc.url }}" class="card">
+						<a href="{{ item.file_loc.url }}">
 							<img src="{{ item.img_loc.url }}" class="card">
 							<h3>{{ item.title }}</h3>
-							<p style="font-size:smaller"> {{ item.descr }} </p>
+							<p> {{ item.descr }} </p>
 						</a>
 					</div>
 				{% endfor %}

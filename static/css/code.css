@@ -1,26 +1,6 @@
 /* PAGE SPECIFIC CONTENTS */
-a.card{
-    width: 300px;
-    height: 420px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 5px;
-    display: inline-table;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: 1%;
-    margin-top: 1%;
-}
 
-div.container{
-    text-align: center;
-    background-color: rgb(222, 229, 222);
-    border-radius: 13px;
-    font-family:'Source Sans Pro', sans-serif;
-    font-weight: 400;
-    margin-right: 15px;
-    font-size: 1em;
-    margin-top: 5%;
-}
+
 
 img.card{
     height: 250px;
