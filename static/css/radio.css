@@ -7,7 +7,9 @@ h1{
     font-size: 3em; 
     font-weight: 900;
     margin-top: -2%;
-
+}
+a{
+    text-decoration: none;
 }
 
 
