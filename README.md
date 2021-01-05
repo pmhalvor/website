@@ -1,9 +1,15 @@
-# perhalvorsen.com Release version 1.0.5
+# perhalvorsen.com Development branch
 
 Hello and welcome to my site!
 
-This version of the site serves the items on the codes page dynamically from
- a database on the server where the site is hosted.
+This is the development branch, used to work on new features that will be implomented on future
+versions of the site. 
+
+Currently developing a [radio web-app](perhalvorsen.com/radio) that shows my currect listening 
+history on Spotify. Checkout the previous versions of the site in the changelog, or on the 
+other branches. 
+
+Feel free to shoot me an email if anything looks out of place! 
 
 Changelog:
 - 1.0.5: Code stored in database on server. Items served dynamically using Django.
