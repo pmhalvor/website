@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .worker.song_history import get_recents, get_current
 from .worker.authorize import get_token
 from datetime import datetime, timedelta
+import json
 
 
 
@@ -13,8 +14,8 @@ def index(request):
 def radio(request):
 	# should just be all the "other content" on the page
 	context = {}
+	context['welcome'] = "Welcome to the site radio."
 	context['intro'] =  """ 
-						Welcome to the site radio.
 						Here you can see what I'm currently listening to, 
 						and some of the recents songs I've heard.
 						This web-app is still in development, 
@@ -24,32 +25,6 @@ def radio(request):
 	context['current'] = current()
 	return render(request, 'radio/index.html', context)
 
-
-def recents():
-	content = []
-
-	# spotify token for new api calls
-	token = get_token()
-
-	# recently played
-	data = get_recents(token)['items']
-
-	# extracting specific details
-	if data:
-		for song in data[:20]:
-			track_url = song['track']['external_urls']['spotify']
-			played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%S.%fZ')
-							+ timedelta(hours=1))[:-3]
-			name = song['track']['name'].replace(',','')
-			song_id = song['track']['id']
-			artist = song['track']['artists'][0]['name'].replace(',','')
-			artist_url = song['track']['artists'][0]['external_urls']['spotify']
-
-			content.append({'artist':artist, 'artist_url':artist_url, 
-							'name':name, 'played_at':played_at, 
-							'track_url': track_url})
-
-	return content
 
 def current():
 	"""
@@ -89,5 +64,35 @@ def current():
 
 	return content
 
-def render_current():
-	return render(None, 'includes/playing.html', current())
+def recents():
+	content = []
+
+	# spotify token for new api calls
+	token = get_token()
+
+	# recently played
+	data = get_recents(token)['items']
+
+	# extracting specific details
+	if data:
+		for song in data[:20]:
+			track_url = song['track']['external_urls']['spotify']
+			played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%S.%fZ')
+							+ timedelta(hours=1))[:-3]
+			name = song['track']['name'].replace(',','')
+			song_id = song['track']['id']
+			artist = song['track']['artists'][0]['name'].replace(',','')
+			artist_url = song['track']['artists'][0]['external_urls']['spotify']
+
+			content.append({'artist':artist, 'artist_url':artist_url, 
+							'name':name, 'played_at':played_at, 
+							'track_url': track_url})
+
+	return content
+
+def Http_current(request):
+	# needs to be json to get progress and duration varaibles
+	return HttpResponse(json.dumps(current()), content_type="application/json")
+
+def Http_recents(request):
+	return render(None, 'includes/recents.html', {'recents': recents()})
