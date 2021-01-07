@@ -21,7 +21,7 @@ class Update(models.Model):
     pub_date = models.DateTimeField('pub_date')
 
     def __str__(self):
-        return self.title, self.file_loc
+        return self.title
 
 class Notes(models.Model):
     title = models.CharField('title', max_length=50)
@@ -31,7 +31,7 @@ class Notes(models.Model):
     pub_date = models.DateTimeField('pub_date')
 
     def __str__(self):
-        return self.title, self.file_loc
+        return self.title
 
 
 class Code(models.Model):

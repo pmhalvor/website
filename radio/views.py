@@ -8,13 +8,21 @@ from datetime import datetime, timedelta
 
 
 def index(request):
-	return HttpResponse("Welcome to Per's cool Radio!")
+	return HttpResponse("Welcome to Per's Radio!")
 
 def radio(request):
+	# should just be all the "other content" on the page
 	context = {}
+	context['intro'] =  """ 
+						Welcome to the site radio.
+						Here you can see what I'm currently listening to, 
+						and some of the recents songs I've heard.
+						This web-app is still in development, 
+						so check back in later for even more cool features.
+						"""
 	context['recents'] = recents()
 	context['current'] = current()
-	return render(request, 'radio/index.html', context=context)
+	return render(request, 'radio/index.html', context)
 
 
 def recents():
@@ -44,6 +52,9 @@ def recents():
 	return content
 
 def current():
+	"""
+	Return the template for div.playing
+	"""
 	content = {}
 
 	# spotify token for new api calls
@@ -78,4 +89,5 @@ def current():
 
 	return content
 
-
+def render_current():
+	return render(None, 'includes/playing.html', current())

@@ -9,36 +9,14 @@
 	</head>
 
 	<body>
-		<nav>
-			<ul>
-				<li><a href="{% url 'home:index' %}#return">home</a></li>
-				<li><a href="{% url 'home:about' %}">about</a></li>
-				<li><a href="{% url 'home:cv' %}">cv</a></li>
-				<li><a href="{% url 'home:code' %}">codes</a></li>
-				<li><a href="{% url 'home:notes' %}">notes</a></li>
-				<li><a href="{% url 'home:visuals' %}">visuals</a></li>
-			</ul>
-		</nav>
+		{% include "includes/navbar.html" %}
 
 		<div class="container">
 			<h1 class="title">RADIO</h1>
-			<p>
-				Welcome to the site radio. <br>
-				Here you can see what I'm currently listening to, 
-				and some of the recents songs I've heard. <br>
-				This web-app is still in development, 
-				so check back in later for even more cool features. <br>
-			</p>
-			<div class="playing">
-				<h1>now playing</h1>
-				<a href="{{ current.url }}">
-					<img src="{{ current.artwork }}" class="artwork" id="artwork">
-				</a>
-				<h2 id="playingArtist">{{ current.artist }}</h2>
-				<h3 id="playingTrack">{{ current.track }}</h3>
-				<div class="progresstrack">
-					<div class="progressbar" id="bar"></div>
-				</div>
+			<p>{{ intro }}</p>
+
+			<div class="playing" id="playing">
+				{% include "includes/playing.html" %}
 			</div>
 
 
@@ -70,45 +48,47 @@
 		
 
 		
-		<footer>
-			<ul>
-				<li><a href="mailto:pmchalvorsen@gmail.com">email</a></li>
-				<li><a href="https://github.com/pmhalvor">github</a></li>
-				<li><a href="https://www.linkedin.com/in/pmhalvor">linkedin</a></li>
-			</ul>
-		</footer>
-		<script type="text/javascript" >
-		var progressbar = document.getElementById("bar");
+		{% include "includes/footer.html" %}
 
-		var duration = "{{ current.duration }}"*1;
-		var progress = "{{ current.progress }}"*1;
-		var percentage;
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript" >  
+			// it'd be nice to get this into it's own file
+			var progressbar = document.getElementById("bar");
 
-		function updateProgress(){
-			progress = progress + 1000;
-			if (duration==0){
-				// do nothing
-				return;
-			}
-			else if (progress<duration) {
-				percentage = Math.round(100*progress/duration);
-				progressbar.style.width = percentage +"%";
-				progressbar.innerHTML = percentage +"%";
-				return percentage;
-			}
-			else {
-				// location.reload(true);  // find way to reload only this div's elements, not whole page
-				var playingArtist = document.getElementById("playingArtist");
-				var playingTrack = document.getElementById("playingTrack");
-				var artwork = document.getElementById("artwork");
-				playingArtist.innerHTML = "Refresh page for next song";
-				playingTrack.innerHTML  = "(CTRL + F5)";
-				artwork.src = "https://perhalvorsen.com/media/img/empty_album.png";
-				clearInterval(updating);
-			}
-		}
+			var duration = "{{ current.duration }}"*1;  // *1 to make int not string
+			var progress = "{{ current.progress }}"*1;
+			var percentage;
 
-		var updating = setInterval(updateProgress, 1000);
+			function updateProgress(){
+				progress = progress + 1000;
+				if (duration==0){
+					// do nothing
+					return;
+				}
+				else if (progress<duration) {
+					percentage = Math.round(100*progress/duration);
+					progressbar.style.width = percentage +"%";
+					progressbar.innerHTML = percentage +"%";
+					return percentage;
+				}
+				else {
+					$.ajax({
+						url: "{% url 'radio' %}",
+						success: function(data) {
+							$("#playingArtist").html(data.getElementById("playingArtist"));
+							$("#playingTrack").html(data.getElementById("playingTrack"));
+							$("#artwork").src(data.getElementById("artwork"));
+						}
+					});
+					// location.reload(true);  // find way to reload only this div's elements, not whole page
+					// document.getElementById("playingArtist").innerHTML = "Refresh page for next song";
+					// document.getElementById("playingTrack").innerHTML  = "(CTRL + F5)";
+					// document.getElementById("artwork").src = "https://perhalvorsen.com/media/img/empty_album.png";
+					clearInterval(updating);
+				}
+			}
+
+			var updating = setInterval(updateProgress, 1000);
 		</script>
 	</body>
 

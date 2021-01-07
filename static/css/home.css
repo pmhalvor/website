@@ -126,6 +126,7 @@ p {
 h3{
     color: red;
     font-size: smaller;
+    white-space: normal;
 }
 div.card{
     height: 300px;

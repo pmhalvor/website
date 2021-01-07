@@ -4,4 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.radio, name='radio'),
+    # path('', views.current, name='current'),
 ]
