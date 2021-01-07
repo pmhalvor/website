@@ -16,10 +16,120 @@
 			<p>{{ welcome }}</p>
 			<p>{{ intro }}</p>
 
-			<div class="playing" id="playing">
-				{% include "includes/playing.html" %}
-			</div>
+			<div class="main" style="display:inline-block">
+				<div class="column">
+					<div class="playing" id="playing">
+						{% include "includes/playing.html" %}
+					</div>
+				</div>
+				<!-- <div class="column">
+					<div class="search">
+						<h1>recommend</h1>
+						<input type="text" name="query">
+						<input type="submit" value="SEARCH">
+						<div class="results">
+							<table id="table">
+								<thead>
+									<tr>
+										<th>artist</th> 
+										<th>track</th> 
+										<th>album</th> 
+										<th>suggest</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td id="artist">John Cage with friends </td>
+										<td id="track">1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends plus a quartett and some random street drummer and a gospel choir</td>
+										<td>1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends </td>
+										<td>A longer song name than 1992, am I right?</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td id="artist">John Cage with friends </td>
+										<td id="track">1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td id="artist">John Cage with friends </td>
+										<td id="track">1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends plus a quartett and some random street drummer and a gospel choir</td>
+										<td>1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends </td>
+										<td>A longer song name than 1992, am I right?</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td id="artist">John Cage with friends </td>
+										<td id="track">1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends plus a quartett and some random street drummer and a gospel choir</td>
+										<td>1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends </td>
+										<td>A longer song name than 1992, am I right?</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+								</tbody>
+							</table>
 
+						</div>
+						<div>
+							<h5>my recommendations</h5>
+							<table id="recommendations">
+							</table>
+						</div>
+					</div>
+				</div> -->
+			</div>
 
 			<br>
 			<br>
@@ -79,6 +189,23 @@
 			}
 
 			var updating = setInterval(updateProgress, 1000);
+		</script>
+
+		<script type="text/javascript">
+			$("#table tr").click(function(){
+				var artist=$(this).find("#artist").html();
+				var track=$(this).find("#track").html();
+				var id = artist+track;
+				id = id.replace(/ /g,'');
+				if ($(this).hasClass('selected')){
+					$(this).removeClass('selected');
+					$("#"+id).remove();
+				}else{
+					$(this).addClass('selected');    
+					$("#recommendations").append("<tr id=\""+id+"\"><td>"+artist+"</td><td>"+track+"</td></tr>");  
+				}
+			});
+
 		</script>
 	</body>
 
