@@ -5,7 +5,7 @@
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/radio.css' %}">
-		
+		<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 	</head>
 
 	<body>
@@ -13,35 +13,131 @@
 
 		<div class="container">
 			<h1 class="title">RADIO</h1>
+			<p>{{ welcome }}</p>
 			<p>{{ intro }}</p>
 
-			<div class="playing" id="playing">
-				{% include "includes/playing.html" %}
-			</div>
+			<div class="main" style="display:inline-block">
+				<div class="column">
+					<div class="playing" id="playing">
+						{% include "includes/playing.html" %}
+					</div>
+				</div>
+				<!-- <div class="column">
+					<div class="search">
+						<h1>recommend</h1>
+						<input type="text" name="query">
+						<input type="submit" value="SEARCH">
+						<div class="results">
+							<table id="table">
+								<thead>
+									<tr>
+										<th>artist</th> 
+										<th>track</th> 
+										<th>album</th> 
+										<th>suggest</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td id="artist">John Cage with friends </td>
+										<td id="track">1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends plus a quartett and some random street drummer and a gospel choir</td>
+										<td>1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends </td>
+										<td>A longer song name than 1992, am I right?</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td id="artist">John Cage with friends </td>
+										<td id="track">1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td id="artist">John Cage with friends </td>
+										<td id="track">1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends plus a quartett and some random street drummer and a gospel choir</td>
+										<td>1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends </td>
+										<td>A longer song name than 1992, am I right?</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td id="artist">John Cage with friends </td>
+										<td id="track">1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends plus a quartett and some random street drummer and a gospel choir</td>
+										<td>1992</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+									<tr>
+										<td>John Cage with friends </td>
+										<td>A longer song name than 1992, am I right?</td>
+										<td>
+											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
+										</td>
+										<td><input type="button" value="+"></td>
+									</tr>
+								</tbody>
+							</table>
 
+						</div>
+						<div>
+							<h5>my recommendations</h5>
+							<table id="recommendations">
+							</table>
+						</div>
+					</div>
+				</div> -->
+			</div>
 
 			<br>
 			<br>
 			<br>
 
 			<h1 style="text-align: right;">recently played</h1>
-			<ul class="row">
-				<div class="describe">
-					<h5>played at</h5>
-					<h2>artist</h2>
-					<h3>track</h3>
-				</div>
-				{% for item in recents %}
-					<li class="entry">
-						<h5> {{ item.played_at }}</h5>
-						<a href="{{ item.artist_url }}">
-							<h2 style="color:white">{{ item.artist }}</h2>
-						</a>
-						<a href="{{ item.track_url }}">
-							<h3>{{ item.name }}</h3>
-						</a>
-					</li>
-				{% endfor %}
+			<ul class="row" id="recents">
+				{% include "includes/recents.html" %}
 			</ul>
 			
 		</div>
@@ -72,23 +168,44 @@
 					return percentage;
 				}
 				else {
-					$.ajax({
-						url: "{% url 'radio' %}",
-						success: function(data) {
-							$("#playingArtist").html(data.getElementById("playingArtist"));
-							$("#playingTrack").html(data.getElementById("playingTrack"));
-							$("#artwork").src(data.getElementById("artwork"));
+					$.ajax({ // UPDATE NOW PLAYING
+						url: "{% url 'current' %}",
+						success: function(json) {
+							console.log(json.artist, '-', json.track);
+							$("#playingArtist").html(json.artist);
+							$("#playingTrack").html(json.track);
+							$("#artwork").attr("src", json.artwork);
+							progress = json.progress*1;
+							duration = json.duration*1;
 						}
 					});
-					// location.reload(true);  // find way to reload only this div's elements, not whole page
-					// document.getElementById("playingArtist").innerHTML = "Refresh page for next song";
-					// document.getElementById("playingTrack").innerHTML  = "(CTRL + F5)";
-					// document.getElementById("artwork").src = "https://perhalvorsen.com/media/img/empty_album.png";
-					clearInterval(updating);
+					$.ajax({ // UPDATE RECENTLY PLAYED 
+						url: "{% url 'recents' %}",
+						success: function(data) {
+							$("#recents").html(data);
+						}
+					});
 				}
 			}
 
 			var updating = setInterval(updateProgress, 1000);
+		</script>
+
+		<script type="text/javascript">
+			$("#table tr").click(function(){
+				var artist=$(this).find("#artist").html();
+				var track=$(this).find("#track").html();
+				var id = artist+track;
+				id = id.replace(/ /g,'');
+				if ($(this).hasClass('selected')){
+					$(this).removeClass('selected');
+					$("#"+id).remove();
+				}else{
+					$(this).addClass('selected');    
+					$("#recommendations").append("<tr id=\""+id+"\"><td>"+artist+"</td><td>"+track+"</td></tr>");  
+				}
+			});
+
 		</script>
 	</body>
 

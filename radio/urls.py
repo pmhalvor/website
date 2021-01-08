@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.radio, name='radio'),
-    # path('', views.current, name='current'),
+    path('current/', views.Http_current, name='current'),
+    path('recents/', views.Http_recents, name='recents'),
 ]
