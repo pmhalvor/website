@@ -30,6 +30,20 @@ a{
 
 
 /*  SUGGESTIONS  */
+button{
+    border-radius: 10px;
+    background-color: black;
+    height: 20px;
+    width: 20px;
+    outline:none;
+
+}
+.icon{
+    height: 10px;
+    width: 10px;
+    margin-left: -3px;
+    /* margin-right:auto; */
+}
 .column{
     max-width: 40%;
     display: inline-block;
@@ -40,21 +54,33 @@ a{
     margin-right: auto;
     text-align: center;
     white-space: normal;
-    max-height: 40%;
+    height: 40%;
     overflow-y: scroll;
     border-radius: 10px;
     background-color: rgb(20,20,20);
 }
 input{
     background-color: black;
-    color: rgb(213, 213, 213);
+    color: rgb(137,137,137);
+    font-weight: 900;
     border-radius: 20px;
+    box-shadow: none;
+    outline:none;
+}
+
+.search_art{
+    width: 50px;
+    text-align:center;
+}
+.search{
+    background-color:  rgb(13, 13, 13);
+    border-radius:10px;
 }
 .selected{
     background-color: rgb(70, 137, 70);
 }
 table{
-    
+    width: 100%;
     color: rgb(213, 213, 213);
 }
 td{
@@ -69,11 +95,8 @@ th{
     font-style: italic;
 }
 tr{
+    width: 1005;
     background-color: rgb(30, 30, 30);
-}
-.search_art{
-    width: 50px;
-    text-align:center;
 }
 
 
@@ -154,13 +177,13 @@ h3{
 }
 .results::-webkit-scrollbar{
     width: 10px;
+    background-color: black;
 }
 .results::-webkit-scrollbar-thumb{
     background-color: rgb(70,70,70);
     border-radius: 5px;
 }
 .results::-webkit-scrollbar-track{
-    /* border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px; */
+    border-radius: 5px; 
     background-color: black;
 }

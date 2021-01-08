@@ -1,0 +1,14 @@
+{% for item in results %}
+    <tr id="{{ item.id }}">
+        <td id="artist">
+            {% for artist in item.artists %}
+                / {{ artist }}
+            {% endfor %}
+        </td>
+        <td id="track">{{ item.track }}</td>
+        <td>
+            <img src="{{ item.artwork }}" class="search_art">
+        </td>
+        <td><input type="button" value="+"></td>
+    </tr>
+{% endfor %}
