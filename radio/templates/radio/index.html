@@ -22,13 +22,13 @@
 						{% include "includes/playing.html" %}
 					</div>
 				</div>
-				<!-- <div class="column">
+				<div class="column">
 					<div class="search">
-						<h1>recommend</h1>
-						<input type="text" name="query">
-						<input type="submit" value="SEARCH">
+						<h1>got recommendations?</h1>
+						<input type="text" name="query" id="query">
+						<button type="submit" id="search"> <img src="{% static 'img/search.png'%}" class="icon"></button>
 						<div class="results">
-							<table id="table">
+							<table>
 								<thead>
 									<tr>
 										<th>artist</th> 
@@ -37,98 +37,18 @@
 										<th>suggest</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td id="artist">John Cage with friends </td>
-										<td id="track">1992</td>
-										<td>
-											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
-										</td>
-										<td><input type="button" value="+"></td>
-									</tr>
-									<tr>
-										<td>John Cage with friends plus a quartett and some random street drummer and a gospel choir</td>
-										<td>1992</td>
-										<td>
-											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
-										</td>
-										<td><input type="button" value="+"></td>
-									</tr>
-									<tr>
-										<td>John Cage with friends </td>
-										<td>A longer song name than 1992, am I right?</td>
-										<td>
-											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
-										</td>
-										<td><input type="button" value="+"></td>
-									</tr>
-									<tr>
-										<td id="artist">John Cage with friends </td>
-										<td id="track">1992</td>
-										<td>
-											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
-										</td>
-										<td><input type="button" value="+"></td>
-									</tr>
-									<tr>
-										<td id="artist">John Cage with friends </td>
-										<td id="track">1992</td>
-										<td>
-											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
-										</td>
-										<td><input type="button" value="+"></td>
-									</tr>
-									<tr>
-										<td>John Cage with friends plus a quartett and some random street drummer and a gospel choir</td>
-										<td>1992</td>
-										<td>
-											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
-										</td>
-										<td><input type="button" value="+"></td>
-									</tr>
-									<tr>
-										<td>John Cage with friends </td>
-										<td>A longer song name than 1992, am I right?</td>
-										<td>
-											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
-										</td>
-										<td><input type="button" value="+"></td>
-									</tr>
-									<tr>
-										<td id="artist">John Cage with friends </td>
-										<td id="track">1992</td>
-										<td>
-											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
-										</td>
-										<td><input type="button" value="+"></td>
-									</tr>
-									<tr>
-										<td>John Cage with friends plus a quartett and some random street drummer and a gospel choir</td>
-										<td>1992</td>
-										<td>
-											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
-										</td>
-										<td><input type="button" value="+"></td>
-									</tr>
-									<tr>
-										<td>John Cage with friends </td>
-										<td>A longer song name than 1992, am I right?</td>
-										<td>
-											<img src="https://perhalvorsen.com/media/img/empty_album.png" class="search_art">
-										</td>
-										<td><input type="button" value="+"></td>
-									</tr>
+								<tbody id="results">
+									{% include "includes/search.html" %}
 								</tbody>
 							</table>
-
 						</div>
 						<div>
-							<h5>my recommendations</h5>
+							<h4>my recommendations</h4>
 							<table id="recommendations">
 							</table>
 						</div>
 					</div>
-				</div> -->
+				</div>
 			</div>
 
 			<br>
@@ -148,6 +68,7 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script type="text/javascript" >  
+		// UPDATE SCRIPT
 			// it'd be nice to get this into it's own file
 			var progressbar = document.getElementById("bar");
 
@@ -168,41 +89,84 @@
 					return percentage;
 				}
 				else {
-					$.ajax({ // UPDATE NOW PLAYING
-						url: "{% url 'current' %}",
-						success: function(json) {
-							console.log(json.artist, '-', json.track);
-							$("#playingArtist").html(json.artist);
-							$("#playingTrack").html(json.track);
-							$("#artwork").attr("src", json.artwork);
-							progress = json.progress*1;
-							duration = json.duration*1;
-						}
-					});
-					$.ajax({ // UPDATE RECENTLY PLAYED 
+					current();
+					recents();
+				}
+			}
+
+			function current(){
+				$.ajax({ // UPDATE NOW PLAYING
+					url: "{% url 'current' %}",
+					success: function(json) {
+						console.log(json.artist, '-', json.track);
+						$("#playingArtist").html(json.artist);
+						$("#playingTrack").html(json.track);
+						$("#artwork").attr("src", json.artwork);
+						progress = json.progress*1;
+						duration = json.duration*1;
+					}
+				});
+			}
+			function recents(){
+				$.ajax({ // UPDATE RECENTLY PLAYED 
 						url: "{% url 'recents' %}",
 						success: function(data) {
 							$("#recents").html(data);
 						}
 					});
-				}
 			}
 
 			var updating = setInterval(updateProgress, 1000);
 		</script>
 
 		<script type="text/javascript">
+		// SEARCH SCRIPT
+			var query = null;
+			// from search bar to backend
+			$(document).ready(function(){
+				$('#query').keypress(function(e){ // press enter
+					if(e.keyCode==13){
+						query = $(this).val();
+						searchSpotify(query);
+					}
+				});
+				$("#search").click(function() { //press search button
+					query = $('#query').val();
+					searchSpotify(query);
+				});
+			});
+
+			function searchSpotify(q){
+				if (q!=null){
+					alert(q);
+					$.ajax({
+						url: "{% url 'search' %}",
+						data: {"query_str": q},
+						success: function(data){
+							var empty = $("results").html();
+							$("#results").html(data);
+						}
+					});
+				}
+			}
+		</script>
+
+		<script type="text/javascript">
+		// SUGGEST SCRIPT
+			// need to get actual returned resutls, use the track ids to submit/remove from receomendations
+
+			// from search to my recommendations
 			$("#table tr").click(function(){
 				var artist=$(this).find("#artist").html();
 				var track=$(this).find("#track").html();
-				var id = artist+track;
-				id = id.replace(/ /g,'');
+				var id=this.id;
+				// id = id.replace(/[.,\/#!?$%\^&\*;:{}=\-_`~() ]/g,""); // remove all special characters
 				if ($(this).hasClass('selected')){
 					$(this).removeClass('selected');
 					$("#"+id).remove();
 				}else{
 					$(this).addClass('selected');    
-					$("#recommendations").append("<tr id=\""+id+"\"><td>"+artist+"</td><td>"+track+"</td></tr>");  
+					$("#recommendations").append("<tr id=\""+id+"\"><td class='artist'>"+artist+"</td><td class='track'>"+track+"</td><td><input type='button' value='remove'></td></tr>");  
 				}
 			});
 
