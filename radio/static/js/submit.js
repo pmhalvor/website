@@ -13,19 +13,35 @@ $("#recommend").click(function(){
     insert(submitted);
 });
 
-function insert(data){
-    if (data.length<1){
+function insert(items){
+    if (items.length<1){
         console.log("Empty recommendations! Try searching for and selecting a track.");
     }
     else{
-        data.forEach(function(item){
-            $.ajax({
-                url: "submit",
-                data: {'data':item},
-                success: function(data){
-                    console.log(data);
-                }
-            })
+        // data.forEach( function(item){
+        //     console.log(item);
+        //     // $.ajax({
+        //     //     url: "submit",
+        //     //     data: JSON.stringify(item),
+        //     //     dataType:"json",
+        //     //     type: "POST",
+        //     //     success: function(data, textStatus, xhr){
+        //     //         console.log(data);
+        //     //         console.log(textStatus);
+        //     //         console.log(xhr);
+        //     //     }
+        //     // });
+        //     $.post("submit", item, function(response){
+        //         alert(response);
+        //     });
+        // });
+        $.ajax({
+            url:"submit",
+            data: {'items':items},
+            success: function(response){
+                console.log(response);
+            }
         })
     }
+    console.log("finito");
 }

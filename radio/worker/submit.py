@@ -1,17 +1,33 @@
 from radio.models import Suggest
 from tools.table import to_dt
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
+import json
 
 
 def submit_suggestions(request):
-    data = request.GET.get('data')
-    artist = data.get('artist')
-    track = data.get('track')
-    track_id = data.get('id')
-    sub_date= to_dt()
+    items = request.GET.getlist('items')
+    # artists = request.POST.getlist('artists')
+    # track = request.POST.get('track')
+    # track_id = request.POST.get('id')
+    return HttpResponse(len(items))
 
-    new = Update(artist=artist, sub_date=sub_date, track=track, track_id=track_id)
-    new.save()
+# if request.POST.get('item'):
+# else:
+#     return HttpResponse("did not work")
+# data = json.loads(str(request.GET))
+# # data = request.POST.get('item')
+# # artists = data.get('artists')
+# # artists = request.POST['artists']
+# # track = request.POST['track']
+# # track_id = request.GET['id']
+# # sub_date= to_dt()
+# # artists = request.POST['artists']
+# # track = request.POST['track']
+# # track_id = request.GET['id']
+# # sub_date= to_dt()
 
-    return HttpResponse("{'msg': 'success'}", content_type="application/json")
+# # new = Update(artist=artist, sub_date=sub_date, track=track, track_id=track_id)
+# # new.save()
+
+# return HttpResponse("{'msg': 'success', 'datatype':"+str(data)+"}", content_type="application/json")
 	
