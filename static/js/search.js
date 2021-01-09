@@ -17,19 +17,20 @@ $(document).ready(function(){
 });
 
 function loading(){
-    $("#results").html("<img src='https://perhalvorsen.com/static/img/loading.gif' id='loading'>");
+    $("#results").html("<tr><td style='background-color:black'></td><td style='background-color:black'><img style='width:180px;height:100px' src='../static/img/loading.gif' id='loading'></td></tr>");
 }
 
 function searchSpotify(q){
 
     if (q!=null){
         $.ajax({
-            url: "https://perhalvorsen.com/radio/search",
+            async: true,
+            url: "search",
             data: {"query_str": q},
             success: function(data){
-                var empty = $("results").html();
                 $("#results").html(data);
-            }
+                $("#results").append('<script src="../static/js/suggest.js" type="text/javascript" name="suggest"></script>');
+            },
         });
     }
 }

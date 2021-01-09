@@ -7,8 +7,25 @@ $("#recommend").click(function(){
         });
         var track  = $(this).find("#track").text();
         var id = this.id;
-        submitted.push({'artists':artists, 'track':track, 'id':id});
+        submitted.push({'artists':artists, 'id':id, 'track':track});
     });
     $("#recommendations").empty();
-    console.log(submitted);
+    insert(submitted);
 });
+
+function insert(data){
+    if (data.length<1){
+        console.log("Empty recommendations! Try searching for and selecting a track.");
+    }
+    else{
+        data.forEach(function(item){
+            $.ajax({
+                url: "submit",
+                data: {'data':item},
+                success: function(data){
+                    console.log(data);
+                }
+            })
+        })
+    }
+}
