@@ -4,7 +4,10 @@ from django.db import models
 
 
 class Suggest(models.Model):
-    artist = models.CharField('artist', max_length=200)
-    id = models.CharField('id', max_length=200)
+    artists = models.CharField('artists', max_length=200)
+    track_id = models.CharField('track_id', max_length=200)
     track = models.CharField('track', max_length=200)
+
+    def __str__(self):
+        return self.track
     
