@@ -6,7 +6,6 @@ SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')         # Spotify cliien
 SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET') # Spotify client secret stored as local env. var.
 AZURE_STORAGE = os.environ.get('AZURE_STORAGE')                 # Connection string stored as local env. var.
 
-
 # Authorization for Spotify
 def get_token() -> str:
     '''
@@ -26,11 +25,21 @@ def get_token() -> str:
     return cache_token['access_token']
 
 # Read cached token from FileShare
-def get_cache_token() -> dict:
+def get_cache_token(count=0) -> dict:
     file_client = get_fileshare_client('.cache-pmhalvor')
     stream_downloader = file_client.download_file()     # download file as stream
     cloud_text = stream_downloader.content_as_text()    # convert stream to string
-    return json.loads(cloud_text)                # convert string to dictionary
+    
+    cloud_data = {}
+    try:
+        cloud_data = json.loads(cloud_text)
+    except:
+        if count<5:                                     # if nothing downloaded, try again 5x
+            time.sleep(1)                               # wait 1 second(s)
+            cloud_data = get_cache_token(count+1)
+
+    return cloud_data                                   # give up, return nothing
+
     
 # Check if cached token is still valid 
 def is_token_expired(token_info) -> bool:

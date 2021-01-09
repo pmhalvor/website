@@ -1,14 +1,16 @@
 {% for item in results %}
-    <tr id="{{ item.id }}">
+    <tr class="result" id="{{ item.id }}">
         <td id="artist">
             {% for artist in item.artists %}
-                / {{ artist }}
+                <p class="person">{{ artist }}</p>
             {% endfor %}
         </td>
         <td id="track">{{ item.track }}</td>
         <td>
             <img src="{{ item.artwork }}" class="search_art">
         </td>
-        <td><input type="button" value="+"></td>
     </tr>
 {% endfor %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- for some reason this has to be loaded with this template -->
+<script src="{% static 'js/suggest.js' %}" type="text/javascript" name="suggest"></script>

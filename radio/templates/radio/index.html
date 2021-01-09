@@ -6,6 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/radio.css' %}">
 		<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=0"/>
 	</head>
 
 	<body>
@@ -16,25 +17,24 @@
 			<p>{{ welcome }}</p>
 			<p>{{ intro }}</p>
 
-			<div class="main" style="display:inline-block">
+			<div class="main">
 				<div class="column">
 					<div class="playing" id="playing">
 						{% include "includes/playing.html" %}
 					</div>
-				</div>
+				</div> 
 				<div class="column">
 					<div class="search">
-						<h1>got recommendations?</h1>
-						<input type="text" name="query" id="query">
-						<button type="submit" id="search"> <img src="{% static 'img/search.png'%}" class="icon"></button>
-						<div class="results">
-							<table>
+						<h1>got suggestions?</h1>
+						<input type="text" name="query" id="query" autocomplete="off">
+						<button type="submit" class="search"> <img src="{% static 'img/search.png'%}" class="icon"></button>
+						<div class="list">
+							<table id="table">
 								<thead>
 									<tr>
 										<th>artist</th> 
 										<th>track</th> 
 										<th>album</th> 
-										<th>suggest</th>
 									</tr>
 								</thead>
 								<tbody id="results">
@@ -42,23 +42,36 @@
 								</tbody>
 							</table>
 						</div>
-						<div>
-							<h4>my recommendations</h4>
-							<table id="recommendations">
+
+					</div>
+				</div>
+				<div class="column">
+					<div class="recommendations">
+						<h1>recommendations</h1>
+						<button type="button" class="submit" id="recommend">submit</button>
+						<div class="list">
+							<table>
+								<thead>
+									<tr>
+										<th>artist</th> 
+										<th>track</th> 
+										<th>time</th> 
+									</tr>
+								</thead>
+								<tbody id="recommendations">
+								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
 			</div>
-
 			<br>
-			<br>
-			<br>
-
-			<h1 style="text-align: right;">recently played</h1>
-			<ul class="row" id="recents">
-				{% include "includes/recents.html" %}
-			</ul>
+			<div class="recents">
+				<h1 style="text-align: right; padding-right:10px;">recently played</h1>
+				<ul class="row" id="recents">
+					{% include "includes/recents.html" %}
+				</ul>
+			</div>
 			
 		</div>
 		
@@ -67,110 +80,11 @@
 		{% include "includes/footer.html" %}
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script type="text/javascript" >  
-		// UPDATE SCRIPT
-			// it'd be nice to get this into it's own file
-			var progressbar = document.getElementById("bar");
 
-			var duration = "{{ current.duration }}"*1;  // *1 to make int not string
-			var progress = "{{ current.progress }}"*1;
-			var percentage;
+		<!-- make sure to edit in static -->
+		<script src="{% static 'js/search.js' %}" type="text/javascript" name="search"></script>
+		<script src="{% static 'js/submit.js' %}" type="text/javascript" name="submit"></script>
+		<script src="{% static 'js/update.js' %}" type="text/javascript" name="update"></script>
 
-			function updateProgress(){
-				progress = progress + 1000;
-				if (duration==0){
-					// do nothing
-					return;
-				}
-				else if (progress<duration) {
-					percentage = Math.round(100*progress/duration);
-					progressbar.style.width = percentage +"%";
-					progressbar.innerHTML = percentage +"%";
-					return percentage;
-				}
-				else {
-					current();
-					recents();
-				}
-			}
-
-			function current(){
-				$.ajax({ // UPDATE NOW PLAYING
-					url: "{% url 'current' %}",
-					success: function(json) {
-						console.log(json.artist, '-', json.track);
-						$("#playingArtist").html(json.artist);
-						$("#playingTrack").html(json.track);
-						$("#artwork").attr("src", json.artwork);
-						progress = json.progress*1;
-						duration = json.duration*1;
-					}
-				});
-			}
-			function recents(){
-				$.ajax({ // UPDATE RECENTLY PLAYED 
-						url: "{% url 'recents' %}",
-						success: function(data) {
-							$("#recents").html(data);
-						}
-					});
-			}
-
-			var updating = setInterval(updateProgress, 1000);
-		</script>
-
-		<script type="text/javascript">
-		// SEARCH SCRIPT
-			var query = null;
-			// from search bar to backend
-			$(document).ready(function(){
-				$('#query').keypress(function(e){ // press enter
-					if(e.keyCode==13){
-						query = $(this).val();
-						searchSpotify(query);
-					}
-				});
-				$("#search").click(function() { //press search button
-					query = $('#query').val();
-					searchSpotify(query);
-				});
-			});
-
-			function searchSpotify(q){
-				if (q!=null){
-					alert(q);
-					$.ajax({
-						url: "{% url 'search' %}",
-						data: {"query_str": q},
-						success: function(data){
-							var empty = $("results").html();
-							$("#results").html(data);
-						}
-					});
-				}
-			}
-		</script>
-
-		<script type="text/javascript">
-		// SUGGEST SCRIPT
-			// need to get actual returned resutls, use the track ids to submit/remove from receomendations
-
-			// from search to my recommendations
-			$("#table tr").click(function(){
-				var artist=$(this).find("#artist").html();
-				var track=$(this).find("#track").html();
-				var id=this.id;
-				// id = id.replace(/[.,\/#!?$%\^&\*;:{}=\-_`~() ]/g,""); // remove all special characters
-				if ($(this).hasClass('selected')){
-					$(this).removeClass('selected');
-					$("#"+id).remove();
-				}else{
-					$(this).addClass('selected');    
-					$("#recommendations").append("<tr id=\""+id+"\"><td class='artist'>"+artist+"</td><td class='track'>"+track+"</td><td><input type='button' value='remove'></td></tr>");  
-				}
-			});
-
-		</script>
 	</body>
-
 </html>
