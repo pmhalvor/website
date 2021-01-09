@@ -47,20 +47,25 @@
 				</div>
 				<div class="column">
 					<div class="recommendations">
-						<h1>my recommendations</h1>
+						<h1>recommendations</h1>
+						<button type="button" class="submit" id="recommend">submit</button>
 						<div class="list">
-							<table id="recommendations">
+							<table>
+								<thead>
+									<tr>
+										<th>artist</th> 
+										<th>track</th> 
+										<th>time</th> 
+									</tr>
+								</thead>
+								<tbody id="recommendations">
+								</tbody>
 							</table>
 						</div>
-						<button type="button" class="submit" id="recommend">submit</button>
 					</div>
 				</div>
 			</div>
-
 			<br>
-			<br>
-			<br>
-
 			<div class="recents">
 				<h1 style="text-align: right; padding-right:10px;">recently played</h1>
 				<ul class="row" id="recents">
@@ -75,114 +80,11 @@
 		{% include "includes/footer.html" %}
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script type="text/javascript" name="update">  
-		// UPDATE SCRIPT
-			// it'd be nice to get this into it's own file
-			var progressbar = document.getElementById("bar");
 
-			var duration = "{{ current.duration }}"*1;  // *1 to make int not string
-			var progress = "{{ current.progress }}"*1;
-			var percentage;
+		<!-- make sure to edit in static -->
+		<script src="{% static 'js/search.js' %}" type="text/javascript" name="search"></script>
+		<script src="{% static 'js/submit.js' %}" type="text/javascript" name="submit"></script>
+		<script src="{% static 'js/update.js' %}" type="text/javascript" name="update"></script>
 
-			function updateProgress(){
-				progress = progress + 1000;
-				if (duration==0){
-					progress = 0;
-					recents();
-					return 0;
-				}
-				else if (progress<duration) {
-					percentage = Math.round(100*progress/duration);
-					progressbar.style.width = percentage +"%";
-					progressbar.innerHTML = percentage +"%";
-					return percentage;
-				}
-				else {
-					current();
-					recents();
-				}
-			}
-
-			function current(){
-				$.ajax({ // UPDATE NOW PLAYING
-					url: "{% url 'current' %}",
-					success: function(json) {
-						console.log(json.artist, '-', json.track);
-						$("#playingArtist").html(json.artist);
-						$("#playingTrack").html(json.track);
-						$("#artwork").attr("src", json.artwork);
-						progress = json.progress*1;
-						duration = json.duration*1;
-					}
-				});
-			}
-			function recents(){
-				$.ajax({ // UPDATE RECENTLY PLAYED 
-						url: "{% url 'recents' %}",
-						success: function(data) {
-							$("#recents").html(data);
-						}
-					});
-			}
-
-			var updating = setInterval(updateProgress, 1000);
-		</script>
-
-		<!-- <script type="text/javascript" name="search">
-		// SEARCH SCRIPT
-			var query = null;
-			// from search bar to backend
-			$(document).ready(function(){
-				$('#query').keypress(function(e){ // press enter
-					if(e.keyCode==13){
-						loading();
-						query = $(this).val();
-						searchSpotify(query);
-					}
-				});
-				$("#search").click(function() { //press search button
-					loading();
-					query = $('#query').val();
-					searchSpotify(query);
-				});
-			});
-
-			function loading(){
-				$("#results").html("<img src='{% static 'img/loading.gif' %}' id='loading'>");
-			}
-
-			function searchSpotify(q){
-
-				if (q!=null){
-					$.ajax({
-						url: "{% url 'search' %}",
-						data: {"query_str": q},
-						success: function(data){
-							var empty = $("results").html();
-							$("#results").html(data);
-						}
-					});
-				}
-			}
-		</script> -->
-		<script src="{% static 'js/search.js' %}" type="text/javascript"></script>
-
-		<script type="text/javascript" name="submit">
-		// SUBMIT RECOMMENDATIONS
-			$("#recommend").click(function(){
-				var submitted = [];
-				$(".recommended").each( function() {
-					var artists = [];
-					$(this).find(".person").each(function(){
-						artists.push($(this).text());
-					});
-					var track  = $(this).find("#track").text();
-					var id = this.id;
-					submitted.push({'artists':artists, 'track':track, 'id':id});
-				});
-				$("#recommendations").empty();
-				console.log(submitted);
-			});
-		</script>
 	</body>
 </html>

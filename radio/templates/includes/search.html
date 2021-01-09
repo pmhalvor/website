@@ -12,33 +12,5 @@
     </tr>
 {% endfor %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" name="suggest">
-// SUGGEST SCRIPT
-    // handling search bar data
-    $("#table tr").click(function(){
-        var artist = $(this).find("#artist").html();
-        var track = $(this).find("#track").html();
-        var id = this.id;
-        if (idRecommended(id)){
-            removeRecommendation(id);
-        }else{
-            addRecommendation(artist, track, id);
-        }
-    });
-
-    function addRecommendation(artist, track, id){
-        $("#recommendations").append("<tr class='recommended' id='"+id+"'><td id='artist'>"+artist+"</td><td id='track'>"+track+"</td></tr>");
-    }
-
-    function removeRecommendation(id){
-        $("#recommendations").find("#"+id).remove();
-    }
-
-    function idRecommended(id){
-        var row = $("#recommendations").find("#"+id).html();
-        if (row!=null){
-            return true;
-        }
-        return false;
-    }
-</script>
+<!-- for some reason this has to be loaded with this template -->
+<script src="{% static 'js/suggest.js' %}" type="text/javascript" name="suggest"></script>

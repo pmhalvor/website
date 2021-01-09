@@ -32,7 +32,7 @@ a{
 /*  SUGGESTIONS  */
 button{
     border-radius: 15px;
-    height: 25px;
+    height: 28px;
     background-color: black;
     outline:none;
 }
@@ -54,7 +54,7 @@ button.submit{
 .column{
     display: inline-block;
     vertical-align: top;
-    width: 33%;
+    width: 30%;
     background-color:  rgb(13, 13, 13);
     border-radius:10px;
     min-height: 470px;
@@ -86,7 +86,6 @@ input{
     margin-right: auto;
     text-align: center;
     white-space: normal;
-    height: 333px;
 }
 .search_art{
     width: 50px;

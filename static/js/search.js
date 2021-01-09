@@ -17,7 +17,7 @@ $(document).ready(function(){
 });
 
 function loading(){
-    $("#results").html("<img src='{% static 'img/loading.gif' %}' id='loading'>");
+    $("#results").html("<img src='https://perhalvorsen.com/static/img/loading.gif' id='loading'>");
 }
 
 function searchSpotify(q){

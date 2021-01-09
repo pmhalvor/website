@@ -29,13 +29,17 @@ def get_cache_token(count=0) -> dict:
     file_client = get_fileshare_client('.cache-pmhalvor')
     stream_downloader = file_client.download_file()     # download file as stream
     cloud_text = stream_downloader.content_as_text()    # convert stream to string
-    if cloud_text:
-        return json.loads(cloud_text)                   # convert string to dictionary
-    elif count<5:                                       # if nothing downloaded, try again 5x
-        time.sleep(1)                                   # wait 1 second(s)
-        get_cache_token(count+1)
-    else:
-        return ''                                       # give up, return nothing
+    
+    cloud_data = {}
+    try:
+        cloud_data = json.loads(cloud_text)
+    except:
+        if count<5:                                     # if nothing downloaded, try again 5x
+            time.sleep(1)                               # wait 1 second(s)
+            cloud_data = get_cache_token(count+1)
+
+    return cloud_data                                   # give up, return nothing
+
     
 # Check if cached token is still valid 
 def is_token_expired(token_info) -> bool:
