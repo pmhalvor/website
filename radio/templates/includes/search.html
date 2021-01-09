@@ -1,14 +1,44 @@
 {% for item in results %}
-    <tr id="{{ item.id }}">
+    <tr class="result" id="{{ item.id }}">
         <td id="artist">
             {% for artist in item.artists %}
-                / {{ artist }}
+                <p class="person">{{ artist }}</p>
             {% endfor %}
         </td>
         <td id="track">{{ item.track }}</td>
         <td>
             <img src="{{ item.artwork }}" class="search_art">
         </td>
-        <td><input type="button" value="+"></td>
     </tr>
 {% endfor %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" name="suggest">
+// SUGGEST SCRIPT
+    // handling search bar data
+    $("#table tr").click(function(){
+        var artist = $(this).find("#artist").html();
+        var track = $(this).find("#track").html();
+        var id = this.id;
+        if (idRecommended(id)){
+            removeRecommendation(id);
+        }else{
+            addRecommendation(artist, track, id);
+        }
+    });
+
+    function addRecommendation(artist, track, id){
+        $("#recommendations").append("<tr class='recommended' id='"+id+"'><td id='artist'>"+artist+"</td><td id='track'>"+track+"</td></tr>");
+    }
+
+    function removeRecommendation(id){
+        $("#recommendations").find("#"+id).remove();
+    }
+
+    function idRecommended(id){
+        var row = $("#recommendations").find("#"+id).html();
+        if (row!=null){
+            return true;
+        }
+        return false;
+    }
+</script>
