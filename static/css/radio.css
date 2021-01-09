@@ -31,23 +31,22 @@ a{
 
 /*  SUGGESTIONS  */
 button{
-    border-radius: 10px;
+    border-radius: 15px;
+    height: 28px;
     background-color: black;
     outline:none;
 }
 button.search{
-    height: 20px;
-    width: 20px;
+    width: 28px;
 }
 button.submit{
-    height: 20px;
     width: 70px;
     color: white;
 }
 .icon{
-    height: 10px;
-    width: 10px;
-    margin-left: -3px;
+    height: 14px;
+    width: 14px;
+    margin-left: -1spx;
 }
 .main{
     width: 100%;
@@ -55,8 +54,10 @@ button.submit{
 .column{
     display: inline-block;
     vertical-align: top;
-    min-width:40%;
-    min-height: 50%;
+    width: 30%;
+    background-color:  rgb(13, 13, 13);
+    border-radius:10px;
+    min-height: 470px;
 }
 @media screen and (orientation:portrait){
     .column{
@@ -80,7 +81,6 @@ input{
 .list{
     background-color: black;
     border-radius: 10px;
-    height: 33%;
     overflow-y: scroll;
     margin-left: auto;
     margin-right: auto;
@@ -92,11 +92,9 @@ input{
     text-align:center;
 }
 .search{
-    width:100%;
-    padding-left: 2%;
-    padding-right: 2%;
-    background-color:  rgb(13, 13, 13);
-    border-radius:10px;
+    /* padding-left: 2%; */
+    /* padding-right: 2%; */
+
 }
 .selected{
     background-color: rgb(70, 137, 70);
@@ -141,14 +139,23 @@ tr.result:hover{
 .artwork{
     margin-left: auto;
     margin-right: auto;
-    width: 75%;
-    max-width:450px;
+    min-width: 250px;
+    min-height: 250px;
+    width: 80%;
     display: flex;
 }
+@media (max-width:1000px){
+    .column{
+        width: 100%;
+        display: block;
+    }
+}
 .progresstrack{
-    /* width:100%; */
+    width:90%;
     background-color: black;
     border-radius: 10px;
+    margin-left:auto;
+    margin-right:auto;
 }
 .progressbar{
     background-color: rgb(70, 137, 70);

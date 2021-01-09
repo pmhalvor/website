@@ -42,9 +42,13 @@
 								</tbody>
 							</table>
 						</div>
-						<br>
+
+					</div>
+				</div>
+				<div class="column">
+					<div class="recommendations">
+						<h1>my recommendations</h1>
 						<div class="list">
-							<h4>my recommendations</h4>
 							<table id="recommendations">
 							</table>
 						</div>
@@ -124,7 +128,7 @@
 			var updating = setInterval(updateProgress, 1000);
 		</script>
 
-		<script type="text/javascript" name="search">
+		<!-- <script type="text/javascript" name="search">
 		// SEARCH SCRIPT
 			var query = null;
 			// from search bar to backend
@@ -160,7 +164,8 @@
 					});
 				}
 			}
-		</script>
+		</script> -->
+		<script src="{% static 'js/search.js' %}" type="text/javascript"></script>
 
 		<script type="text/javascript" name="submit">
 		// SUBMIT RECOMMENDATIONS

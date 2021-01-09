@@ -26,6 +26,7 @@ def radio(request):
 	return render(request, 'radio/index.html', context)
 
 
+### LOAD PAGE
 def current():
 	"""
 	Return the template for div.playing
