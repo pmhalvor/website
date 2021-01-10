@@ -7,7 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'css/radio.css' %}">
 		<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=0"/>
-
+		{% csrf_token %}
 		<script>
 			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 		</script>
@@ -87,8 +87,6 @@
 		<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
 
 		<!-- make sure to edit in static -->
-		{% csrf_token %}
-
 		<script src="{% static 'js/search.js' %}" type="text/javascript" name="search"></script>
 		<script src="{% static 'js/submit.js' %}" type="text/javascript" name="submit">console.log(csrftoken);</script>
 		<script src="{% static 'js/update.js' %}" type="text/javascript" name="update"></script>
