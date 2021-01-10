@@ -41,7 +41,7 @@ function insert(items){
             success: function(response){
                 console.log(response);
             }
-        })
+        });
     }
     console.log("finito");
 }

@@ -7,6 +7,11 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'css/radio.css' %}">
 		<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=0"/>
+
+		{% csrf_token %}
+		<script>
+			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+		</script>
 	</head>
 
 	<body>
