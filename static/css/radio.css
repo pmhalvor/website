@@ -50,6 +50,7 @@ button.submit{
 }
 .main{
     width: 100%;
+    display:table-cell;
 }
 .column{
     display: inline-block;
