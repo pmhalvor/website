@@ -1,33 +1,56 @@
 $("#recommend").click(function(){
-    $(".recommended").each(insert(item));
+    $(".recommended").each(insert);
     $("#recommendations").empty();
 });
 
-function insert(item){
-    console.log(item);
-    console.log("push to db");
-    // return {'artists':item.artists, 'id':item.id, 'track':item.track};
+function insert(){
+    var artists = get_artists($(this));
+    var track = $(this).find("#track").html();
+    var track_id = this.id;
+    var data = {
+        'artists': artists,
+        'track': track,
+        'track_id': track_id,
+    }
+    console.log(data);
+
+    console.log("getting token...");
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    console.log(csrftoken);
+    
+    console.log("pushing to db...");
+    $.ajax({
+        url:"submit",
+        data: data,
+        'X-CSRFToken': csrftoken,
+        success:function(response){
+            console.debug(response);
+        }
+    });
+
+    console.log("complete.");
 }
 
+function get_artists(entry){
+    var a = [];
+    entry.find(".person").each(function(){
+        a.push($(this).html());
+    });
+    return a;
+}
 
-// function insert_all(items){
-//     if (items.length<1){
-//         console.log("Empty recommendations! Try searching for and selecting a track.");
-//     }
-//     else{
-//         console.log(items);
-//         console.log(csrftoken);
-//         const request = new Request(
-//             "submit",
-//             {headers: {'X-CSRFToken': csrftoken},
-//             method: 'POST',
-//             body: '{"items":'+items+'}'}
-//         );
-//         fetch(request).then(function(response) {
-//             console.log(response.status==200);
-//             console.debug(response);
-//         });
-        
-//     }
-//     console.log("finito");
-// }
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}

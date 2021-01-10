@@ -1,36 +1,56 @@
 $("#recommend").click(function(){
-    var submitted = [];
-    $(".recommended").each( function() {
-        var artists = [];
-        $(this).find(".person").each(function(){
-            artists.push($(this).text());
-        });
-        var track  = $(this).find("#track").text();
-        var id = this.id;
-        submitted.push({'artists':artists, 'id':id, 'track':track});
-    });
+    $(".recommended").each(insert);
     $("#recommendations").empty();
-    insert(submitted);
 });
 
-function insert(items){
-    if (items.length<1){
-        console.log("Empty recommendations! Try searching for and selecting a track.");
+function insert(){
+    var artists = get_artists($(this));
+    var track = $(this).find("#track").html();
+    var track_id = this.id;
+    var data = {
+        'artists': artists,
+        'track': track,
+        'track_id': track_id,
     }
-    else{
-        console.log(csrftoken);
-        console.log(items);
-        const request = new Request(
-            "submit",
-            {headers: {'X-CSRFToken': csrftoken},
-            method: 'POST',
-            body: '{"items":'+items+'}'}
-        );
-        fetch(request).then(function(response) {
-            console.log(response.status==200);
-            console.debug(response);
-        });
-        
+    console.log(data);
+
+    console.log("getting token...");
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    console.log(csrftoken);
+    
+    console.log("pushing to db...");
+    $.ajax({
+        url:"submit",
+        data: data,
+        'X-CSRFToken': csrftoken,
+        success:function(response){
+            console.log(response);
+        }
+    });
+
+    console.log("complete.");
+}
+
+function get_artists(entry){
+    var a = [];
+    entry.find(".person").each(function(){
+        a.push($(this).html());
+    });
+    return a;
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
-    console.log("finito");
+    return cookieValue;
 }

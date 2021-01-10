@@ -6,11 +6,11 @@ from django.views.decorators.csrf import csrf_protect
 
 @csrf_protect
 def submit_suggestions(request):
-    items = request.POST.getlist('items')
-    # artists = request.POST.getlist('artists')
-    # track = request.POST.get('track')
-    # track_id = request.POST.get('id')
-    return HttpResponse(len(items))
+    artists = request.GET.getlist('artists[]')
+    track = request.GET.get('track')
+    track_id = request.GET.get('track_id')
+    return HttpResponse(f'{artists}, {track}, {track_id}')
+    # return HttpResponse('made it to django and back again')
 
 # if request.POST.get('item'):
 # else:

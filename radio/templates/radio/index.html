@@ -31,7 +31,7 @@
 					<div class="search">
 						<h1>got suggestions?</h1>
 						<input type="text" name="query" id="query" autocomplete="off">
-						<button type="submit" class="search"> <img src="{% static 'img/search.png'%}" class="icon"></button>
+						<button type="submit" id="search"> <img src="{% static 'img/search.png'%}" class="icon"></button>
 						<div class="list">
 							<table id="table">
 								<thead>
@@ -73,7 +73,6 @@
 			<div class="recents">
 				<h1 style="text-align: right; padding-right:10px;">recently played</h1>
 				<ul class="row" id="recents">
-					{% csrf_token %}
 					{% include "includes/recents.html" %}
 				</ul>
 			</div>
