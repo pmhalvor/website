@@ -1,13 +1,13 @@
 // UPDATE SCRIPT
 var progressbar = document.getElementById("bar");
 
-var duration = "{{ current.duration }}"*1;  // *1 to make int not string
-var progress = "{{ current.progress }}"*1;
+var duration = -1;  // -1 to make int not string
+var progress = 0;
 var percentage;
 
 function updateProgress(){
-    progress = progress + 1000;
-    if (duration==0 || progress==1000) {
+    progress = progress + 2000;
+    if(duration==0) {
         progress = 0;
         clearInterval(updating);
         return;
@@ -18,7 +18,7 @@ function updateProgress(){
         progressbar.innerHTML = percentage +"%";
         return percentage;
     }
-    else {
+    else { // duration is not 0 and progress is less than duration
         current();
         recents();
         return;
@@ -58,4 +58,7 @@ function recents(){
         });
 }
 
-var updating = setInterval(updateProgress, 1000);
+var updating = setInterval(updateProgress, 2000);
+
+
+
