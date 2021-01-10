@@ -32,9 +32,8 @@ function current(){
             var info = '';
             if(json.artist){
                 info += json.artist+' - ';
-            }else{
-                info += json.track;
             }
+            info += json.track;
             console.log(info);
             $("#playingArtist").html(json.artist);
             $("#playingTrack").html(json.track);

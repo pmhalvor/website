@@ -18,30 +18,19 @@ function insert(items){
         console.log("Empty recommendations! Try searching for and selecting a track.");
     }
     else{
-        // data.forEach( function(item){
-        //     console.log(item);
-        //     // $.ajax({
-        //     //     url: "submit",
-        //     //     data: JSON.stringify(item),
-        //     //     dataType:"json",
-        //     //     type: "POST",
-        //     //     success: function(data, textStatus, xhr){
-        //     //         console.log(data);
-        //     //         console.log(textStatus);
-        //     //         console.log(xhr);
-        //     //     }
-        //     // });
-        //     $.post("submit", item, function(response){
-        //         alert(response);
-        //     });
-        // });
-        $.ajax({
-            url:"submit",
-            data: {'items':items},
-            success: function(response){
-                console.log(response);
-            }
+        console.log(csrftoken);
+        console.log(items);
+        const request = new Request(
+            "submit",
+            {headers: {'X-CSRFToken': csrftoken},
+            method: 'POST',
+            body: '{"items":'+items+'}'}
+        );
+        fetch(request).then(function(response) {
+            console.log(response.status==200);
+            console.debug(response);
         });
+        
     }
     console.log("finito");
 }

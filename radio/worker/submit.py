@@ -2,10 +2,11 @@ from radio.models import Suggest
 from tools.table import to_dt
 from django.http import HttpResponse, HttpRequest
 import json
+from django.views.decorators.csrf import csrf_protect
 
-
+@csrf_protect
 def submit_suggestions(request):
-    items = request.GET.getlist('items')
+    items = request.POST.getlist('items')
     # artists = request.POST.getlist('artists')
     # track = request.POST.get('track')
     # track_id = request.POST.get('id')
