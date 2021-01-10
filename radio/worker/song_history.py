@@ -6,7 +6,6 @@ from datetime import datetime
 import io, json, logging
 import pandas as pd 
 import requests as r
-from .authorize import get_token
 
 # Request recently played
 def get_recents(token=None) -> dict:

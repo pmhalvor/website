@@ -1,0 +1,9 @@
+<h1>now playing</h1>
+<a href="{{ current.url }}">
+    <img src="{{ current.artwork }}" class="artwork" id="artwork">
+    <h2 id="playingArtist">{{ current.artist }}</h2>
+    <h3 id="playingTrack">{{ current.track }}</h3>
+</a>
+<div class="progresstrack">
+    <div class="progressbar" id="bar"></div>
+</div>

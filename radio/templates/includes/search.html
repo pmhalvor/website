@@ -1,0 +1,14 @@
+{% load static %}
+{% for item in results %}
+    <tr class="result" id="{{ item.id }}">
+        <td id="artist">
+            {% for artist in item.artists %}
+                <p class="person">{{ artist }}</p>
+            {% endfor %}
+        </td>
+        <td id="track">{{ item.track }}</td>
+        <td>
+            <img src="{{ item.artwork }}" class="search_art">
+        </td>
+    </tr>
+{% endfor %}
