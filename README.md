@@ -1,10 +1,24 @@
-# perhalvorsen.com (master)
+# perhalvorsen.com Release v1.1.1: Radio
 
 Hello and welcome to my site!
 
-This master branch represents the latest, stable version of the site.
-Checkout the development branch to see what I currently am working on. 
-Otherwise, take a peek at the previous releases of the site, to see what
+This branch represents is the first stable release of the site with the radio branch. 
+
+Radio features:
+- __now playing:__ See what track I currently am listening to. 
+If I'm not currently listening to anything, a blank album will be shown.
+
+- __got suggestions?:__ Explore tracks availible on Spotify. 
+Click on the track(s) you'd like to recommend. 
+To remove recommendation, select the same track again in search results.
+
+- __recommendations:__ Click 'submit' to send recommendation(s) to database on server.
+
+- __recently played:__ Check out my most recent listening history.
+
+- more to come...
+
+In the mean time, take a peek at the previous releases of the site, to see what
  changes have been implemented.
 
 
