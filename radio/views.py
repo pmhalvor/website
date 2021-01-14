@@ -78,7 +78,11 @@ def recents():
 	if data:
 		for song in data[:20]:
 			track_url = song['track']['external_urls']['spotify']
-			played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%S.%fZ')
+			try:
+				played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%S.%fZ')
+							+ timedelta(hours=1))[:-3]
+			except:
+				played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%SZ')
 							+ timedelta(hours=1))[:-3]
 			name = song['track']['name'].replace(',','')
 			song_id = song['track']['id']
