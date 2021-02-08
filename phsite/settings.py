@@ -136,3 +136,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 # For file uploads to db
 MEDIA_URL ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+# COOKIES VS SESSIONS
+CSRF_USE_SESSIONS = True
+CSRF_COOKIE_HTTPONLY = True

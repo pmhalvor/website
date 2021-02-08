@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.views import generic
 from home.models import Cv, Update, Notes, Code
 from django.utils import timezone
+from django import template
+from datetime import timedelta
+
+register = template.Library()
 
 class CvView(generic.ListView):
     template_name = 'home/cv.html'
@@ -12,10 +16,24 @@ class CvView(generic.ListView):
         context['cv_list'] = Cv.objects.all()
         context['work_list'] = Cv.objects.filter(cat='Work')
         context['edu_list'] = Cv.objects.filter(cat='Education')
-        context['lang_list'] = Cv.objects.filter(cat='Language').order_by('start')
+        context['lang_list'] = self.get_lang_list_correct_time()
         context['now'] = timezone.now()
 
         return context
+
+    def get_lang_list_correct_time(self):
+        lang_list = []
+        now = timezone.now()
+        for item in Cv.objects.filter(cat='Language').order_by('start'):
+            if item.start.month > now.month:
+                year = item.start.year + 1
+                month = 12 - abs(now.month - item.start.month)
+                kwargs = {'year':year, 'month':month}
+                item.start = item.start.replace(**kwargs)
+
+            lang_list.append(item)
+        return lang_list
+
 
 
 class UpdateView(generic.ListView):
@@ -64,63 +82,6 @@ def visuals(request):
 
 
 
-
-
-
-# class IndexView(generic.ListView):
-#     template_name = 'old_site/index.html'
-#     context_object_name = 'latest_question_list'
-
-#     def get_queryset(self):
-#         """Return the last fine puclished questions."""
-#         return Question.objects.filter(
-#             pub_date__lte=timezone.now() # lte: less than equal
-#         ).order_by('-pub_date')[:5]
-
-
-# class AboutView(generic.DetailView):
-#     model = About
-#     template_name = 'old_site/about.html'
-
-#     def get_queryset(self):
-#         """
-#         Excludes any questions that aren't published yet.
-#         """
-#         return About.objects.filter(pub_date__lte=timezone.now())  #less than equal to
-
-# class CodeView(generic.DetailView):
-#     model = Question
-#     template_name = 'old_site/code.html'
-
-#     def get_queryset(self):
-#         return Question.objects.filter(pub_date__lte=timezone.now())
-
-
-# class CvView(generic.DetailView):
-#     model = Question
-#     template_name = 'old_site/cv.html'
-
-#     def get_queryset(self):
-#         return Question.objects.filter(pub_date__lte=timezone.now())
-
-
-# class NotesView(generic.DetailView):
-#     model = Question
-#     template_name = 'old_site/notes.html'
-
-#     def get_queryset(self):
-#         """
-#         Excludes any questions that aren't published yet.
-#         """
-#         return Question.objects.filter(pub_date__lte=timezone.now())  #less than equal to
-
-
-# class VisualsView(generic.DetailView):
-#     model = Question
-#     template_name = 'polls/results.html'
-
-#     def get_queryset(self):
-#         return Question.objects.filter(pub_date__lte=timezone.now())
 
 
 

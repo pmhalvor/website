@@ -14,13 +14,13 @@ def index(request):
 def radio(request):
 	# should just be all the "other content" on the page
 	context = {}
-	context['welcome'] = "Welcome to the site radio."
-	context['intro'] =  """ 
-						Here you can see what I'm currently listening to, 
-						and some of the recents songs I've heard.
-						This web-app is still in development, 
-						so check back in later for even more cool features.
-						"""
+	context['welcome'] = "" #"Welcome to the site radio."
+	context['intro'] =  """ """
+						# Here you can see what I'm currently listening to, 
+						# and some of the recents songs I've heard.
+						# This web-app is still in development, 
+						# so check back in later for even more cool features.
+						# """
 	context['recents'] = recents()
 	context['current'] = current()
 	return render(request, 'radio/index.html', context)
@@ -78,7 +78,11 @@ def recents():
 	if data:
 		for song in data[:20]:
 			track_url = song['track']['external_urls']['spotify']
-			played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%S.%fZ')
+			try:
+				played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%S.%fZ')
+							+ timedelta(hours=1))[:-3]
+			except:
+				played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%SZ')
 							+ timedelta(hours=1))[:-3]
 			name = song['track']['name'].replace(',','')
 			song_id = song['track']['id']
