@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from . import views
-from .worker import search, submit
+from .worker import search, submit, plot
 
 urlpatterns = [
     path('', views.radio, name='radio'),

@@ -225,6 +225,12 @@ h3{
     
 }
 
+/* Plots */
+.plots{
+    background-color: rgb(17, 17, 17);
+    border-radius: 10px;
+    padding: 5px;
+}
 
 /*  scrollbars format  */
 .row::-webkit-scrollbar{
