@@ -23,7 +23,7 @@ def past_months(df, number_of_months=1):
     then = then_dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]+'Z'
     return df[df['played_at']>then]
 
-def to_html(figures):
+def to_html(figure):
     context = {}
     div = opy.plot(figure, auto_open=False, output_type='div')
     context['plot'] = div
@@ -41,6 +41,99 @@ def get_plot():
     figure = [fig_artist, fig_song]
 
     return to_html(fig_artist)
+
+def get_duration_plot(top=37):
+    print('Downloading to df()...')
+    df, mdf = download_to_df()
+
+    print('Get durations(df)... ')
+    durations = get_durations(df.id.unique())
+    df = df.merge(durations, on='id', how='left')
+    print(df.head(1))
+
+    print('Find artist with longest sum duration')
+    df_artist_track = df.groupby(['artist', 'id'])
+    duration = df_artist_track['duration'].sum()
+    count = df_artist_track['count'].sum()
+
+    total_time_artist = (count*duration).groupby('artist').sum()
+    total_time_artist.sort_values(ascending=True, inplace=True)
+
+    top_artists_ms = total_time_artist.tail(top)
+
+    top_artists = top_artists_ms/(1000*60*60)
+
+    print(top_artists)
+
+    figure = top_artists.plot.barh(labels={
+                     'value':'hours',
+                     'artist':'artists',
+                     'variable':'hours'
+                 }, color='value',
+                 template='plotly_dark')
+    figure.update(layout_showlegend=False)
+
+    return to_html(figure)
+
+def artist_duration(n=37):
+    print('Downloading to df()...')
+    df, mdf = download_to_df()
+
+    print('Get durations(df)... ')
+    durations = get_durations(df.id.unique())
+    df = df.merge(durations, on='id', how='left')
+    print(df.head(1))
+
+    print('Find artist with longest sum duration')
+    df_artist_track = df.groupby(['artist', 'id'])
+    duration = df_artist_track['duration'].sum()
+    count = df_artist_track['count'].sum()
+
+    total_time_artist = (count*duration).groupby('artist').sum()
+    total_time_artist.sort_values(ascending=True, inplace=True)
+
+    top_artists_ms = total_time_artist.tail(n)
+
+    top_artists = top_artists_ms//(1000*60*60)
+
+    print(top_artists)
+
+    figure = top_artists.plot.barh(labels={
+                     'value':'hours',
+                     'artist':'artists',
+                     'variable':'hours'
+                 }, color='value',
+                 template='plotly_dark')
+    figure.update(layout_showlegend=False)
+
+    return to_html(figure)
+
+def song_plays(n=37):
+    print('Downloading to df()...')
+    df, mdf = download_to_df()
+
+    df.rename(columns={'name':'track'}, inplace=True)
+    name_artist = df.groupby(['track', 'artist'])
+    _counts = name_artist.size().reset_index(name='count')
+    sorted_counts = _counts.sort_values('count', ascending=True)
+    top_songs = sorted_counts.tail(n)
+
+    top_songs.index = [n-i for i in range(n)]
+    print(top_songs)
+
+    figure = top_songs.plot.barh(
+        y = 'track',
+        x = 'count',
+        custom_data = ['artist'],
+        color='count',
+        hover_name = top_songs.index,
+        hover_data=['artist', 'track'],
+        template='plotly_dark')
+    figure.update_layout(
+        showlegend=False
+    )
+
+    return to_html(figure)
 
 ######################
 
@@ -65,21 +158,22 @@ Checklist of things to do:
 '''
 
 if __name__=='__main__':
-    print('Downloading to df()...')
-    df, mdf = download_to_df()
+    # print('Downloading to df()...')
+    # df, mdf = download_to_df()
 
-    print('Get durations(df)... ')
-    durations = get_durations(df.id.unique())
-    df = df.merge(durations, on='id', how='left')
-    print(df.head(1))
+    # print('Get durations(df)... ')
+    # durations = get_durations(df.id.unique())
+    # df = df.merge(durations, on='id', how='left')
+    # print(df.head(1))
 
-    print('Find artist with longest sum duration')
-    df_artist_track = df.groupby(['artist', 'id'])
-    duration = df_artist_track['duration'].sum()
-    count = df_artist_track['count'].sum()
+    # print('Find artist with longest sum duration')
+    # df_artist_track = df.groupby(['artist', 'id'])
+    # duration = df_artist_track['duration'].sum()
+    # count = df_artist_track['count'].sum()
 
-    (count*duration).hist()
+    # (count*duration).hist()
 
+    song_plays()
 
     print('end')
 
