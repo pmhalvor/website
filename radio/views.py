@@ -5,8 +5,11 @@ from .worker.song_history import get_recents, get_current
 from .worker.authorize import get_token
 from datetime import datetime, timedelta
 import json
-
-
+# for plotting
+from .worker.plot import get_plot
+from django.views.generic.base import TemplateView
+import plotly.offline as opy
+import plotly.graph_objs as go
 
 def index(request):
 	return HttpResponse("Welcome to Per's Radio!")
@@ -23,6 +26,7 @@ def radio(request):
 						# """
 	context['recents'] = recents()
 	context['current'] = current()
+	context['plot']    = get_plot()
 	return render(request, 'radio/index.html', context)
 
 
@@ -95,9 +99,25 @@ def recents():
 
 	return content
 
+# def plot():
+# 	context = {}
+
+# 	x = [-2,0,4,6,7]
+# 	y = [q**2-q+3 for q in x]
+# 	trace1 = go.Scatter(x=x, y=y, marker={'color': 'red', 'symbol': 104, 'size': 10},
+# 						mode="lines",  name='1st Trace')
+
+# 	data=go.Data([trace1])
+# 	layout=go.Layout(title="Meine Daten", xaxis={'title':'x1'}, yaxis={'title':'x2'})
+# 	figure=go.Figure(data=data,layout=layout)
+# 	div = opy.plot(figure, auto_open=False, output_type='div')
+# 	context['plot'] = div
+# 	return context
+
 def Http_current(request):
 	# needs to be json to get progress and duration varaibles
 	return HttpResponse(json.dumps(current()), content_type="application/json")
 
 def Http_recents(request):
 	return render(None, 'includes/recents.html', {'recents': recents()})
+
