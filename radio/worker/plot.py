@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 try:
-    from .song_history import download_to_df
+    from .song_history import download_to_df, get_durations
 except:
-    from song_history import download_to_df
+    from song_history import download_to_df, get_durations
 import pandas as pd 
 import plotly.offline as opy
 pd.options.plotting.backend = "plotly"
@@ -65,9 +65,25 @@ Checklist of things to do:
 '''
 
 if __name__=='__main__':
+    print('Downloading to df()...')
     df, mdf = download_to_df()
 
-    print(df.tail(7))
+    print('Get durations(df)... ')
+    durations = get_durations(df.id.unique())
+    df = df.merge(durations, on='id', how='left')
+    print(df.head(1))
+
+    print('Find artist with longest sum duration')
+    df_artist_track = df.groupby(['artist', 'id'])
+    duration = df_artist_track['duration'].sum()
+    count = df_artist_track['count'].sum()
+
+    (count*duration).hist()
+
+
+    print('end')
+
+    # fig = df.plot.
 
 
 
