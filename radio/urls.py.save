@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from . import views
-from .worker import search, submit, plot
+from .worker import search, submit
 
 urlpatterns = [
     path('', views.radio, name='radio'),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('recents/', views.Http_recents, name='recents'),
     path('search/', search.Http_search, name='search'),
     path('submit/', submit.submit_suggestions , name='submit'),
+    path('play/', views.play, name='play'),
 ]

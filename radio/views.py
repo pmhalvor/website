@@ -5,8 +5,10 @@ from .worker.song_history import get_recents, get_current
 from .worker.authorize import get_token
 from datetime import datetime, timedelta
 import json
-
-
+from .worker.plot import artist_duration, song_plays
+from django.views.generic.base import TemplateView
+import plotly.offline as opy
+import plotly.graph_objs as go
 
 def index(request):
 	return HttpResponse("Welcome to Per's Radio!")
@@ -23,6 +25,8 @@ def radio(request):
 						# """
 	context['recents'] = recents()
 	context['current'] = current()
+	context['plot_artists'] = artist_duration()
+	context['plot_songs'] = song_plays()
 	return render(request, 'radio/index.html', context)
 
 
@@ -78,7 +82,11 @@ def recents():
 	if data:
 		for song in data[:20]:
 			track_url = song['track']['external_urls']['spotify']
-			played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%S.%fZ')
+			try:
+				played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%S.%fZ')
+							+ timedelta(hours=1))[:-3]
+			except:
+				played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%SZ')
 							+ timedelta(hours=1))[:-3]
 			name = song['track']['name'].replace(',','')
 			song_id = song['track']['id']
@@ -97,3 +105,4 @@ def Http_current(request):
 
 def Http_recents(request):
 	return render(None, 'includes/recents.html', {'recents': recents()})
+

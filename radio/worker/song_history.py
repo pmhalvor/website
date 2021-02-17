@@ -6,16 +6,12 @@ from datetime import datetime
 import io, json, logging
 import pandas as pd 
 import requests as r
+import os 
 
-# Request recently played
-def get_recents(token=None) -> dict:
-    if not token:
-        token = get_token()
-    URL = "https://api.spotify.com/v1/me/player/recently-played"    # api-endpoint for recently played
-    HEAD = {'Authorization': 'Bearer '+token}                       # provide auth. crendtials
-    PARAMS = {'limit':50}	                                        # default here is 20
-    return r.get(url=URL, headers=HEAD, params=PARAMS).json()
+real_path = os.path.realpath(__file__)
+dir_path = os.path.dirname(real_path)
 
+####### CLOUD HANDLING #############
 # Download csv from FileShare to dataframe
 def download_to_df() -> pd.DataFrame:
     file_client = get_fileshare_client('history.csv')                # create FileShareClient
@@ -27,6 +23,9 @@ def download_to_df() -> pd.DataFrame:
 
 # Convert json data to dataframe
 def json_to_df(data=None, latest=None) -> pd.DataFrame:
+    '''
+    typical josn data format:
+    '''
     if not isinstance(data, dict):
         try:
             data = data.json()              # This needs to be cleaned up 
@@ -76,7 +75,10 @@ def df_to_csv(df=None) -> str:
         return csv_str
     except:
         return df
+#####################################
 
+
+#####    API CALLS     ##############
 # Get currently playing
 def get_current(token=None) -> dict:
     if not token:
@@ -89,6 +91,99 @@ def get_current(token=None) -> dict:
     else:
         return {}
 
+# Request recently played
+def get_recents(token=None) -> dict:
+    if not token:
+        token = get_token()
+    URL = "https://api.spotify.com/v1/me/player/recently-played"    # api-endpoint for recently played
+    HEAD = {'Authorization': 'Bearer '+token}                       # provide auth. crendtials
+    PARAMS = {'limit':50}	                                        # default here is 20
+    return r.get(url=URL, headers=HEAD, params=PARAMS).json()
+
+def get_durations(ids = '', token=None, store=True):
+    pth = os.path.join(dir_path, 'store', 'duration_df.pkl')
+
+    # ids.pop(ids.index[3]) # TODO: delete when left on checked and working
+    durations = pd.DataFrame({
+        'id':ids
+    })
+    
+    print('Looking for cached durations')
+    try:
+        # local_durations = pd.read_csv(os.path.join(dir_path, 'store/durations.csv'))
+        local_durations = pd.read_pickle(pth)
+        id_ = local_durations.index
+        local_durations.reset_index(inplace = True)
+        local_durations['id'] = id_
+        del id_
+        print('Found local durations')
+    except Exception as e:
+        print('Nothing stored locally. Calling API...')
+        local_durations = pd.DataFrame(durations)
+
+    # durations = durations.merge(local_durations,how='outer', on='id')
+    durations = pd.concat([local_durations, durations])
+    durations = durations.drop_duplicates('id', keep='first', ignore_index=True)
+    durations.fillna(0, inplace=True)
+    try:
+        durations.drop(columns='count')
+    except:
+        print('No count colmun to drop.\n\
+        Remove this call on line 132 in song_history.py')
+
+    ids = durations.index[durations.duration<1]
+
+    if len(ids) > 0:
+        print(f'{len(ids)} new ids to check')
+
+        if not token:
+            token = get_token()
+        batches = (len(ids)//50) + 1
+        print(f'Will be executing {batches} API call(s)')
+
+        URL = "https://api.spotify.com/v1/tracks"    # api-endpoint for recently played  
+        HEAD = {'Authorization': 'Bearer '+token}                       # provide auth. crendtials
+
+        # batching the unstored indexes incase exceeds max
+        for i in range(batches):
+            if i==(batches-1):
+                batch_ids = ids[50*i:]  # last set of indices
+            else:
+                batch_ids = ids[50*i:50*(i+1)]  # forward indexing
+            
+            b_ids = ','.join(batch_ids)
+
+            PARAMS = {'ids':b_ids}	
+            data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
+
+            batch_dur = []
+
+            for track in data['tracks']:
+                batch_dur.append(track['duration_ms'])
+            
+            durations.duration[batch_ids] = batch_dur
+        
+            print(durations[durations.index.isin(batch_ids)])
+
+        # this only gets stored again when new ids are added
+        print(f'Storing at {pth}')
+        durations.to_pickle(pth)
+        print('Success!')
+
+    return durations
+
+#####################################
+
+####   OTHER TOOLS    #####
+# bacthes, taken from https://code.activestate.com/recipes/303279-getting-items-in-batches/
+def batch(iterable, size):
+    '''
+    Try replacing my bacthing with something similar
+    '''
+    sourceiter = iter(iterable)
+    while True:
+        batchiter = islice(sourceiter, size)
+        yield chain([batchiter.next()], batchiter)
 
 
 # Run
@@ -99,7 +194,7 @@ def run() -> bool:
     csv_df, latest = download_to_df()
     print(csv_df.tail())
     spot_df = json_to_df(data=data, latest=latest)
-    
+###########################
 
 
 if __name__=='__main__':
