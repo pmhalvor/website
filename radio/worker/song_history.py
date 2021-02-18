@@ -100,7 +100,12 @@ def get_recents(token=None) -> dict:
     PARAMS = {'limit':50}	                                        # default here is 20
     return r.get(url=URL, headers=HEAD, params=PARAMS).json()
 
-def get_durations(ids = '', token=None, store=True):
+def get_durations(ids = '', token=None, store=True) -> pd.DataFrame:
+    '''
+    API call with built-in cache reader to return
+        df (id, artist, duration) 
+    '''
+
     pth = os.path.join(dir_path, 'store', 'duration_df.pkl')
 
     # ids.pop(ids.index[3]) # TODO: delete when left on checked and working
@@ -126,7 +131,7 @@ def get_durations(ids = '', token=None, store=True):
     durations = durations.drop_duplicates('id', keep='first', ignore_index=True)
     durations.fillna(0, inplace=True)
     try:
-        durations.drop(columns='count')
+        durations.drop(columns='count', inplace=True)
     except:
         print('No count colmun to drop.\n\
         Remove this call on line 132 in song_history.py')
