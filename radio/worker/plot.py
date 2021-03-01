@@ -13,8 +13,17 @@ def to_html(figure):
     context['plot'] = div
     return context
 
-def artist_duration(n=37):
-    df, mdf = download_to_df()
+def artist_duration(model=None, n=37):
+    if model:
+        df = pd.DataFrame(list(model.objects.all().values(
+            'artist',
+            'track',
+            'played_at',
+            'track_id'
+        )))
+        df.rename(columns={'track_id':'id'}, inplace=True)
+    else:
+        df, mdf = download_to_df()
 
     print(df.shape)
     durations = get_durations(df.id.unique())
@@ -46,11 +55,20 @@ def artist_duration(n=37):
 
     return to_html(figure)
 
-def song_plays(n=37):
-    print('Downloading to df()...')
-    df, mdf = download_to_df()
+def song_plays(model=None, n=37):
+    if model:
+        df = pd.DataFrame(list(model.objects.all().values(
+            'artist',
+            'track',
+            'played_at',
+            'track_id'
+        )))
+        df.rename(columns={'track_id':'id'}, inplace=True)
+    else:
+        print('Downloading to df()...')
+        df, mdf = download_to_df()
+        df.rename(columns={'name':'track'}, inplace=True)
 
-    df.rename(columns={'name':'track'}, inplace=True)
     name_artist = df.groupby(['track', 'artist', 'id'])  # TODO: maybe ids in front?
     _counts = name_artist.size().reset_index(name='count')
     sorted_counts = _counts.sort_values('count', ascending=True)
