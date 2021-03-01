@@ -9,6 +9,7 @@ from .worker.plot import artist_duration, song_plays
 from django.views.generic.base import TemplateView
 import plotly.offline as opy
 import plotly.graph_objs as go
+from radio.models import History
 
 def index(request):
 	return HttpResponse("Welcome to Per's Radio!")
@@ -25,8 +26,9 @@ def radio(request):
 						# """
 	context['recents'] = recents()
 	context['current'] = current()
-	context['plot_artists'] = artist_duration()
-	context['plot_songs'] = song_plays()
+		
+	context['plot_artists'] = artist_duration(History)
+	context['plot_songs'] = song_plays(History)
 	return render(request, 'radio/index.html', context)
 
 

@@ -9,4 +9,12 @@ class Suggest(models.Model):
 
     def __str__(self):
         return self.track
+
+class History(models.Model):
+    track_id  = models.CharField('track_id', max_length=23)
+    played_at = models.DateTimeField('played_at')
+    artist    = models.CharField('artist', max_length=150)
+    track     = models.CharField('track', max_length=150)
     
+    def __str__(self):
+        return self.artist + ' - ' + self.track 

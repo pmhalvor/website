@@ -6,7 +6,8 @@ from datetime import datetime
 import io, json, logging
 import pandas as pd 
 import requests as r
-import os 
+import os, sys
+import numpy as np
 
 real_path = os.path.realpath(__file__)
 dir_path = os.path.dirname(real_path)
@@ -20,7 +21,7 @@ def download_to_df() -> pd.DataFrame:
     stream = io.StringIO(cloud_text)                    # convert string to stream (is this needed?)
     df = pd.read_csv(stream)                            # convert stream to dataframe
     return df, max(df['played_at'])
-
+    
 # Convert json data to dataframe
 def json_to_df(data=None, latest=None) -> pd.DataFrame:
     '''
@@ -100,36 +101,32 @@ def get_recents(token=None) -> dict:
     PARAMS = {'limit':50}	                                        # default here is 20
     return r.get(url=URL, headers=HEAD, params=PARAMS).json()
 
-def get_durations(ids = '', token=None, store=True):
+def get_durations(ids = '', token=None, store=True) -> pd.DataFrame:
+    '''
+    API call with built-in cache reader to return
+        df (id, artist, duration) 
+    '''
+
     pth = os.path.join(dir_path, 'store', 'duration_df.pkl')
 
     # ids.pop(ids.index[3]) # TODO: delete when left on checked and working
     durations = pd.DataFrame({
-        'id':ids
+        'id':ids,
+        'duration':0
     })
+    durations.set_index('id', inplace=True)
     
     print('Looking for cached durations')
     try:
-        # local_durations = pd.read_csv(os.path.join(dir_path, 'store/durations.csv'))
         local_durations = pd.read_pickle(pth)
-        id_ = local_durations.index
-        local_durations.reset_index(inplace = True)
-        local_durations['id'] = id_
-        del id_
-        print('Found local durations')
+        durations = durations.merge(local_durations, on='id', left_index=True, right_index=True)
+        durations.drop(columns='duration_x', inplace=True)
+        durations.rename(columns={'duration_y':'duration'}, inplace=True)
     except Exception as e:
+        print('\n\n\n EXCEPTION CODE HERE \n', e)
         print('Nothing stored locally. Calling API...')
-        local_durations = pd.DataFrame(durations)
 
-    # durations = durations.merge(local_durations,how='outer', on='id')
-    durations = pd.concat([local_durations, durations])
-    durations = durations.drop_duplicates('id', keep='first', ignore_index=True)
     durations.fillna(0, inplace=True)
-    try:
-        durations.drop(columns='count')
-    except:
-        print('No count colmun to drop.\n\
-        Remove this call on line 132 in song_history.py')
 
     ids = durations.index[durations.duration<1]
 
@@ -146,12 +143,18 @@ def get_durations(ids = '', token=None, store=True):
 
         # batching the unstored indexes incase exceeds max
         for i in range(batches):
+            print('Batch', i)
             if i==(batches-1):
                 batch_ids = ids[50*i:]  # last set of indices
             else:
                 batch_ids = ids[50*i:50*(i+1)]  # forward indexing
             
-            b_ids = ','.join(batch_ids)
+            print(','.join(batch_ids))
+            try:
+                b_ids = ','.join(batch_ids)
+            except:
+                print('Fix song_history line 162') # TODO: make sure new songs are being batched correctly
+                break
 
             PARAMS = {'ids':b_ids}	
             data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
@@ -160,13 +163,13 @@ def get_durations(ids = '', token=None, store=True):
 
             for track in data['tracks']:
                 batch_dur.append(track['duration_ms'])
-            
+            print(batch_dur)
             durations.duration[batch_ids] = batch_dur
         
-            print(durations[durations.index.isin(batch_ids)])
 
         # this only gets stored again when new ids are added
         print(f'Storing at {pth}')
+        print(durations.head(3))
         durations.to_pickle(pth)
         print('Success!')
 
@@ -185,6 +188,22 @@ def batch(iterable, size):
         batchiter = islice(sourceiter, size)
         yield chain([batchiter.next()], batchiter)
 
+def update_history_db(model):
+    logging.info('Running song-history run() funciton.')
+    token = get_token()
+    data = get_recents(token=token)
+    csv_df, latest = download_to_df()
+    csv_df.rename(columns={'name':'track'}, inplace=True)
+
+    # get the largest datetime in db
+
+    # check for entries the have datetimes higher than largest dt
+
+    # only add these entires
+
+    # add for loop
+    for f in model._meta.get_fields():
+        print(f.name)
 
 # Run
 def run() -> bool:
@@ -193,9 +212,13 @@ def run() -> bool:
     data = get_recents(token=token)
     csv_df, latest = download_to_df()
     print(csv_df.tail())
-    spot_df = json_to_df(data=data, latest=latest)
+    print(latest)
+    # spot_df = json_to_df(data=data, latest=latest)
+    return csv_df
 ###########################
 
 
 if __name__=='__main__':
-    run()
+    # run()
+    # update_history_db()
+    None

@@ -25,6 +25,7 @@ urlpatterns = [
     path('radio/', include('radio.urls')),
     path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
     path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
+    # these last two paths giving warning. solve this conflict for robustness
 ]
 
 
