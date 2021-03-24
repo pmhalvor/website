@@ -7,6 +7,6 @@ sqlparse==0.4.1
 django-mathfilters
 django-extensions
 Pillow
-pandas
+pandas==1.2.3
 azure-storage-file-share
 plotly

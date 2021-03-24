@@ -13,6 +13,7 @@ ENV POSTGRES_PASSWORD AsimovIsaac.73
 ENV AZURE_STORAGE DefaultEndpointsProtocol=https;AccountName=spotifyhistory;AccountKey=DTUMCNrl9+TBIow20qe
 ENV SPOTIFY_CLIENT_ID 9656ff22d7604d078e98e54a1870b92d
 ENV SPOTIFY_CLIENT_SECRET fb911aa2dad04fd7be1754b2d94d0ac6
+ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 # install psycopg2 dependencies
 RUN apk update \
@@ -27,7 +28,7 @@ RUN apk add libffi-dev
 # install dependencies
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --no-use-pep517
 
 # copy project
 COPY . .
