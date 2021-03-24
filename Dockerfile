@@ -28,7 +28,9 @@ RUN apk add libffi-dev
 # install dependencies
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
-RUN pip install -r requirements.txt --no-use-pep517
+# needs to be installed before pandas (for some reason?)
+RUN pip install numpy 
+RUN pip install -r requirements.txt 
 
 # copy project
 COPY . .
