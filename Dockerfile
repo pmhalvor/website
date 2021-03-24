@@ -18,6 +18,7 @@ ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 # install psycopg2 dependencies
 RUN apk update \
     && apk add postgresql-dev \
+    && apk add g++ \
     && apk add gcc \
     && apk add python3-dev \
     && apk add musl-dev 
