@@ -89,8 +89,8 @@ DATABASES = {
         'NAME': 'sitedb',
         'USER': 'pmhalvor',
         'PASSWORD': POSTGRES_PASSWORD,
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
