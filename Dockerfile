@@ -17,7 +17,6 @@ ENV SPOTIFY_CLIENT_ID 9656ff22d7604d078e98e54a1870b92d
 ENV SPOTIFY_CLIENT_SECRET fb911aa2dad04fd7be1754b2d94d0ac6
 
 
-
 ## install dependencies
 RUN apt-get update && \
     apt-get upgrade -y && \
