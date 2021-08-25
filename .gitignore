@@ -1,5 +1,7 @@
 /siteenv
 
+*.pyc  
+
 config.py
 
 _environ.json
