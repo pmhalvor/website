@@ -10,11 +10,12 @@ register = template.Library()
 class CvView(generic.ListView):
     template_name = 'home/cv.html'
     model = Cv 
-    
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['cv_list'] = Cv.objects.all()
-        context['work_list'] = Cv.objects.filter(cat='Work')
+        context['work_list'] = Cv.objects.filter(cat='Work').order_by('-start')
         context['edu_list'] = Cv.objects.filter(cat='Education')
         context['lang_list'] = self.get_lang_list_correct_time()
         context['now'] = timezone.now()
