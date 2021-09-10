@@ -72,14 +72,13 @@
 			</div>
 			<br>
 			<div class="recents">
-				<h1 style="text-align: right; padding-right:10px;">recently played</h1>
-				<ul class="row" id="recents">
-					{% include "includes/recents.html" %}
-				</ul>
+				<h1>recently played</h1>
+				<img src="{% static 'img/loading.gif' %}" style="width:100%;">
 			</div>
 			<br>
 			<br>
-			<div class=plots>
+			<div class="plots">
+				<h1>favorites</h1>
 				<img src="{% static 'img/loading.gif' %}">
 			</div>
 		</div>
@@ -96,6 +95,7 @@
 		<script src="{% static 'js/submit.js' %}" type="text/javascript" name="submit">console.log(csrftoken);</script>
 		<script type="text/javascript">
 			retrieve('plots');
+			retrieve('recents');
 		</script>
 	</body>
 </html>

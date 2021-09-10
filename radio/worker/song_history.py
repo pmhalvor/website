@@ -191,14 +191,15 @@ def get_durations(ids = '', token=None, store=True) -> pd.DataFrame:
 
 ####   OTHER TOOLS    #####
 # bacthes, taken from https://code.activestate.com/recipes/303279-getting-items-in-batches/
-def batch(iterable, size):
-    '''
-    Try replacing my bacthing with something similar
-    '''
-    sourceiter = iter(iterable)
-    while True:
-        batchiter = islice(sourceiter, size)
-        yield chain([batchiter.next()], batchiter)
+# def batch(iterable, size):
+#     '''
+#     Try replacing my bacthing with something similar
+#     '''
+#     from itertools import islice, chain
+#     sourceiter = iter(iterable)
+#     while True:
+#         batchiter = islice(sourceiter, size)
+#         yield chain([batchiter.next()], batchiter)
 
 def update_history_db(model):
     logging.info('Running song-history run() funciton.')

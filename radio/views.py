@@ -1,15 +1,18 @@
 from django.shortcuts import render
 from django.views import generic
 from django.http import HttpResponse
-from .worker.song_history import get_recents, get_current
-from .worker.authorize import get_token
-from datetime import datetime, timedelta
-import json
-from .worker.plot import artist_duration, song_plays
 from django.views.generic.base import TemplateView
-import plotly.offline as opy
+from datetime import datetime, timedelta
+
+import json
 import plotly.graph_objs as go
+import plotly.offline as opy
+
 from radio.models import History
+from .worker.authorize import get_token
+from .worker.plot import artist_duration, song_plays
+from .worker.parse import parse_recents, parse_current
+from .worker.song_history import get_recents, get_current
 
 def index(request):
 	return HttpResponse("Welcome to Per's Radio!")
@@ -19,16 +22,16 @@ def radio(request):
 	context = {}
 	context['welcome'] = "" #"Welcome to the site radio."
 	context['intro'] =  """ """
-						# Here you can see what I'm currently listening to, 
-						# and some of the recents songs I've heard.
-						# This web-app is still in development, 
-						# so check back in later for even more cool features.
-						# """
-	context['recents'] = recents()
+	# Here you can see what I'm currently listening to, 
+	# and some of the recents songs I've heard.
+	# This web-app is still in development, 
+	# so check back in later for even more cool features.
+	# """
 	context['current'] = current()
-		
-	context['plot_artists'] = artist_duration(History)
-	context['plot_songs'] = song_plays(History)
+	# context['recents'] = recents()
+
+	# context['plot_artists'] = artist_duration(History)
+	# context['plot_songs'] = song_plays(History)
 	return render(request, 'radio/index.html', context)
 
 
@@ -54,15 +57,15 @@ def current():
 		duration = data['item']['duration_ms']
 		progress = data['progress_ms'] #round(data['progress_ms']/duration*100, ndigits=1)
 	except:
-	# else:
-		url		 = 'https://www.spotify.com' 
+		# else:
+		url	 = 'https://www.spotify.com' 
 		artwork  = 'https://perhalvorsen.com/media/img/empty_album.png'
 		track    = 'nothing playing'
 		artist   = ''
 		duration = 0 
 		progress = 0
 
-	content['url'] 		= url
+	content['url'] 	= url
 	content['artwork'] 	= artwork
 	content['track'] 	= track
 	content['artist'] 	= artist
@@ -71,7 +74,7 @@ def current():
 
 	return content
 
-def recents():
+def old_recents():
 	content = []
 
 	# spotify token for new api calls
@@ -106,7 +109,22 @@ def Http_current(request):
 	return HttpResponse(json.dumps(current()), content_type="application/json")
 
 def Http_recents(request):
-	return render(None, 'includes/recents.html', {'recents': recents()})
+	return render(None, 'includes/recents.html', {'recents': old_recents()})
+
+
+def recents(request):
+	# spotify token for new api calls
+	token = get_token()
+
+	# recently played
+	data = get_recents(token)['items']
+
+	context = {
+		'recents' : parse_recents(data)
+	} 
+
+	return render(request, 'includes/recents.html', context)
+
 
 def plots(request):
 	context = {}

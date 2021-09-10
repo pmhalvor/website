@@ -133,7 +133,7 @@ tr.result:hover{
 .playing{
     /* width:  70%; */
     /* margin: 0 auto; */
-    background-color: rgb(13,13,13);
+    background-color: black;
     border-radius: 10px;
 }
 .artwork{
@@ -191,7 +191,7 @@ h3{
     color: rgb(190, 0, 0);
 }
 .recents{
-    background-color: rgb(13,13,13);
+    background-color: black;
     border-radius: 10px;
     padding: 5px;
 }
