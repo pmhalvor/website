@@ -11,6 +11,8 @@
 		<script>
 			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 		</script>
+		<script src="{% static 'js/retrieve.js' %}" type="text/javascript" name="submit">console.log(csrftoken);</script>
+		
 	</head>
 
 	<body>
@@ -78,7 +80,7 @@
 			<br>
 			<br>
 			<div class=plots>
-				{% include "includes/plots.html" %}
+				<img src="{% static 'img/loading.gif' %}">
 			</div>
 		</div>
 		
@@ -92,6 +94,8 @@
 		<script src="{% static 'js/update.js' %}" type="text/javascript" name="update"></script>
 		<script src="{% static 'js/search.js' %}" type="text/javascript" name="search"></script>
 		<script src="{% static 'js/submit.js' %}" type="text/javascript" name="submit">console.log(csrftoken);</script>
-
+		<script type="text/javascript">
+			retrieve('plots');
+		</script>
 	</body>
 </html>

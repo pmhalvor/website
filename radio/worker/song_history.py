@@ -8,6 +8,7 @@ import pandas as pd
 import requests as r
 import os, sys
 import numpy as np
+import time
 
 real_path = os.path.realpath(__file__)
 dir_path = os.path.dirname(real_path)
@@ -156,8 +157,19 @@ def get_durations(ids = '', token=None, store=True) -> pd.DataFrame:
                 print('Fix song_history line 162') # TODO: make sure new songs are being batched correctly
                 break
 
-            PARAMS = {'ids':b_ids}	
-            data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
+            PARAMS = {'ids':b_ids}
+            tracks = None 
+            cnt = 0
+            while tracks is None:
+                data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
+                try:
+                    tracks = data['tracks']
+                except:
+                    print('Bad response. Trying again...')
+                    cnt += 1
+                    if cnt > 20:
+                        return {}
+                    time.sleep(2)
 
             batch_dur = []
 

@@ -108,3 +108,8 @@ def Http_current(request):
 def Http_recents(request):
 	return render(None, 'includes/recents.html', {'recents': recents()})
 
+def plots(request):
+	context = {}
+	context['plot_artists'] = artist_duration(History)
+	context['plot_songs'] = song_plays(History)
+	return render(request, 'includes/plots.html', context)
