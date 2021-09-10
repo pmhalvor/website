@@ -4,6 +4,12 @@ import json
 def get_columns(model):
     return [f.name for f in model._meta.get_fields()]
 
+def safe_add(model):
+    try:
+        interactive_add(model)
+    except Exception as e:
+        print(e)
+
 def interactive_add(model):
     add_dict = {}
 

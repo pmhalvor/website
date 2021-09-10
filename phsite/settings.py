@@ -15,8 +15,8 @@ import os
 try: 
     from config import DJANGO_SECRET, POSTGRES_PASSWORD
 except:
-    DJANGO_SECRET = os.environ['DJANGO_SECRET']
-    POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
+    DJANGO_SECRET = os.environ.get('DJANGO_SECRET')
+    POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = POSTGRES_PASSWORD
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['174.138.5.19', 'perhalvorsen.com', '.perhalvorsen.com', '127.0.0.1'] #.domain.com allows for subdomains (later)
 
@@ -90,7 +90,7 @@ DATABASES = {
         'USER': 'pmhalvor',
         'PASSWORD': POSTGRES_PASSWORD,
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
 

@@ -4,9 +4,9 @@ gunicorn==20.0.4
 psycopg2-binary==2.8.6
 pytz==2020.4
 sqlparse==0.4.1
-django-mathfilters
-django-extensions
-Pillow
-pandas
-azure-storage-file-share
-plotly
+django-mathfilters==1.0.0
+django-extensions==3.1.1
+Pillow>=8.0.0
+azure-storage-file-share==12.4.1
+plotly==4.14.3
+
