@@ -1,0 +1,95 @@
+
+<html>
+	<head>
+		<title>radio</title>
+		{% load static %}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/radio.css' %}">
+		<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=0"/>
+		{% csrf_token %}
+		<script>
+			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+		</script>
+	</head>
+
+	<body>
+		{% include "includes/navbar.html" %}
+
+		<div class="container">
+			<h1 class="title">RADIO</h1>
+			<p>{{ welcome }}</p>
+			<p>{{ intro }}</p>
+
+			<div class="main">
+				<div class="column">
+
+				</div> 
+				<div class="column">
+					<div class="search">
+						<h1>got suggestions?</h1>
+						<input type="text" name="query" id="query" autocomplete="off">
+						<button type="submit" id="search"> <img src="{% static 'img/search.png'%}" class="icon"></button>
+						<div class="list">
+							<table id="table">
+								<thead>
+									<tr>
+										<th>artist</th> 
+										<th>track</th> 
+										<th>album</th> 
+									</tr>
+								</thead>
+								<tbody id="results">
+									{% include "includes/search.html" %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="recommendations">
+						<h1>recommendations</h1>
+						<button type="button" class="submit" id="recommend">submit</button>
+						<div class="list">
+							<table>
+								<thead>
+									<tr>
+										<th>artist</th> 
+										<th>track</th> 
+										<th>time</th> 
+									</tr>
+								</thead>
+								<tbody id="recommendations">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="recents">
+
+			</div>
+			<br>
+			<br>
+			<div class=plots>
+				<img src="{% static 'img/loading.gif' %}">
+			</div>
+		</div>
+		
+
+		
+		{% include "includes/footer.html" %}
+
+		<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+
+		<!-- make sure to edit in static -->
+		<script src="{% static 'js/update.js' %}" type="text/javascript" name="update"></script>
+		<script src="{% static 'js/search.js' %}" type="text/javascript" name="search"></script>
+		<script src="{% static 'js/submit.js' %}" type="text/javascript" name="submit">console.log(csrftoken);</script>
+		<script src="{% static 'js/retrieve.js' %}" type="text/javascript" name="submit">console.log(csrftoken);</script>
+		<script type="text/javascript">
+			retrieve('plots');
+		</script>
+	</body>
+</html>
