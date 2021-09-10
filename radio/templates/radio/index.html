@@ -25,8 +25,8 @@
 
 			<div class="main">
 				<div class="column">
-					<div class="playing" id="playing">
-						{% include "includes/playing.html" %}
+					<div class="current" id="playing">
+						<img src="{% static 'img/loading.gif' %}" style="width:100%;">
 					</div>
 				</div> 
 				<div class="column">
@@ -96,6 +96,7 @@
 		<script type="text/javascript">
 			retrieve('plots');
 			retrieve('recents');
+			retrieve('current');
 		</script>
 	</body>
 </html>

@@ -91,11 +91,10 @@ input{
     width: 50px;
     text-align:center;
 }
-.search{
-    /* padding-left: 2%; */
-    /* padding-right: 2%; */
-
-}
+/* .search{
+    padding-left: 2%;
+    padding-right: 2%;
+} */
 .selected{
     background-color: rgb(70, 137, 70);
 }
@@ -130,7 +129,7 @@ tr.result:hover{
 
 
 /*  NOW PLAYING  */
-.playing{
+.current{
     /* width:  70%; */
     /* margin: 0 auto; */
     background-color: black;
@@ -164,7 +163,7 @@ tr.result:hover{
     border-radius: 10px;
     padding-top: 1px;
     padding-bottom: 1px;
-    /* width: var(--progressbar-w); */
+    transition: 2.5s;
 }
 
 

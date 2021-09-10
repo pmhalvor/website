@@ -13,6 +13,7 @@ import time
 real_path = os.path.realpath(__file__)
 dir_path = os.path.dirname(real_path)
 
+
 ####### CLOUD HANDLING #############
 # Download csv from FileShare to dataframe
 def download_to_df() -> pd.DataFrame:
@@ -23,6 +24,7 @@ def download_to_df() -> pd.DataFrame:
     df = pd.read_csv(stream)                            # convert stream to dataframe
     return df, max(df['played_at'])
     
+
 # Convert json data to dataframe
 def json_to_df(data=None, latest=None) -> pd.DataFrame:
     '''
@@ -70,6 +72,7 @@ def combine_dfs(csv_df=None, new_df=None) -> pd.DataFrame:
         return None
     return csv_df.append(new_df, ignore_index=True)
 
+
 # Convert dataframe to csv
 def df_to_csv(df=None) -> str:
     try:
@@ -93,6 +96,7 @@ def get_current(token=None) -> dict:
     else:
         return {}
 
+
 # Request recently played
 def get_recents(token=None) -> dict:
     if not token:
@@ -100,7 +104,11 @@ def get_recents(token=None) -> dict:
     URL = "https://api.spotify.com/v1/me/player/recently-played"    # api-endpoint for recently played
     HEAD = {'Authorization': 'Bearer '+token}                       # provide auth. crendtials
     PARAMS = {'limit':50}	                                        # default here is 20
-    return r.get(url=URL, headers=HEAD, params=PARAMS).json()
+    content = r.get(url=URL, headers=HEAD, params=PARAMS)
+    if content.status_code == 200:
+        return content.json()
+    return {}
+
 
 def get_durations(ids = '', token=None, store=True) -> pd.DataFrame:
     '''
@@ -190,16 +198,6 @@ def get_durations(ids = '', token=None, store=True) -> pd.DataFrame:
 #####################################
 
 ####   OTHER TOOLS    #####
-# bacthes, taken from https://code.activestate.com/recipes/303279-getting-items-in-batches/
-# def batch(iterable, size):
-#     '''
-#     Try replacing my bacthing with something similar
-#     '''
-#     from itertools import islice, chain
-#     sourceiter = iter(iterable)
-#     while True:
-#         batchiter = islice(sourceiter, size)
-#         yield chain([batchiter.next()], batchiter)
 
 def update_history_db(model):
     logging.info('Running song-history run() funciton.')
@@ -217,6 +215,7 @@ def update_history_db(model):
     # add for loop
     for f in model._meta.get_fields():
         print(f.name)
+
 
 # Run
 def run() -> bool:

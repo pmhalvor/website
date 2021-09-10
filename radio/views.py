@@ -27,16 +27,12 @@ def radio(request):
 	# This web-app is still in development, 
 	# so check back in later for even more cool features.
 	# """
-	context['current'] = current()
-	# context['recents'] = recents()
 
-	# context['plot_artists'] = artist_duration(History)
-	# context['plot_songs'] = song_plays(History)
 	return render(request, 'radio/index.html', context)
 
 
 ### LOAD PAGE
-def current():
+def old_current():
 	"""
 	Return the template for div.playing
 	"""
@@ -106,10 +102,23 @@ def old_recents():
 
 def Http_current(request):
 	# needs to be json to get progress and duration varaibles
-	return HttpResponse(json.dumps(current()), content_type="application/json")
+	return HttpResponse(json.dumps(old_current()), content_type="application/json")
 
 def Http_recents(request):
 	return render(None, 'includes/recents.html', {'recents': old_recents()})
+
+
+def current(request):
+	# spotify token for new api calls
+	token = get_token()
+
+	# current listen activity
+	data = get_current(token)
+
+	#parse response for jinja
+	context = {'current':parse_current(data)}
+
+	return render(request, 'includes/current.html', context)
 
 
 def recents(request):
@@ -119,9 +128,8 @@ def recents(request):
 	# recently played
 	data = get_recents(token)['items']
 
-	context = {
-		'recents' : parse_recents(data)
-	} 
+	# parse response for jinja
+	context = {'recents' : parse_recents(data)} 
 
 	return render(request, 'includes/recents.html', context)
 
@@ -131,3 +139,28 @@ def plots(request):
 	context['plot_artists'] = artist_duration(History)
 	context['plot_songs'] = song_plays(History)
 	return render(request, 'includes/plots.html', context)
+
+
+def update(request, section='current'):
+	# TODO refactor this away using jinja better
+	if section == "recents":
+		return recents(request)
+	# spotify token for new api calls
+	token = get_token()
+
+	data = None
+	try:
+		# hacky call local function 
+		data = globals()[f'get_{section}'](token)
+	
+		# data = data['items'] if section=='recents' else data
+		
+		# parse response for jinja
+		context = {section:globals()[f'parse_{section}'](data)}
+
+
+	except Exception as e:
+		context = {'error':str(e), 'failed':True, 'section': section, 'data':data}
+
+	# return json.dumps(context)
+	return HttpResponse(json.dumps(context), content_type="application/json")
