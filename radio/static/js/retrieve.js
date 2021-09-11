@@ -4,7 +4,10 @@ function retrieve(section)
         url : '/radio/'+section,
         type: 'GET',
         success: function(data){
-            $('.'+section).html(data);
+            var sectionDiv = $('.'+section);
+            var position = sectionDiv.scrollLeft();
+            sectionDiv.html(data);
+            sectionDiv.scrollLeft(position);
         }
     });
 
