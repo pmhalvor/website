@@ -39,7 +39,7 @@ def parse_current(data = None) -> dict:
         artwork  = 'https://perhalvorsen.com/media/img/empty_album.png'
         track    = 'nothing playing'
         artist   = ''
-        duration = 0 
+        duration = -1 
         progress = 0
 
     content['url'] 	= url

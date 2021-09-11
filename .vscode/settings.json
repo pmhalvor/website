@@ -1,4 +1,4 @@
 {
     "jupyter.jupyterServerType": "local",
-    "python.pythonPath": ".\\siteenv\\bin\\python3.exe"
+    "python.defaultInterpreterPath": "./siteenv/bin/python3"
 }

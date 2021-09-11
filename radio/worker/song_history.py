@@ -66,6 +66,7 @@ def json_to_df(data=None, latest=None) -> pd.DataFrame:
 
     return new_entries
 
+
 # Combine dataframes
 def combine_dfs(csv_df=None, new_df=None) -> pd.DataFrame:
     if new_df.size == 0:

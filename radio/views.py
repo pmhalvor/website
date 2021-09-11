@@ -31,83 +31,6 @@ def radio(request):
 	return render(request, 'radio/index.html', context)
 
 
-### LOAD PAGE
-def old_current():
-	"""
-	Return the template for div.playing
-	"""
-	content = {}
-
-	# spotify token for new api calls
-	token = get_token()
-
-	# recently played
-	data = get_current(token)
-
-	# if data:
-	try:
-		url 	 = data['item']['external_urls']['spotify']
-		artwork  = data['item']['album']['images'][0]['url']
-		track 	 = data['item']['name']
-		artist 	 = data['item']['artists'][0]['name']
-		duration = data['item']['duration_ms']
-		progress = data['progress_ms'] #round(data['progress_ms']/duration*100, ndigits=1)
-	except:
-		# else:
-		url	 = 'https://www.spotify.com' 
-		artwork  = 'https://perhalvorsen.com/media/img/empty_album.png'
-		track    = 'nothing playing'
-		artist   = ''
-		duration = 0 
-		progress = 0
-
-	content['url'] 	= url
-	content['artwork'] 	= artwork
-	content['track'] 	= track
-	content['artist'] 	= artist
-	content['duration'] = duration
-	content['progress'] = progress
-
-	return content
-
-def old_recents():
-	content = []
-
-	# spotify token for new api calls
-	token = get_token()
-
-	# recently played
-	data = get_recents(token)['items']
-
-	# extracting specific details
-	if data:
-		for song in data[:20]:
-			track_url = song['track']['external_urls']['spotify']
-			try:
-				played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%S.%fZ')
-							+ timedelta(hours=1))[:-3]
-			except:
-				played_at = str(datetime.strptime(song['played_at'],  '%Y-%m-%dT%H:%M:%SZ')
-							+ timedelta(hours=1))[:-3]
-			name = song['track']['name'].replace(',','')
-			song_id = song['track']['id']
-			artist = song['track']['artists'][0]['name'].replace(',','')
-			artist_url = song['track']['artists'][0]['external_urls']['spotify']
-
-			content.append({'artist':artist, 'artist_url':artist_url, 
-							'name':name, 'played_at':played_at, 
-							'track_url': track_url})
-
-	return content
-
-def Http_current(request):
-	# needs to be json to get progress and duration varaibles
-	return HttpResponse(json.dumps(old_current()), content_type="application/json")
-
-def Http_recents(request):
-	return render(None, 'includes/recents.html', {'recents': old_recents()})
-
-
 def current(request):
 	# spotify token for new api calls
 	token = get_token()
@@ -142,21 +65,15 @@ def plots(request):
 
 
 def update(request, section='current'):
-	# TODO refactor this away using jinja better
-	if section == "recents":
-		return recents(request)
-	# spotify token for new api calls
-	token = get_token()
+	if section == 'current':
+		# spotify token for new api calls
+		token = get_token()
 
-	data = None
+		data = get_current(token)
+
 	try:
-		# hacky call local function 
-		data = globals()[f'get_{section}'](token)
-	
-		# data = data['items'] if section=='recents' else data
-		
 		# parse response for jinja
-		context = {section:globals()[f'parse_{section}'](data)}
+		context = {section:parse_current(data)}
 
 
 	except Exception as e:
