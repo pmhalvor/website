@@ -7,19 +7,15 @@ import io, json, logging
 import pandas as pd 
 import requests as r
 import os 
+import pickle
 
 real_path = os.path.realpath(__file__)
 dir_path = os.path.dirname(real_path)
 
-####### CLOUD HANDLING #############
-# Download csv from FileShare to dataframe
-def download_to_df() -> pd.DataFrame:
-    file_client = get_fileshare_client('history.csv')                # create FileShareClient
-    stream_downloader = file_client.download_file()     # download file as stream
-    cloud_text = stream_downloader.content_as_text()    # convert stream to string
-    stream = io.StringIO(cloud_text)                    # convert string to stream (is this needed?)
-    df = pd.read_csv(stream)                            # convert stream to dataframe
-    return df, max(df['played_at'])
+####### DATA WRANGLING #############
+def load_df() -> pd.DataFrame:
+    df = pd.read_csv("../data/history.csv")
+    return df, max(df["played_at"])
 
 # Convert json data to dataframe
 def json_to_df(data=None, latest=None) -> pd.DataFrame:
@@ -71,7 +67,7 @@ def combine_dfs(csv_df=None, new_df=None) -> pd.DataFrame:
 # Convert dataframe to csv
 def df_to_csv(df=None) -> str:
     try:
-        csv_str = df.to_csv(index=False)
+        csv_str = df.to_csv("../data/history.csv", index=True)
         return csv_str
     except:
         return df
@@ -171,7 +167,6 @@ def get_durations(ids = '', token=None, store=True):
         print('Success!')
 
     return durations
-
 #####################################
 
 ####   OTHER TOOLS    #####
@@ -186,14 +181,17 @@ def batch(iterable, size):
         yield chain([batchiter.next()], batchiter)
 
 
-# Run
+# Run all steps from this file
 def run() -> bool:
-    logging.info('Running song-history run() funciton.')
+    logging.info('Running song-history run() function.')
     token = get_token()
     data = get_recents(token=token)
-    csv_df, latest = download_to_df()
+    csv_df, latest = load_df()
     print(csv_df.tail())
     spot_df = json_to_df(data=data, latest=latest)
+    updated_df = combine_dfs(csv_df, spot_df)
+    df_to_csv(updated_df)
+    return updated_df
 ###########################
 
 
