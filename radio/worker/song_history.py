@@ -1,7 +1,7 @@
 try:  # try/except to handle both local debugging and cloud running (maybe clean up?)
-    from authorize import get_token, get_fileshare_client
+    from authorize import get_token #, get_fileshare_client
 except:
-    from .authorize import get_token, get_fileshare_client # Check if this every gets called 
+    from worker.authorize import get_token #, get_fileshare_client # Check if this every gets called 
 from datetime import datetime
 import io, json, logging
 import pandas as pd 

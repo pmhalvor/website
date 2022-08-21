@@ -1,4 +1,3 @@
-from azure.storage.fileshare import ShareFileClient
 import base64, logging, io, json, os, requests, six, time
 
 # import environment variables
