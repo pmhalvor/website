@@ -32,7 +32,7 @@ def get_cache_token() -> dict:
         X load local data
         X return payload
     """
-    with open('.data', 'r') as f:
+    with open('~/.data', 'r') as f:
         data = json.load(f)
         payload = {
             "refresh_token": data["refresh_token"],
@@ -118,7 +118,7 @@ def make_headers() -> dict:
 
 # Store the renewed token locally 
 def store_renewed_token(token_info):
-    with open('.data', 'w') as f:
+    with open('~/.data', 'w') as f:
         json.dump(token_info, f, indent=4)
     return True
 
