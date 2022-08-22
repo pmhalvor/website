@@ -14,7 +14,7 @@ dir_path = os.path.dirname(real_path)
 
 ####### DATA WRANGLING #############
 def load_df() -> pd.DataFrame:
-    df = pd.read_csv("../../data/history.csv")
+    df = pd.read_csv("~/data/history.csv")
     return df, max(df["played_at"])
 
 # Convert json data to dataframe
@@ -67,7 +67,7 @@ def combine_dfs(csv_df=None, new_df=None) -> pd.DataFrame:
 # Convert dataframe to csv
 def df_to_csv(df=None) -> str:
     try:
-        csv_str = df.to_csv("../../data/history.csv", index=False)
+        csv_str = df.to_csv("~/data/history.csv", index=False)
         return csv_str
     except:
         return df
