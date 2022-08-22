@@ -15,7 +15,7 @@ ROOT = os.environ.get("ROOT")
 
 ####### DATA WRANGLING #############
 def load_df() -> pd.DataFrame:
-    df = pd.read_csv(f'{ROOT}data/history.csv')
+    df = pd.read_csv(f'{ROOT}/data/history.csv')
     return df, max(df["played_at"])
 
 # Convert json data to dataframe
