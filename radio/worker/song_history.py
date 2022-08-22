@@ -187,8 +187,9 @@ def run() -> bool:
     token = get_token()
     data = get_recents(token=token)
     csv_df, latest = load_df()
-    print(csv_df.tail())
+    print("End of csv df:", csv_df.tail())
     spot_df = json_to_df(data=data, latest=latest)
+    print("End of recent df", spot_df.tail())
     updated_df = combine_dfs(csv_df, spot_df)
     df_to_csv(updated_df)
     return updated_df
