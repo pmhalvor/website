@@ -4,6 +4,7 @@ import base64, logging, io, json, os, requests, six, time
 SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')         # Spotify client id stored as local env. var.
 SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET') # Spotify client secret stored as local env. var.
 AZURE_STORAGE = os.environ.get('AZURE_STORAGE')                 # Connection string stored as local env. var.
+ROOT = os.environ.get('ROOT')   # because local paths change between machines
 
 
 # Authorization for Spotify
@@ -32,7 +33,7 @@ def get_cache_token() -> dict:
         X load local data
         X return payload
     """
-    with open('~/.data', 'r') as f:
+    with open(f'{ROOT}/.data', 'r') as f:
         data = json.load(f)
         payload = {
             "refresh_token": data["refresh_token"],
@@ -118,7 +119,7 @@ def make_headers() -> dict:
 
 # Store the renewed token locally 
 def store_renewed_token(token_info):
-    with open('~/.data', 'w') as f:
+    with open(f'{ROOT}/.data', 'w') as f:
         json.dump(token_info, f, indent=4)
     return True
 
