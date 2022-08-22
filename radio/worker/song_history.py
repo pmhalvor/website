@@ -67,7 +67,7 @@ def combine_dfs(csv_df=None, new_df=None) -> pd.DataFrame:
 # Convert dataframe to csv
 def df_to_csv(df=None) -> str:
     try:
-        csv_str = df.to_csv("../../data/history.csv", index=True)
+        csv_str = df.to_csv("../../data/history.csv", index=False)
         return csv_str
     except:
         return df
