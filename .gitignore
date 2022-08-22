@@ -1,5 +1,10 @@
 /siteenv
 
+*/.data
+
 config.py
 
 _environ.json
+
+*/__pycache__/*
+*/__pycache__/*
