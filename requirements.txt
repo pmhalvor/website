@@ -6,6 +6,6 @@ pytz==2020.4
 sqlparse==0.4.1
 django-mathfilters
 Pillow
-pandas
+pandas==1.4.1
 azure-storage-file-share
 plotly
