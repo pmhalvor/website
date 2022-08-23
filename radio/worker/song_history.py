@@ -15,7 +15,11 @@ ROOT = os.environ.get("ROOT")
 
 ####### DATA WRANGLING #############
 def load_df() -> pd.DataFrame:
-    df = pd.read_csv(f'{ROOT}/data/history.csv')
+    try:
+        df = pd.read_csv(f'{ROOT}/data/history.csv')
+    except:
+        df = pd.read_csv('~/data/history.csv')
+
     return df, max(df["played_at"])
 
 # Convert json data to dataframe
@@ -68,7 +72,12 @@ def combine_dfs(csv_df=None, new_df=None) -> pd.DataFrame:
 # Convert dataframe to csv
 def df_to_csv(df=None) -> str:
     try:
-        csv_str = df.to_csv(f'{ROOT}/data/history.csv', index=False)
+        if os.path.exists(f'{ROOT}/data/history.csv'):
+
+            csv_str = df.to_csv(f'{ROOT}/data/history.csv', index=False)
+        else:
+            csv_str = df.to_csv('~/data/history.csv', index=False)
+
         return csv_str
     except:
         return df
