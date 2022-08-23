@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 try:
-    from .song_history import download_to_df, get_durations
+    from .song_history import load_df
+    from .song_history import  get_durations
 except:
-    from song_history import download_to_df, get_durations
+    from song_history import load_df
+    from song_history import  get_durations
 import pandas as pd 
 import plotly.offline as opy
 pd.options.plotting.backend = "plotly"
@@ -15,7 +17,7 @@ def to_html(figure):
     return context
 
 def artist_duration(n=37):
-    df, mdf = download_to_df()
+    df, mdf = load_df()
 
     durations = get_durations(df.id.unique())
     df = df.merge(durations, on='id', how='left')
@@ -48,7 +50,7 @@ def artist_duration(n=37):
 
 def song_plays(n=37):
     print('Downloading to df()...')
-    df, mdf = download_to_df()
+    df, mdf = load_df()
 
     df.rename(columns={'name':'track'}, inplace=True)
     name_artist = df.groupby(['track', 'artist'])
@@ -84,7 +86,7 @@ Checklist of things to do:
 
 if __name__=='__main__':
     # print('Downloading to df()...')
-    # df, mdf = download_to_df()
+    # df, mdf = load_df()
 
     # song_plays()
     artist_duration()
