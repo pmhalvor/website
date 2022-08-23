@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = POSTGRES_PASSWORD
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['174.138.5.19', 'perhalvorsen.com', '.perhalvorsen.com', '127.0.0.1'] #.domain.com allows for subdomains (later)
 
