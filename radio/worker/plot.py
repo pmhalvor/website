@@ -19,7 +19,7 @@ def to_html(figure):
 def artist_duration(n=37):
     df, mdf = load_df()
 
-    # df = df[df["played_at"] > (datetime.today() - timedelta(180)).strftime("%Y-%m-%dZ%H:%M:%S.000Z")]
+    df = df[df["played_at"] > (datetime.today() - timedelta(180)).strftime("%Y-%m-%dZ%H:%M:%S.000Z")]
 
     durations = get_durations(df.id.unique())
     df = df.merge(durations, on='id', how='left')

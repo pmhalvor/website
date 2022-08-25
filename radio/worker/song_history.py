@@ -12,14 +12,16 @@ import pickle
 real_path = os.path.realpath(__file__)
 dir_path = os.path.dirname(real_path)
 ROOT = os.environ.get("ROOT")
-MAX_ID_COUNT=45
+MAX_ID_COUNT=50
 
 ####### DATA WRANGLING #############
 def load_df() -> pd.DataFrame:
-    try:
+    if os.path.exists(f'{ROOT}/data/history.csv'):
         df = pd.read_csv(f'{ROOT}/data/history.csv')
-    except:
+        print("loaded from", f'{ROOT}/data/history.csv')
+    else:
         df = pd.read_csv('~/data/history.csv')
+        print("loaded from", '~/data/history.csv')
 
     return df, max(df["played_at"])
 
@@ -112,32 +114,10 @@ def get_durations(ids = '', token=None, store=True):
 
     # ids.pop(ids.index[3]) # TODO: delete when left on checked and working
     durations = pd.DataFrame({
-        'id':ids
+        'id':ids,
+        'duration': 0
     })
     
-    print('Looking for cached durations')
-    try:
-        # local_durations = pd.read_csv(os.path.join(dir_path, 'store/durations.csv'))
-        local_durations = pd.read_pickle(pth)
-        id_ = local_durations.index
-        local_durations.reset_index(inplace = True)
-        local_durations['id'] = id_
-        del id_
-        print('Found local durations')
-    except Exception as e:
-        print('Nothing stored locally. Calling API...')
-        local_durations = pd.DataFrame(durations)
-
-    # durations = durations.merge(local_durations,how='outer', on='id')
-    durations = pd.concat([local_durations, durations])
-    durations = durations.drop_duplicates('id', keep='first', ignore_index=True)
-    durations.fillna(0, inplace=True)
-    try:
-        durations.drop(columns='count')
-    except:
-        print('No count colmun to drop.\n\
-        Remove this call on line 132 in song_history.py')
-
     ids = durations.index[durations.duration<1]
 
     if len(ids) > 0:
@@ -158,20 +138,29 @@ def get_durations(ids = '', token=None, store=True):
             else:
                 batch_ids = ids[MAX_ID_COUNT*i:MAX_ID_COUNT*(i+1)]  # forward indexing
             
-            b_ids = ','.join(str(batch_ids))
+            b_ids = ','.join(batch_ids)
 
             PARAMS = {'ids':b_ids}	
             data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
 
-            batch_dur = []
+            batch_durations = []
             
             if data.get('tracks'):
                 for track in data['tracks']:
-                    batch_dur.append(track['duration_ms'])
+                    batch_durations.append(track['duration_ms'])
             
-                durations.duration[batch_ids] = batch_dur
+                durations.duration[batch_ids.index] = batch_durations
             else:
                 print('No tracks in response')
+                data["python_log"] = {
+                    "message": 'No tracks in response.',
+                    "input": {
+                        "URL": URL, 
+                        "header": HEAD, 
+                        "params": params
+                    },
+                    "batch_ids_to_str": str(batch_ids)
+                }
                 with open(os.path.join(dir_path, 'store', 'error_response.json'), 'w+') as f:
                     json.dump(data, f)
 
@@ -182,7 +171,9 @@ def get_durations(ids = '', token=None, store=True):
         durations.to_pickle(pth)
         print('Success!')
 
-    return durations
+    return durations 
+
+    # return durations
 #####################################
 
 ####   OTHER TOOLS    #####
