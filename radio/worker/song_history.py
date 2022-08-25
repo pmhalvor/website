@@ -118,7 +118,7 @@ def get_durations(ids = '', token=None, store=True):
         'duration': 0
     })
     
-    ids = durations.index[durations.duration<1]
+    ids = durations.iid[durations.duration<1]
 
     if len(ids) > 0:
         print(f'{len(ids)} new ids to check')
