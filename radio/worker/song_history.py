@@ -12,6 +12,7 @@ import pickle
 real_path = os.path.realpath(__file__)
 dir_path = os.path.dirname(real_path)
 ROOT = os.environ.get("ROOT")
+MAX_ID_COUNT=45
 
 ####### DATA WRANGLING #############
 def load_df() -> pd.DataFrame:
@@ -144,7 +145,7 @@ def get_durations(ids = '', token=None, store=True):
 
         if not token:
             token = get_token()
-        batches = (len(ids)//50) + 1
+        batches = (len(ids)//MAX_ID_COUNT) + 1
         print(f'Will be executing {batches} API call(s)')
 
         URL = "https://api.spotify.com/v1/tracks"    # api-endpoint for recently played  
@@ -153,22 +154,27 @@ def get_durations(ids = '', token=None, store=True):
         # batching the unstored indexes incase exceeds max
         for i in range(batches):
             if i==(batches-1):
-                batch_ids = ids[50*i:]  # last set of indices
+                batch_ids = ids[MAX_ID_COUNT*i:]  # last set of indices
             else:
-                batch_ids = ids[50*i:50*(i+1)]  # forward indexing
+                batch_ids = ids[MAX_ID_COUNT*i:MAX_ID_COUNT*(i+1)]  # forward indexing
             
-            b_ids = ','.join(batch_ids)
+            b_ids = ','.join(str(batch_ids))
 
             PARAMS = {'ids':b_ids}	
             data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
 
             batch_dur = []
-
-            for track in data['tracks']:
-                batch_dur.append(track['duration_ms'])
             
-            durations.duration[batch_ids] = batch_dur
-        
+            if data.get('tracks'):
+                for track in data['tracks']:
+                    batch_dur.append(track['duration_ms'])
+            
+                durations.duration[batch_ids] = batch_dur
+            else:
+                print('No tracks in response')
+                with open(os.path.join(dir_path, 'store', 'error_response.json'), 'w+') as f:
+                    json.dump(data, f)
+
             print(durations[durations.index.isin(batch_ids)])
 
         # this only gets stored again when new ids are added
