@@ -157,7 +157,7 @@ def get_durations(ids = '', token=None, store=True):
                     "input": {
                         "URL": URL, 
                         "header": HEAD, 
-                        "params": params
+                        "params": PARAMS
                     },
                     "batch_ids_to_str": str(batch_ids)
                 }
