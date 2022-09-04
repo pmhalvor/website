@@ -114,19 +114,35 @@ def get_recents(token=None) -> dict:
     PARAMS = {'limit':50}	                                        # default here is 20
     return r.get(url=URL, headers=HEAD, params=PARAMS).json()
 
-def get_durations(ids = '', token=None, store=True):
+def get_durations(id_list = '', token=None, store=True):
+    """
+    Should both load the previously stored duraitons and join with new durations.
+
+    """
     pth = os.path.join(dir_path, 'store', 'duration_df.pkl')
 
-    # ids.pop(ids.index[3]) # TODO: delete when left on checked and working
-    durations = pd.DataFrame({
-        'id':ids,
-        'duration': 0
-    })
-    
-    ids = durations.id[durations.duration<1]
+    # load durations pickle
+    with open(pth, 'rb') as f:
+        durations = pickle.load(f)
 
-    if len(ids) > 0:
-        print(f'{len(ids)} new ids to check')
+    # check if current ids have already stored durations
+    for i in durations.id:
+        try:
+            idx = id_list.index(i)
+            id_list.pop(idx)
+        except:
+            pass
+
+    print(f'{len(id_list)} new ids to check')
+    if len(id_list) > 0:
+        # create new df 
+        new_durations = pd.DataFrame({
+            'id':id_list,
+            'duration': 0
+        })
+        
+        ids = new_durations.id[new_durations.duration<1]
+
 
         if not token:
             token = get_token()
@@ -134,7 +150,7 @@ def get_durations(ids = '', token=None, store=True):
         print(f'Will be executing {batches} API call(s)')
 
         URL = "https://api.spotify.com/v1/tracks"    # api-endpoint for recently played  
-        HEAD = {'Authorization': 'Bearer '+token}                       # provide auth. crendtials
+        HEAD = {'Authorization': 'Bearer '+token}    # provide auth. crendtials
 
         # batching the unstored indexes incase exceeds max
         for i in range(batches):
@@ -157,7 +173,7 @@ def get_durations(ids = '', token=None, store=True):
                     batch_durations.append(track['duration_ms'])
             
                 batch_dur = pd.DataFrame({"duration": batch_durations}).set_index(batch_ids.index)
-                duration.update(batch_dur)
+                new_durations.update(batch_dur)
 
 
             else:
@@ -174,12 +190,13 @@ def get_durations(ids = '', token=None, store=True):
                 with open(os.path.join(dir_path, 'store', 'error_response.json'), 'w+') as f:
                     json.dump(data, f)
 
-            print(durations[durations.index.isin(batch_ids)])
+            print(new_durations[new_durations.index.isin(batch_ids)])
 
         # this only gets stored again when new ids are added
         print(f'Storing at {pth}')
-        durations.to_pickle(pth)
+        new_durations.to_pickle(pth)
         print('Success!')
+
 
     return durations 
 
