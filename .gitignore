@@ -8,6 +8,9 @@ _environ.json
 
 */__pycache__/*
 home/__pycache__/
+phsite/__pycache__/
+tools/__pycache__/
 radio/__pycache__/
+radio/worker/__pycache__/
 
 *.pyc 
