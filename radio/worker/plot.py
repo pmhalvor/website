@@ -26,7 +26,7 @@ def artist_duration(n=37):
 
     df_artist_track = df.groupby(['artist', 'id'])
     duration = df_artist_track['duration'].sum()
-    count = df_artist_track['count'].sum()
+    count = df_artist_track.count()['played_at'] 
 
     total_time_artist = (count*duration).groupby('artist').sum()
     total_time_artist.sort_values(ascending=True, inplace=True)
