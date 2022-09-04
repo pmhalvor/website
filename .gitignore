@@ -7,4 +7,7 @@ config.py
 _environ.json
 
 */__pycache__/*
-*/__pycache__/*
+home/__pycache__/
+radio/__pycache__/
+
+*.pyc 
