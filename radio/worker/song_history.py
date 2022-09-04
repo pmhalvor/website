@@ -23,6 +23,7 @@ def load_df() -> pd.DataFrame:
         df = pd.read_csv('~/data/history.csv')
         print("loaded from", '~/data/history.csv')
 
+    print("Max played at", max(df["played_at"]))
     return df, max(df["played_at"])
 
 # Convert json data to dataframe
@@ -34,6 +35,7 @@ def json_to_df(data=None, latest=None) -> pd.DataFrame:
         try:
             data = data.json()              # This needs to be cleaned up 
         except:
+            print("Problem converting data of type {} to dict".format(type(data)))
             return None
 
     new_entries = pd.DataFrame(columns=['id','played_at','artist','name'])
@@ -58,10 +60,13 @@ def json_to_df(data=None, latest=None) -> pd.DataFrame:
                 new_entries = new_entries.append(new_entry, ignore_index=True) # add entry to df
                 try:
                     logging.info(f'New entry added: {new_entry}.')
+                    print(f'New entry added: {new_entry}.')
                 except:
                     logging.info('New entry added, but includes invalid character in name.')
+                    print('New entry added, but includes invalid character in name.')
             else:
                 logging.info(f'Song {name} played at {played_at} already registered.')
+                print(f'Song {name} played at {played_at} already registered.')
                 pass
 
     return new_entries
@@ -69,7 +74,7 @@ def json_to_df(data=None, latest=None) -> pd.DataFrame:
 # Combine dataframes
 def combine_dfs(csv_df=None, new_df=None) -> pd.DataFrame:
     if new_df.size == 0:
-        return None
+        return csv_df
     return csv_df.append(new_df, ignore_index=True)
 
 # Convert dataframe to csv
@@ -135,9 +140,11 @@ def get_durations(ids = '', token=None, store=True):
         for i in range(batches):
             if i==(batches-1):
                 batch_ids = ids[MAX_ID_COUNT*i:]  # last set of indices
+                print("Checking indexes: {} -> {}".format(MAX_ID_COUNT*i, MAX_ID_COUNT*(i+1)) )
             else:
                 batch_ids = ids[MAX_ID_COUNT*i:MAX_ID_COUNT*(i+1)]  # forward indexing
-            
+                print("Checking indexes: {} -> {}".format(MAX_ID_COUNT*i, MAX_ID_COUNT*(i+1)) )
+
             b_ids = ','.join(batch_ids)
 
             PARAMS = {'ids':b_ids}	
@@ -149,7 +156,10 @@ def get_durations(ids = '', token=None, store=True):
                 for track in data['tracks']:
                     batch_durations.append(track['duration_ms'])
             
-                durations.duration[batch_ids.index] = batch_durations
+                batch_dur = pd.DataFrame({"duration": batch_durations}).set_index(batch_ids.index)
+                duration.update(batch_dur)
+
+
             else:
                 print('No tracks in response')
                 data["python_log"] = {
@@ -193,12 +203,18 @@ def run() -> bool:
     logging.info('Running song-history run() function.')
     token = get_token()
     data = get_recents(token=token)
+    print("Recents: ", len(data))
+
     csv_df, latest = load_df()
     print("End of csv df:", csv_df.tail())
+
     spot_df = json_to_df(data=data, latest=latest)
     print("End of recent df", spot_df.tail())
+
     updated_df = combine_dfs(csv_df, spot_df)
     df_to_csv(updated_df)
+    print("End up updated df", updated_df.tail())
+
     return updated_df
 ###########################
 
