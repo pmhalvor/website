@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 try:
     from .song_history import load_df
     from .song_history import  get_durations
@@ -18,8 +18,9 @@ def to_html(figure):
 
 def artist_duration(n=37):
     df, mdf = load_df()
+    df = select_month(df, 7)
 
-    df = df[df["played_at"] > (datetime.today() - timedelta(180)).strftime("%Y-%m-%dZ%H:%M:%S.000Z")]
+    # df = df[df["played_at"] > (datetime.today() - timedelta(30*n)).strftime("%Y-%m-%dZ%H:%M:%S.000Z")]
 
     durations = get_durations(list(set(df.id)))
     df = df.merge(durations, on='id', how='left')
@@ -37,15 +38,17 @@ def artist_duration(n=37):
 
     top_artists = pd.DataFrame(top_artists).reset_index()
     top_artists.columns=['artist', 'time']
+    top_artists.rename(columns={"time":"minutes"}, inplace=True)
     top_artists.index = [f'Rank: {n-i}' for i in range(n)]
     print(top_artists)
 
     figure = top_artists.plot.barh(
-        x = 'time',
+        x = 'minutes',
         y = 'artist',
-        color='time',
+        color='minutes',
         hover_name = top_artists.index,
-        template='plotly_dark')
+        template='plotly_dark'
+    )
     figure.update(layout_showlegend=False)
 
     return to_html(figure)
@@ -53,6 +56,7 @@ def artist_duration(n=37):
 def song_plays(n=37):
     print('Downloading to df()...')
     df, mdf = load_df()
+    df = select_month(df, 7)
 
     df.rename(columns={'name':'track'}, inplace=True)
     name_artist = df.groupby(['track', 'artist'])
@@ -70,12 +74,17 @@ def song_plays(n=37):
         color='count',
         hover_name = top_songs.index,
         hover_data=['artist', 'track'],
-        template='plotly_dark')
+        template='plotly_dark'
+    )
     figure.update_layout(
         showlegend=False
     )
 
     return to_html(figure)
+
+def select_month(df, months=6):
+    n_months_ago = (date.today() - timedelta(days=months*30)).strftime("%Y-%m-%dT00:00:00.000Z")
+    return df[df.played_at > n_months_ago]
 
 ######################
 

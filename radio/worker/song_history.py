@@ -200,20 +200,19 @@ def get_durations(id_list = '', token=None, store=True):
 
     return durations 
 
-    # return durations
 #####################################
 
 ####   OTHER TOOLS    #####
 # bacthes, taken from https://code.activestate.com/recipes/303279-getting-items-in-batches/
-def batch(iterable, size):
+""" def batch(iterable, size):
     '''
-    Try replacing my bacthing with something similar
+    DEPRECATED
     '''
     sourceiter = iter(iterable)
     while True:
         batchiter = islice(sourceiter, size)
         yield chain([batchiter.next()], batchiter)
-
+ """
 
 # Run all steps from this file
 def run() -> bool:
