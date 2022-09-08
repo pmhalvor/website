@@ -32,7 +32,7 @@ a{
 /*  SUGGESTIONS  */
 button{
     border-radius: 15px;
-    height: 25px;
+    height: 28px;
     background-color: black;
     outline:none;
 }
@@ -46,31 +46,25 @@ button.submit{
 .icon{
     height: 14px;
     width: 14px;
-    margin-left: -1px;
+    margin-left: -1spx;
 }
 .main{
     width: 100%;
-    margin: 5px;
-    display: table;
-    border-spacing: 5px;
 }
-
 .column{
-    display: table-cell;
+    display: inline-block;
     vertical-align: top;
-    width: 33%;
+    width: 30%;
     background-color:  rgb(13, 13, 13);
     border-radius:10px;
     min-height: 470px;
-    max-height: 500px;
 }
-/* @media screen and (orientation:portrait){
+@media screen and (orientation:portrait){
     .column{
         width: 100%;
-        display: block;
+        display:block;
     }
-
-} */
+}
 
 #loading{
     height: 100%;
@@ -85,28 +79,28 @@ input{
     outline:none;
 }
 .list{
-    width: 100%;
     background-color: black;
     border-radius: 10px;
+    overflow-y: scroll;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
     white-space: normal;
-    height: 420px;
-    overflow-y: scroll;
 }
 .search_art{
     width: 50px;
     text-align:center;
 }
+/* .search{
+    padding-left: 2%;
+    padding-right: 2%;
+} */
 .selected{
     background-color: rgb(70, 137, 70);
 }
 table{
     color: rgb(213, 213, 213);
     width: 100%;
-    overflow: auto;
-    border-radius: 10px;
 }
 td{
     padding-left: 5px;
@@ -118,7 +112,6 @@ td{
 }
 th{
     font-style: italic;
-    border-radius: 5px;
 }
 tr{
     width: 1005;
@@ -136,10 +129,10 @@ tr.result:hover{
 
 
 /*  NOW PLAYING  */
-.playing{
+.current{
     /* width:  70%; */
     /* margin: 0 auto; */
-    background-color: rgb(13,13,13);
+    background-color: black;
     border-radius: 10px;
 }
 .artwork{
@@ -151,22 +144,9 @@ tr.result:hover{
     display: flex;
 }
 @media (max-width:1000px){
-    .main{
-        display:contents;
-    }
     .column{
-        display:contents;
         width: 100%;
-        background-color:  rgb(13, 13, 13);
-        border-radius:10px;
-    }   
-    .search{
-        background-color: rgb(13,13,13);
-        border-radius: 10px;
-    }
-    .recommendations{
-        background-color: rgb(13,13,13);
-        border-radius: 10px;
+        display: block;
     }
 }
 .progresstrack{
@@ -183,7 +163,7 @@ tr.result:hover{
     border-radius: 10px;
     padding-top: 1px;
     padding-bottom: 1px;
-    /* width: var(--progressbar-w); */
+    transition: 2.5s;
 }
 
 
@@ -210,7 +190,7 @@ h3{
     color: rgb(190, 0, 0);
 }
 .recents{
-    background-color: rgb(13,13,13);
+    background-color: black;
     border-radius: 10px;
     padding: 5px;
 }
@@ -225,12 +205,6 @@ h3{
     
 }
 
-/* Plots */
-.plots{
-    background-color: rgb(17, 17, 17);
-    border-radius: 10px;
-    padding: 5px;
-}
 
 /*  scrollbars format  */
 .row::-webkit-scrollbar{
@@ -247,13 +221,13 @@ h3{
 }
 .list::-webkit-scrollbar{
     width: 10px;
-    background-color:transparent;
+    background-color: black;
 }
 .list::-webkit-scrollbar-thumb{
     background-color: rgb(70,70,70);
     border-radius: 5px;
 }
 .list::-webkit-scrollbar-track{
-    background-color: transparent;
     border-radius: 5px; 
+    background-color: black;
 }

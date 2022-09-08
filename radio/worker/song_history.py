@@ -71,11 +71,13 @@ def json_to_df(data=None, latest=None) -> pd.DataFrame:
 
     return new_entries
 
+
 # Combine dataframes
 def combine_dfs(csv_df=None, new_df=None) -> pd.DataFrame:
     if new_df.size == 0:
         return csv_df
     return csv_df.append(new_df, ignore_index=True)
+
 
 # Convert dataframe to csv
 def df_to_csv(df=None) -> str:
@@ -105,6 +107,7 @@ def get_current(token=None) -> dict:
     else:
         return {}
 
+
 # Request recently played
 def get_recents(token=None) -> dict:
     if not token:
@@ -112,7 +115,17 @@ def get_recents(token=None) -> dict:
     URL = "https://api.spotify.com/v1/me/player/recently-played"    # api-endpoint for recently played
     HEAD = {'Authorization': 'Bearer '+token}                       # provide auth. crendtials
     PARAMS = {'limit':50}	                                        # default here is 20
-    return r.get(url=URL, headers=HEAD, params=PARAMS).json()
+    content = r.get(url=URL, headers=HEAD, params=PARAMS)
+    if content.status_code == 200:
+        return content.json()
+    return {}
+
+
+def get_durations(ids = '', token=None, store=True) -> pd.DataFrame:
+    '''
+    API call with built-in cache reader to return
+        df (id, artist, duration) 
+    '''
 
 def get_durations(id_list = '', token=None, store=True):
     """
@@ -154,6 +167,7 @@ def get_durations(id_list = '', token=None, store=True):
 
         # batching the unstored indexes incase exceeds max
         for i in range(batches):
+            print('Batch', i)
             if i==(batches-1):
                 batch_ids = ids[MAX_ID_COUNT*i:]  # last set of indices
                 print("Checking indexes: {} -> {}".format(MAX_ID_COUNT*i, MAX_ID_COUNT*(i+1)) )
@@ -163,8 +177,19 @@ def get_durations(id_list = '', token=None, store=True):
 
             b_ids = ','.join(batch_ids)
 
-            PARAMS = {'ids':b_ids}	
-            data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
+            PARAMS = {'ids':b_ids}
+            tracks = None 
+            cnt = 0
+            while tracks is None:
+                data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
+                try:
+                    tracks = data['tracks']
+                except:
+                    print('Bad response. Trying again...')
+                    cnt += 1
+                    if cnt > 20:
+                        return {}
+                    time.sleep(2)
 
             batch_durations = []
             
@@ -236,4 +261,6 @@ def run() -> bool:
 
 
 if __name__=='__main__':
-    run()
+    # run()
+    # update_history_db()
+    None

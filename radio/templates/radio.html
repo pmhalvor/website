@@ -11,8 +11,6 @@
 		<script>
 			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 		</script>
-		<script src="{% static 'js/retrieve.js' %}" type="text/javascript" name="submit">console.log(csrftoken);</script>
-		
 	</head>
 
 	<body>
@@ -25,9 +23,7 @@
 
 			<div class="main">
 				<div class="column">
-					<div class="current" id="playing">
-						<img src="{% static 'img/loading.gif' %}" style="width:100%;">
-					</div>
+
 				</div> 
 				<div class="column">
 					<div class="search">
@@ -72,13 +68,11 @@
 			</div>
 			<br>
 			<div class="recents">
-				<h1>recently played</h1>
-				<img src="{% static 'img/loading.gif' %}" style="width:100%;">
+
 			</div>
 			<br>
 			<br>
-			<div class="plots">
-				<h1>favorites</h1>
+			<div class=plots>
 				<img src="{% static 'img/loading.gif' %}">
 			</div>
 		</div>
@@ -93,10 +87,9 @@
 		<script src="{% static 'js/update.js' %}" type="text/javascript" name="update"></script>
 		<script src="{% static 'js/search.js' %}" type="text/javascript" name="search"></script>
 		<script src="{% static 'js/submit.js' %}" type="text/javascript" name="submit">console.log(csrftoken);</script>
+		<script src="{% static 'js/retrieve.js' %}" type="text/javascript" name="submit">console.log(csrftoken);</script>
 		<script type="text/javascript">
 			retrieve('plots');
-			retrieve('recents');
-			retrieve('current');
 		</script>
 	</body>
 </html>

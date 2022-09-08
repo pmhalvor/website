@@ -9,3 +9,7 @@ _environ.json
 */__pycache__
 
 *.pyc 
+
+docker*
+Docker*
+entry*

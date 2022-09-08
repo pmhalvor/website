@@ -1,16 +1,18 @@
-<div class="describe">
-    <h5>played at</h5>
-    <h2>artist</h2>
-    <h3>track</h3>
-</div>
-{% for item in recents %}
-    <li class="entry">
-        <h5> {{ item.played_at }}</h5>
-        <a href="{{ item.artist_url }}">
-            <h2>{{ item.artist }}</h2>
-        </a>
-        <a href="{{ item.track_url }}">
-            <h3>{{ item.name }}</h3>
-        </a>
-    </li>
-{% endfor %}
+<ul class="row" id="recents">
+    <div class="describe">
+        <h5>played at</h5>
+        <h2>artist</h2>
+        <h3>track</h3>
+    </div>
+    {% for item in recents %}
+        <li class="entry">
+            <h5> {{ item.played_at }}</h5>
+            <a href="{{ item.artist_url }}">
+                <h2>{{ item.artist }}</h2>
+            </a>
+            <a href="{{ item.track_url }}">
+                <h3>{{ item.name }}</h3>
+            </a>
+        </li>
+    {% endfor %}
+</ul>

@@ -9,6 +9,8 @@ Otherwise, take a peek at the previous releases of the site, to see what
 
 
 Changelog:
+- 1.1.4: current, recents, and plots loaded seperately from `/radio`, allowing for smoother user experience
+- 1.1.3: Radio branch now serving data locally for fewer server timeouts on page refresh
 - 1.1.2: Radio branch now has plots showing data from Azure storage
 - 1.1.1: Radio branch incorperating calls to the [Spotify API](developers.spotify.com)
 - 1.0.5: Code stored in database on server. Items served dynamically using Django.

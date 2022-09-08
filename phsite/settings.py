@@ -15,8 +15,8 @@ import os
 try: 
     from config import DJANGO_SECRET, POSTGRES_PASSWORD
 except:
-    DJANGO_SECRET = os.environ['DJANGO_SECRET']
-    POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
+    DJANGO_SECRET = os.environ.get('DJANGO_SECRET')
+    POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mathfilters'
+    'mathfilters',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -89,7 +90,7 @@ DATABASES = {
         'USER': 'pmhalvor',
         'PASSWORD': POSTGRES_PASSWORD,
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
 
