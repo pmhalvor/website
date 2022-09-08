@@ -1,8 +1,10 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 try:
-    from .song_history import download_to_df, get_durations
+    from .song_history import load_df
+    from .song_history import  get_durations
 except:
-    from song_history import download_to_df, get_durations
+    from song_history import load_df
+    from song_history import  get_durations
 import pandas as pd 
 import plotly.offline as opy
 pd.options.plotting.backend = "plotly"
@@ -13,26 +15,18 @@ def to_html(figure):
     context['plot'] = div
     return context
 
-def artist_duration(model=None, n=37):
-    if model:
-        df = pd.DataFrame(list(model.objects.all().values(
-            'artist',
-            'track',
-            'played_at',
-            'track_id'
-        )))
-        df.rename(columns={'track_id':'id'}, inplace=True)
-    else:
-        df, mdf = download_to_df()
+def artist_duration(n=37):
+    df, mdf = load_df()
+    df = select_month(df, 7)
 
-    print(df.shape)
-    durations = get_durations(df.id.unique())
-    print(durations.shape)
+    # df = df[df["played_at"] > (datetime.today() - timedelta(30*n)).strftime("%Y-%m-%dZ%H:%M:%S.000Z")]
+
+    durations = get_durations(list(set(df.id)))
     df = df.merge(durations, on='id', how='left')
 
     df_artist_track = df.groupby(['artist', 'id'])
     duration = df_artist_track['duration'].sum()
-    count = df_artist_track.size()
+    count = df_artist_track.count()['played_at'] 
 
     total_time_artist = (count*duration).groupby('artist').sum()
     total_time_artist.sort_values(ascending=True, inplace=True)
@@ -42,32 +36,25 @@ def artist_duration(model=None, n=37):
     top_artists = top_artists_ms//(1000*60)
 
     top_artists = pd.DataFrame(top_artists).reset_index()
-    top_artists.columns=['artist', 'hours']
+    top_artists.columns=['artist', 'time']
+    top_artists.rename(columns={"time":"minutes"}, inplace=True)
     top_artists.index = [f'Rank: {n-i}' for i in range(n)]
 
     figure = top_artists.plot.barh(
-        x = 'hours',
+        x = 'minutes',
         y = 'artist',
-        color='hours',
+        color='minutes',
         hover_name = top_artists.index,
-        template='plotly_dark')
+        template='plotly_dark'
+    )
     figure.update(layout_showlegend=False)
 
     return to_html(figure)
 
-def song_plays(model=None, n=37):
-    if model:
-        df = pd.DataFrame(list(model.objects.all().values(
-            'artist',
-            'track',
-            'played_at',
-            'track_id'
-        )))
-        df.rename(columns={'track_id':'id'}, inplace=True)
-    else:
-        print('Downloading to df()...')
-        df, mdf = download_to_df()
-        df.rename(columns={'name':'track'}, inplace=True)
+def song_plays(n=37):
+    print('Downloading to df()...')
+    df, mdf = load_df()
+    df = select_month(df, 7)
 
     name_artist = df.groupby(['track', 'artist', 'id'])  # TODO: maybe ids in front?
     _counts = name_artist.size().reset_index(name='count')
@@ -109,12 +96,19 @@ def song_plays(model=None, n=37):
         color='%',
         hover_name = top_songs.index,
         hover_data=['artist', 'track'],
-        template='plotly_dark')
+        template='plotly_dark'
+    )
     figure.update_layout(
         showlegend=False
     )
     print(figure)
     return to_html(figure)
+
+def select_month(df, months=6):
+    n_months_ago = (date.today() - timedelta(days=months*30)).strftime("%Y-%m-%dT00:00:00.000Z")
+    return df[df.played_at > n_months_ago]
+
+######################
 
 '''
 Checklist of things to do:
@@ -125,7 +119,7 @@ Checklist of things to do:
 
 if __name__=='__main__':
     # print('Downloading to df()...')
-    # df, mdf = download_to_df()
+    # df, mdf = load_df()
 
     # artist_duration()
     song_plays()

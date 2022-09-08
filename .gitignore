@@ -1,9 +1,17 @@
 /siteenv
 
-*.pyc  
+*/.data
 
 config.py
 
 _environ.json
 
-cache*
+*/__pycache__
+
+*.pyc 
+
+docker*
+Docker*
+entry*
+.travis.yml
+.env*
