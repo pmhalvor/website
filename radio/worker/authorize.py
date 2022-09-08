@@ -168,14 +168,6 @@ def get_token_first_time(code) -> dict:
     print(token_info)
 
     return token_info
-    # # response do not include refresh_token, must be added manually
-    # if 'refresh_token' not in token_info:
-    #     token_info['refresh_token'] = refresh_token
-
-    # # Make sure FileShare stays up to date
-    # upload_renewed_token(token=token_info)
-
-    # return token_info
 
 
 # Build url to generate access code (cannot use requests to call)
