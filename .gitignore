@@ -13,3 +13,5 @@ _environ.json
 docker*
 Docker*
 entry*
+.travis.yml
+.env*
