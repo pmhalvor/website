@@ -149,81 +149,39 @@ def get_durations(id_list = '', token=None, store=True):
     with open(pth, 'rb') as f:
         durations = pickle.load(f)
 
-    # # check if current ids have already stored durations
-    # for i in durations.id:
-    #     try:
-    #         idx = id_list.index(i)
-    #         id_list.pop(idx)
-    #     except ValueError:
-    #         print("Need to find duration for id: ", i)
-    #         pass
-
     new_durations = pd.DataFrame({
-        'id':id_list,
-        # 'duration': 0
+        'id':list(set(id_list)),
     })
 
-    durations = durations.merge(new_durations, on="id", how="left")
+    durations = durations.merge(new_durations, on="id", how="outer")
 
+    missing_ids = list((durations[durations.duration.isna()]).id)
 
-
-    print(f'{len(id_list)} new ids to check')
-    if len(id_list) > 0:
-        # create new df 
-        new_durations = pd.DataFrame({
-            'id':id_list,
-            'duration': 0
-        })
-        
-        ids = new_durations.id[new_durations.duration<1]
-
-
+    print(f'{len(missing_ids)} new ids to check')
+    if len(missing_ids) > 0:
         if not token:
             token = get_token()
-        batches = (len(id_list)//MAX_ID_COUNT) + 1
-        print(f'Will be executing {batches} API call(s)')
 
-        # URL = "https://api.spotify.com/v1/tracks"    # api-endpoint for recently played  
-        # HEAD = {'Authorization': 'Bearer '+token}    # provide auth. crendtials
+        batches = (len(missing_ids)//MAX_ID_COUNT) + 1
+        print(f'Will be executing {batches} API call(s)')
 
         # batching the unstored indexes incase exceeds max
         for i in range(batches):
             print('Batch', i)
             if i==(batches-1):
-                batch_ids = ids[MAX_ID_COUNT*i:]  # last set of indices
+                batch_ids = missing_ids[MAX_ID_COUNT*i:]  # last set of indices
                 print("Checking indexes: {} -> {}".format(MAX_ID_COUNT*i, MAX_ID_COUNT*(i+1)) )
             else:
-                batch_ids = ids[MAX_ID_COUNT*i:MAX_ID_COUNT*(i+1)]  # forward indexing
+                batch_ids = missing_ids[MAX_ID_COUNT*i:MAX_ID_COUNT*(i+1)]  # forward indexing
                 print("Checking indexes: {} -> {}".format(MAX_ID_COUNT*i, MAX_ID_COUNT*(i+1)) )
 
             batch_id_str = ','.join(batch_ids)
 
-            # PARAMS = {'ids':b_ids}
-            tracks = None 
-
             tracks = get_tracks(token=token, batch_id_str=batch_id_str)
-            # can this be get_tracks?
-            # cnt = 0
-            # while tracks is None:
-            #     data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
-            #     try:
-            #         tracks = data['tracks']
-            #     except:
-            #         print('Bad response. Trying again...')
-            #         cnt += 1
-            #         if cnt > 20:
-            #             return {}
-            #         time.sleep(2)
 
-            batch_durations = []
-            
             if len(tracks) > 0:
                 for track in tracks:
-                    batch_durations.append(track['duration_ms'])
-            
-                batch_dur = pd.DataFrame({"duration": batch_durations}).set_index(batch_ids.index)
-                new_durations.update(batch_dur)
-
+                    durations.loc[durations.id == track["id"], "duration"] = float(track['duration_ms'])
 
             else:
                 print('No tracks in response')
@@ -236,15 +194,10 @@ def get_durations(id_list = '', token=None, store=True):
                 with open(os.path.join(dir_path, 'store', 'error_response.json'), 'w+') as f:
                     json.dump(data, f)
 
-            print(new_durations[new_durations.index.isin(batch_ids)])
-
         # this only gets stored again when new ids are added
         print(f'Storing at {pth}')
-        new_durations.to_pickle(pth)
+        durations.to_pickle(pth)
         print('Success!')
-
-        durations = new_durations.copy()
-
 
     return durations
 
