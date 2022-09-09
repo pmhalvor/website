@@ -159,7 +159,7 @@ def get_durations(id_list = '', token=None, store=True):
 
         if not token:
             token = get_token()
-        batches = (len(ids)//MAX_ID_COUNT) + 1
+        batches = (len(id_list)//MAX_ID_COUNT) + 1
         print(f'Will be executing {batches} API call(s)')
 
         URL = "https://api.spotify.com/v1/tracks"    # api-endpoint for recently played  
