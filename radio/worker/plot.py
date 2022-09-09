@@ -19,8 +19,6 @@ def artist_duration(n=37):
     df, mdf = load_df()
     df = select_month(df, 7)
 
-    # df = df[df["played_at"] > (datetime.today() - timedelta(30*n)).strftime("%Y-%m-%dZ%H:%M:%S.000Z")]
-
     durations = get_durations(list(set(df.id)))
     df = df.merge(durations, on='id', how='left')
 
@@ -33,7 +31,7 @@ def artist_duration(n=37):
 
     top_artists_ms = total_time_artist.tail(n)
 
-    top_artists = top_artists_ms//(1000*60)
+    top_artists = top_artists_ms//(1000*60)  # minutes:1000*60   hours:1000*60*60
 
     top_artists = pd.DataFrame(top_artists).reset_index()
     top_artists.columns=['artist', 'time']
