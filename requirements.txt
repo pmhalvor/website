@@ -8,3 +8,4 @@ django-mathfilters
 Pillow
 pandas==1.4.1
 plotly
+nbformat>=4.2.0
