@@ -68,7 +68,7 @@ def song_plays(n=37):
 
     df.index = ['Rank: '+str(n-i) for i in range(n)]
 
-    df.rename(columns={"play_count":"count", "name":"Track"})
+    df.rename(columns={"play_count":"count"}, inplace=True)
 
     #############HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH###################
 
@@ -76,9 +76,10 @@ def song_plays(n=37):
         y = 'name',
         x = 'minutes',
         labels = {
-            'artist':'Artist'
+            'artist':'Artist',
+            'name': 'Track',
         },
-        custom_data = ['artist'],
+        custom_data = ['artist', 'name'],
         color='count',
         hover_name = df.index,
         hover_data=['artist', 'name', 'count'],
