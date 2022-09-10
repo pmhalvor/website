@@ -8,7 +8,7 @@ import json
 import plotly.graph_objs as go
 import plotly.offline as opy
 
-from radio.models import History
+# from radio.models import History
 from .worker.authorize import get_token
 from .worker.plot import artist_duration, song_plays
 from .worker.parse import parse_recents, parse_current
@@ -59,8 +59,8 @@ def recents(request):
 
 def plots(request):
 	context = {}
-	context['plot_artists'] = artist_duration(History)
-	context['plot_songs'] = song_plays(History)
+	context['plot_artists'] = artist_duration() #(History)
+	context['plot_songs'] = song_plays() #(History)
 	return render(request, 'includes/plots.html', context)
 
 

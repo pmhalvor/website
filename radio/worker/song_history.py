@@ -4,6 +4,7 @@ except:
     from .authorize import get_token 
 from datetime import datetime
 import io, json, logging
+from urllib import response
 import pandas as pd 
 import requests as r
 import os 
@@ -121,11 +122,21 @@ def get_recents(token=None) -> dict:
     return {}
 
 
-def get_durations(ids = '', token=None, store=True) -> pd.DataFrame:
-    '''
-    API call with built-in cache reader to return
-        df (id, artist, duration) 
-    '''
+# Get list of tracks from ids
+def get_tracks(token=None, batch_id_str=None) -> dict:
+    tracks = {}
+
+    URL = "https://api.spotify.com/v1/tracks"    # api-endpoint for recently played  
+    HEAD = {'Authorization': 'Bearer '+token}    # provide auth. crendtials
+    PARAMS = {'ids': batch_id_str}
+
+    data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
+
+    if data.get("tracks") is not None:
+        tracks = data['tracks']
+
+    return tracks
+
 
 def get_durations(id_list = '', token=None, store=True):
     """
@@ -138,107 +149,61 @@ def get_durations(id_list = '', token=None, store=True):
     with open(pth, 'rb') as f:
         durations = pickle.load(f)
 
-    # check if current ids have already stored durations
-    for i in durations.id:
-        try:
-            idx = id_list.index(i)
-            id_list.pop(idx)
-        except:
-            pass
+    new_durations = pd.DataFrame({
+        'id':list(set(id_list)),
+    })
 
-    print(f'{len(id_list)} new ids to check')
-    if len(id_list) > 0:
-        # create new df 
-        new_durations = pd.DataFrame({
-            'id':id_list,
-            'duration': 0
-        })
-        
-        ids = new_durations.id[new_durations.duration<1]
+    durations = durations.merge(new_durations, on="id", how="outer")
 
+    missing_ids = list((durations[durations.duration.isna()]).id)
 
+    print(f'{len(missing_ids)} new ids to check')
+    if len(missing_ids) > 0:
         if not token:
             token = get_token()
-        batches = (len(ids)//MAX_ID_COUNT) + 1
-        print(f'Will be executing {batches} API call(s)')
 
-        URL = "https://api.spotify.com/v1/tracks"    # api-endpoint for recently played  
-        HEAD = {'Authorization': 'Bearer '+token}    # provide auth. crendtials
+        batches = (len(missing_ids)//MAX_ID_COUNT) + 1
+        print(f'Will be executing {batches} API call(s)')
 
         # batching the unstored indexes incase exceeds max
         for i in range(batches):
             print('Batch', i)
             if i==(batches-1):
-                batch_ids = ids[MAX_ID_COUNT*i:]  # last set of indices
+                batch_ids = missing_ids[MAX_ID_COUNT*i:]  # last set of indices
                 print("Checking indexes: {} -> {}".format(MAX_ID_COUNT*i, MAX_ID_COUNT*(i+1)) )
             else:
-                batch_ids = ids[MAX_ID_COUNT*i:MAX_ID_COUNT*(i+1)]  # forward indexing
+                batch_ids = missing_ids[MAX_ID_COUNT*i:MAX_ID_COUNT*(i+1)]  # forward indexing
                 print("Checking indexes: {} -> {}".format(MAX_ID_COUNT*i, MAX_ID_COUNT*(i+1)) )
 
-            b_ids = ','.join(batch_ids)
+            batch_id_str = ','.join(batch_ids)
 
-            PARAMS = {'ids':b_ids}
-            tracks = None 
-            cnt = 0
-            while tracks is None:
-                data = r.get(url=URL, headers=HEAD, params=PARAMS).json()
-                try:
-                    tracks = data['tracks']
-                except:
-                    print('Bad response. Trying again...')
-                    cnt += 1
-                    if cnt > 20:
-                        return {}
-                    time.sleep(2)
+            tracks = get_tracks(token=token, batch_id_str=batch_id_str)
 
-            batch_durations = []
-            
-            if data.get('tracks'):
-                for track in data['tracks']:
-                    batch_durations.append(track['duration_ms'])
-            
-                batch_dur = pd.DataFrame({"duration": batch_durations}).set_index(batch_ids.index)
-                new_durations.update(batch_dur)
-
+            if len(tracks) > 0:
+                for track in tracks:
+                    durations.loc[durations.id == track["id"], "duration"] = float(track['duration_ms'])
 
             else:
                 print('No tracks in response')
-                data["python_log"] = {
-                    "message": 'No tracks in response.',
-                    "input": {
-                        "URL": URL, 
-                        "header": HEAD, 
-                        "params": PARAMS
-                    },
-                    "batch_ids_to_str": str(batch_ids)
+                data = {
+                    "python_log": {
+                        "message": 'No tracks in response.',
+                        "batch_ids_str": batch_id_str
+                    }
                 }
                 with open(os.path.join(dir_path, 'store', 'error_response.json'), 'w+') as f:
                     json.dump(data, f)
 
-            print(new_durations[new_durations.index.isin(batch_ids)])
-
         # this only gets stored again when new ids are added
         print(f'Storing at {pth}')
-        new_durations.to_pickle(pth)
+        durations.to_pickle(pth)
         print('Success!')
 
-
-    return durations 
+    return durations
 
 #####################################
 
 ####   OTHER TOOLS    #####
-# bacthes, taken from https://code.activestate.com/recipes/303279-getting-items-in-batches/
-""" def batch(iterable, size):
-    '''
-    DEPRECATED
-    '''
-    sourceiter = iter(iterable)
-    while True:
-        batchiter = islice(sourceiter, size)
-        yield chain([batchiter.next()], batchiter)
- """
-
 # Run all steps from this file
 def run() -> bool:
     logging.info('Running song-history run() function.')

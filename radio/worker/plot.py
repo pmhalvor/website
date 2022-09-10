@@ -19,8 +19,6 @@ def artist_duration(n=37):
     df, mdf = load_df()
     df = select_month(df, 7)
 
-    # df = df[df["played_at"] > (datetime.today() - timedelta(30*n)).strftime("%Y-%m-%dZ%H:%M:%S.000Z")]
-
     durations = get_durations(list(set(df.id)))
     df = df.merge(durations, on='id', how='left')
 
@@ -33,7 +31,7 @@ def artist_duration(n=37):
 
     top_artists_ms = total_time_artist.tail(n)
 
-    top_artists = top_artists_ms//(1000*60)
+    top_artists = top_artists_ms//(1000*60)  # minutes:1000*60   hours:1000*60*60
 
     top_artists = pd.DataFrame(top_artists).reset_index()
     top_artists.columns=['artist', 'time']
@@ -56,52 +54,40 @@ def song_plays(n=37):
     df, mdf = load_df()
     df = select_month(df, 7)
 
-    name_artist = df.groupby(['track', 'artist', 'id'])  # TODO: maybe ids in front?
-    _counts = name_artist.size().reset_index(name='count')
-    sorted_counts = _counts.sort_values('count', ascending=True)
+    name_artist = df.groupby(['name', 'artist', 'id'])  # TODO: maybe ids in front?
+    _counts = name_artist.size().reset_index(name='play_count')
+    sorted_counts = _counts.sort_values('play_count', ascending=True)
     top_songs = sorted_counts.tail(n)
-
-
 
     # ############# this should all be inside a duration f #############
     durations = get_durations(top_songs.id.unique())
     df = top_songs.merge(durations, how='left', on='id')
 
-    df_artist_track = df.groupby(['artist', 'id'])
-    duration = df_artist_track['duration'].sum()
-    count = df_artist_track.size()
+    df["minutes"] = (df.play_count * df.duration)/(1000*60)  # mintues:1000*60   hours:1000*60*60
+    df.sort_values("minutes", ascending=True, inplace=True)
 
+    df.index = ['Rank: '+str(n-i) for i in range(n)]
 
-    total_time_artist = (count*duration).groupby('artist').sum()
-    total_time_artist.sort_values(ascending=True, inplace=True)
-
-    top_artists_ms = total_time_artist.tail(n) 
-    top_artists_ms.rename('%', inplace=True)
-    top_artists = 100*top_artists_ms/sum(top_artists_ms)
-    top_songs = top_songs.merge(top_artists, how='left', on='artist')
-    print(top_songs.head())
-    print('LOOK AT MY HEAD!!')
-    top_songs.index = ['Rank: '+str(n-i) for i in range(n)]
-
+    df.rename(columns={"play_count":"count"}, inplace=True)
 
     #############HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH###################
 
-    figure = top_songs.plot.barh(
-        y = 'track',
-        x = 'count',
+    figure = df.plot.barh(
+        y = 'name',
+        x = 'minutes',
         labels = {
-            'artist':'Artist'
+            'artist':'Artist',
+            'name': 'Track',
         },
-        custom_data = ['artist'],
-        color='%',
-        hover_name = top_songs.index,
-        hover_data=['artist', 'track'],
+        custom_data = ['artist', 'name'],
+        color='count',
+        hover_name = df.index,
+        hover_data=['artist', 'name', 'count'],
         template='plotly_dark'
     )
     figure.update_layout(
         showlegend=False
     )
-    print(figure)
     return to_html(figure)
 
 def select_month(df, months=6):
