@@ -226,6 +226,5 @@ def run() -> bool:
 
 
 if __name__=='__main__':
-    # run()
-    # update_history_db()
+    run()
     None
