@@ -27,7 +27,7 @@ def parse_recents(data = None) -> list:
 def parse_current(data = None) -> dict:
     content = {}
 
-    if data and (data.get("currently_playing_type") != "episode"):
+    if data and (data.get("currently_playing_type") == "track"):
         url 	 = data['item']['external_urls']['spotify']
         artwork  = data['item']['album']['images'][0]['url']
         track 	 = data['item']['name']
@@ -35,7 +35,7 @@ def parse_current(data = None) -> dict:
         duration = data['item']['duration_ms']
         progress = data['progress_ms'] #round(data['progress_ms']/duration*100, ndigits=1)
     
-    if data and (data.get("currently_playing_type") == "episode"):
+    elif data and (data.get("currently_playing_type") == "episode"):
         url	 = 'https://www.spotify.com' 
         artwork  = 'https://perhalvorsen.com/media/img/empty_album.png'
         track    = 'playing a podcast'
