@@ -16,10 +16,12 @@ ROOT = os.environ.get("ROOT")
 MAX_ID_COUNT=50
 
 ####### DATA WRANGLING #############
-def load_df() -> pd.DataFrame:
-    if os.path.exists(f'{ROOT}/data/history.csv'):
-        df = pd.read_csv(f'{ROOT}/data/history.csv')
-        print("loaded from", f'{ROOT}/data/history.csv')
+def load_df(root=None) -> pd.DataFrame:
+    if root is None:
+        root = ROOT
+    if os.path.exists(f'{root}/data/history.csv'):
+        df = pd.read_csv(f'{root}/data/history.csv')
+        print("loaded from", f'{root}/data/history.csv')
     else:
         df = pd.read_csv('~/data/history.csv')
         print("loaded from", '~/data/history.csv')

@@ -9,3 +9,5 @@ Pillow
 pandas==1.4.1
 plotly
 nbformat>=4.2.0
+requests==2.28.1
+matplotlib==3.5.3
