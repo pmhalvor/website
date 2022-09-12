@@ -15,3 +15,5 @@ Docker*
 entry*
 .travis.yml
 .env*
+
+*.code*
