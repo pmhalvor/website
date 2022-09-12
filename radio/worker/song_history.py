@@ -16,18 +16,31 @@ ROOT = os.environ.get("ROOT")
 MAX_ID_COUNT=50
 
 ####### DATA WRANGLING #############
-def load_df(root=None) -> pd.DataFrame:
+def load_df(root=None, cleaned=False, end=True) -> pd.DataFrame:
     if root is None:
         root = ROOT
-    if os.path.exists(f'{root}/data/history.csv'):
-        df = pd.read_csv(f'{root}/data/history.csv')
-        print("loaded from", f'{root}/data/history.csv')
-    else:
-        df = pd.read_csv('~/data/history.csv')
-        print("loaded from", '~/data/history.csv')
+    suffix = "_cleaned" if cleaned else ""
 
-    print("Max played at", max(df["played_at"]))
-    return df, max(df["played_at"])
+    if os.path.exists(f'{root}/data/history{suffix}.csv'):
+        df = pd.read_csv(f'{root}/data/history{suffix}.csv')
+        print("loaded from", f'{root}/data/history{suffix}.csv')
+    else:
+        df = pd.read_csv(f'~/data/history{suffix}.csv')
+        print("loaded from", f'~/data/history{suffix}.csv')
+    
+    max_played_at = max(df["played_at"])
+
+    # get cleaned if current df is dirty
+    if not end:
+        if ("<<<<<<" in max_played_at) or (">>>>>>>" in max(df["played_at"])) or ("=======" in max(df["played_at"])):
+            df, max_played_at = load_df(root, cleaned=True, end=True)  # break any recursivity
+    else:
+        print("Ending due to recursive call. Check that history_cleaned.csv really is clean... ")
+
+    print("Max played at", max_played_at)
+    return df, max_played_at
+
+
 
 # Convert json data to dataframe
 def json_to_df(data=None, latest=None) -> pd.DataFrame:
