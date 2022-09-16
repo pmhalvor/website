@@ -16,9 +16,10 @@ ROOT = os.environ.get("ROOT")
 MAX_ID_COUNT=50
 
 ####### DATA WRANGLING #############
-def load_df(root=None, cleaned=False, end=True) -> pd.DataFrame:
+def load_df(root=None, cleaned=False, end=False) -> pd.DataFrame:
     if root is None:
         root = ROOT
+
     suffix = "_cleaned" if cleaned else ""
 
     if os.path.exists(f'{root}/data/history{suffix}.csv'):
