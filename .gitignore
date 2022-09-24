@@ -17,3 +17,4 @@ entry*
 .env*
 
 *.code*
+*/.vscode
