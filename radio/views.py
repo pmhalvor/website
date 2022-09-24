@@ -81,3 +81,4 @@ def update(request, section='current'):
 
 	# return json.dumps(context)
 	return HttpResponse(json.dumps(context), content_type="application/json")
+	
