@@ -235,7 +235,7 @@ def get_features(id="", ids=[]):
         "Content-Type": "application/json"
     }     
 
-    content = requests.get(url=URL, headers=HEAD, params={"ids":",".join(ids)})
+    content = r.get(url=URL, headers=HEAD, params={"ids":",".join(ids)})
     if content.status_code == 200:
         return content.json().get("audio_features")
     else:
@@ -249,6 +249,8 @@ def build_features_df(df, max_ids = 100):
 
     Maximum 100 IDs per call
     """
+    feature_columns = ['danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo', 'type', 'id', 'uri', 'track_href', 'analysis_url', 'duration_ms', 'time_signature']
+
     features_df = pd.DataFrame(columns=feature_columns).set_index("id")
 
     ids = list(df.id.unique())
