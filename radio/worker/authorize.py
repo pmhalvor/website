@@ -35,14 +35,16 @@ def get_cache_token(name=".data") -> dict:
     """
         
     path = f'{ROOT}/{name}' if os.path.exists(f'{ROOT}/{name}') else f'~/{name}'
-    with open(path, 'r') as f:
-        data = json.load(f)
-        payload = {
-            "refresh_token": data["refresh_token"],
-            "timestamp": data["timestamp"],
-            "token": data["token"],
-        }
-
+    if os.path.exists(path):
+        with open(path, 'r') as f:
+            data = json.load(f)
+            payload = {
+                "refresh_token": data["refresh_token"],
+                "timestamp": data["timestamp"],
+                "token": data["token"],
+            }
+    else:
+        payload = {"status_code": 404}
     return payload      
     
 

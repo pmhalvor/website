@@ -1,6 +1,7 @@
 /siteenv
 
 */.data
+*/.infotrac
 
 config.py
 
