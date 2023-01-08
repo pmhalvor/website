@@ -39,7 +39,7 @@ def get_cache_token(name=".data") -> dict:
         with open(path, 'r') as f:
             data = json.load(f)
             payload = {
-                "refresh_token": data["refresh_token"],
+                "refresh_token": data.get("refresh_token", data.get("access_token")),
                 "timestamp": data["timestamp"],
                 "token": data["token"],
             }
@@ -110,9 +110,10 @@ def refresh_access_token(refresh_token, name=".data") -> dict:
 
 
 # Make header for token request
-def make_headers() -> dict:
-    client_id = SPOTIFY_CLIENT_ID         # Spotify cliient id stored as local env. var.
-    client_secret = SPOTIFY_CLIENT_SECRET # Spotify client secret stored as local env. var.
+def make_headers(
+    client_id = SPOTIFY_CLIENT_ID,         # Spotify cliient id stored as local env. var.
+    client_secret = SPOTIFY_CLIENT_SECRET  # Spotify client secret stored as local env. var.
+) -> dict:
 
     # base64 encoded string
     client = base64.b64encode(
@@ -170,6 +171,55 @@ def get_token_first_time(code) -> dict:
     print(token_info)
 
     return token_info
+
+
+# Simpler login method built for .infotrac
+def get_client_token(client_id=SPOTIFY_CLIENT_ID, client_secret=SPOTIFY_CLIENT_SECRET) -> dict:
+    '''
+    Steps:
+        X set correct payload (refresh_token) 
+        X set correct header  (client id and secret)
+        X post request 
+        X convert response to json
+        X update token_info in FileShare cache  
+        X return token info
+    '''
+    # parameters for post request
+    OAUTH_TOKEN_URL = "https://accounts.spotify.com/api/token"
+    PAYLOAD = {
+        'grant_type': 'client_credentials',
+        'redirect_uri': 'https://localhost:8888/callback',
+    }
+    HEADERS = make_headers(client_id, client_secret)
+    
+    # post request
+    response = requests.post(
+        url=OAUTH_TOKEN_URL,
+        data=PAYLOAD,
+        headers=HEADERS,
+    )
+
+    if response.status_code == 200:
+        token_info = transform(response)
+    else: 
+        token_info = response
+
+    return token_info
+
+
+# transform response from client_credentials call
+def transform(response):
+    data = response.json()
+
+    access_token = data.get("access_token")
+    timestamp = int(time.time())
+    expires = timestamp + data.get("expires_in")
+
+    return {
+        "access_token": access_token, 
+        "timestamp": timestamp, 
+        "expires": expires
+    }
 
 
 # Build url to generate access code (cannot use requests to call)
