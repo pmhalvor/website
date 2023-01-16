@@ -12,9 +12,6 @@ var = json.load(f)
 
 f.close()
 
-
-
 os.environ.update(**var)
 
 print('environment loaded:\n', var) if VERBOSE else None
-
