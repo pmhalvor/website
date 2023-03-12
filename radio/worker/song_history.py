@@ -1,7 +1,9 @@
 try:  # try/except to handle both local debugging and cloud running (maybe clean up?)
     from authorize import get_token 
+    from authorize import get_client_token 
 except:
     from .authorize import get_token 
+    from .authorize import get_client_token 
 from datetime import datetime
 import io, json, logging
 from urllib import response
@@ -216,6 +218,64 @@ def get_durations(id_list = '', token=None, store=True):
         print('Success!')
 
     return durations
+
+
+# audio features from Spotify API
+def get_features(id="", ids=[]):
+    token = get_client_token()
+
+    if id != "":
+        ids.append(id)
+    if ids != []:
+        pass # FIXME do we need anything here?
+
+    URL = "https://api.spotify.com/v1/audio-features"  # api-endpoint for audio features
+    HEAD = {
+        "Authorization": "Bearer " + token.get("access_token"),  # provide auth. crendtials
+        "Content-Type": "application/json"
+    }     
+
+    content = r.get(url=URL, headers=HEAD, params={"ids":",".join(ids)})
+    if content.status_code == 200:
+        return content.json().get("audio_features")
+    else:
+        return {}
+
+
+# !!! HEAVY OPERATION !!! builds features df from scratch 
+def build_features_df(df, max_ids = 100):
+    """
+    https://developer.spotify.com/documentation/web-api/reference/#/operations/get-several-audio-features
+
+    Maximum 100 IDs per call
+    """
+    feature_columns = ['danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo', 'type', 'id', 'uri', 'track_href', 'analysis_url', 'duration_ms', 'time_signature']
+
+    features_df = pd.DataFrame(columns=feature_columns).set_index("id")
+
+    ids = list(df.id.unique())
+
+    num_api_calls = len(ids) // max_ids + 1
+
+    start = 0
+    for stop in range(1, num_api_calls):
+        # iterates up to last start < (len(ids) - max_ids)
+        ids_to_request = ids[start:stop*max_ids]
+
+        # api call 
+        features = get_features(ids=ids_to_request)
+
+        features_df = features_df.merge(pd.DataFrame(features).set_index("id"), how="outer")
+
+        start = stop*max_ids
+
+    # last batch of ids
+    ids_to_request = ids[start:]
+    features = get_features(ids=ids_to_request)
+    features_df = features_df.merge(pd.DataFrame(features).set_index("id"), how="outer")
+
+    return features_df
+    
 
 #####################################
 

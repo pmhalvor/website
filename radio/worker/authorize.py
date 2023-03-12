@@ -4,11 +4,11 @@ import base64, logging, io, json, os, requests, six, time
 SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')         # Spotify client id stored as local env. var.
 SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET') # Spotify client secret stored as local env. var.
 AZURE_STORAGE = os.environ.get('AZURE_STORAGE')                 # Connection string stored as local env. var.
-ROOT = os.environ.get('ROOT')   # because local paths change between machines
+ROOT = os.environ.get('ROOT', os.getcwd())   # because local paths change between machines
 
 
 # Authorization for Spotify
-def get_token() -> str:
+def get_token(name=".data") -> str:
     '''
     Steps:
         X get token from local file ".data"
@@ -18,31 +18,33 @@ def get_token() -> str:
                 X update .data with new tokens  
         X return access token
     '''
-    cache_token = get_cache_token()
+    cache_token = get_cache_token(name)
 
     if is_token_expired(cache_token):
-        cache_token = refresh_access_token(cache_token['refresh_token'])
+        cache_token = refresh_access_token(cache_token['refresh_token'], name)
 
     return cache_token['token']
 
 
 # Read cached token from FileShare
-def get_cache_token() -> dict:
+def get_cache_token(name=".data") -> dict:
     """
     Steps:
         X load local data
         X return payload
     """
         
-    path = f'{ROOT}/.data' if os.path.exists(f'{ROOT}/.data') else '~/.data'
-    with open(path, 'r') as f:
-        data = json.load(f)
-        payload = {
-            "refresh_token": data["refresh_token"],
-            "timestamp": data["timestamp"],
-            "token": data["token"],
-        }
-
+    path = f'{ROOT}/{name}' if os.path.exists(f'{ROOT}/{name}') else f'~/{name}'
+    if os.path.exists(path):
+        with open(path, 'r') as f:
+            data = json.load(f)
+            payload = {
+                "refresh_token": data.get("refresh_token", data.get("access_token")),
+                "timestamp": data["timestamp"],
+                "token": data["token"],
+            }
+    else:
+        payload = {"status_code": 404}
     return payload      
     
 
@@ -67,7 +69,7 @@ def is_token_expired(token_info) -> bool:
 
 
 # Refresh token from cache
-def refresh_access_token(refresh_token) -> dict:
+def refresh_access_token(refresh_token, name=".data") -> dict:
     '''
     Steps:
         X set correct payload (refresh_token) 
@@ -102,15 +104,16 @@ def refresh_access_token(refresh_token) -> dict:
     }
 
     # store tokens for later
-    store_renewed_token(payload)
+    store_renewed_token(payload, name)
 
     return payload
 
 
 # Make header for token request
-def make_headers() -> dict:
-    client_id = SPOTIFY_CLIENT_ID         # Spotify cliient id stored as local env. var.
-    client_secret = SPOTIFY_CLIENT_SECRET # Spotify client secret stored as local env. var.
+def make_headers(
+    client_id = SPOTIFY_CLIENT_ID,         # Spotify cliient id stored as local env. var.
+    client_secret = SPOTIFY_CLIENT_SECRET  # Spotify client secret stored as local env. var.
+) -> dict:
 
     # base64 encoded string
     client = base64.b64encode(
@@ -120,12 +123,12 @@ def make_headers() -> dict:
 
 
 # Store the renewed token locally 
-def store_renewed_token(token_info):
-    if os.path.exists(f'{ROOT}/.data'):
-        with open(f'{ROOT}/.data', 'w') as f:
+def store_renewed_token(token_info, name=".data"):
+    if os.path.exists(f'{ROOT}/{name}'):
+        with open(f'{ROOT}/{name}', 'w') as f:
             json.dump(token_info, f, indent=4)
     else:
-        with open('~/.data', 'w') as f:
+        with open(f'~/{name}', 'w') as f:
             json.dump(token_info, f, indent=4)
     return True
 
@@ -168,6 +171,55 @@ def get_token_first_time(code) -> dict:
     print(token_info)
 
     return token_info
+
+
+# Simpler login method built for .infotrac
+def get_client_token(client_id=SPOTIFY_CLIENT_ID, client_secret=SPOTIFY_CLIENT_SECRET) -> dict:
+    '''
+    Steps:
+        X set correct payload (refresh_token) 
+        X set correct header  (client id and secret)
+        X post request 
+        X convert response to json
+        X update token_info in FileShare cache  
+        X return token info
+    '''
+    # parameters for post request
+    OAUTH_TOKEN_URL = "https://accounts.spotify.com/api/token"
+    PAYLOAD = {
+        'grant_type': 'client_credentials',
+        'redirect_uri': 'https://localhost:8888/callback',
+    }
+    HEADERS = make_headers(client_id, client_secret)
+    
+    # post request
+    response = requests.post(
+        url=OAUTH_TOKEN_URL,
+        data=PAYLOAD,
+        headers=HEADERS,
+    )
+
+    if response.status_code == 200:
+        token_info = transform(response)
+    else: 
+        token_info = response
+
+    return token_info
+
+
+# transform response from client_credentials call
+def transform(response):
+    data = response.json()
+
+    access_token = data.get("access_token")
+    timestamp = int(time.time())
+    expires = timestamp + data.get("expires_in")
+
+    return {
+        "access_token": access_token, 
+        "timestamp": timestamp, 
+        "expires": expires
+    }
 
 
 # Build url to generate access code (cannot use requests to call)
