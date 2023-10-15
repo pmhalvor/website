@@ -27,3 +27,41 @@ projects I've taken part in.
 If there are any malfunctions on your end, 
 send me an email or pull request, and I'll work on
 fixing it.
+
+
+# Useful commands when developing
+
+### Add entry to database
+
+First, nagivate to the folder, activate the environment, and open a python shell in the project:
+```sh
+cd /path/to/site
+source siteenv/bin/activate
+python manage.py shell
+```
+
+Then, import the model you want to add new entry for, along with the interactive-adder tool.
+Models and their fields can be found at [home/model.py](home/models.py).
+
+```python
+from home.models import Notes
+from tools.table import interactive_add, to_dt
+
+interactive_add(Notes)
+
+>>> title: My New Note
+>>> descr: Small description of content
+>>> file_loc: path/to/this/note.md
+>>> img_loc: path/to/note/image.png
+>>> pub_date: to_dt(year=2023, month=7, day=3)
+>>> Added: {...}
+``` 
+
+
+### Restart server 
+
+if you make any changes to `settings.py` or other places in the project that aren't showing up right away,
+ you may need to restart the server. This is easily done with:
+```sh
+source restart.sh
+```
