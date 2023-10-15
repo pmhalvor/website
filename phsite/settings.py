@@ -1,3 +1,4 @@
+
 """
 Django settings for phsite project.
 
@@ -15,8 +16,10 @@ import os
 
 DJANGO_SECRET = os.environ.get('DJANGO_SECRET')
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
-if DJANGO_SECRET is None or POSTGRES_PASSWORD is None:
-    assert False
+
+# check that values are not None
+assert DJANGO_SECRET 
+assert POSTGRES_PASSWORD
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
