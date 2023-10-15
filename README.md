@@ -9,6 +9,8 @@ Otherwise, take a peek at the previous releases of the site, to see what
 
 
 Changelog:
+- 2.1.0: Updated server to Ubuntu 4.23 and ensure environment vars present
+- 2.0.0: Migrated off of Azure. Everything is now soley hosted on Digial Ocean server
 - 1.1.4: current, recents, and plots loaded seperately from `/radio`, allowing for smoother user experience
 - 1.1.3: Radio branch now serving data locally for fewer server timeouts on page refresh
 - 1.1.2: Radio branch now has plots showing data from Azure storage
