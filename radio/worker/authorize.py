@@ -3,12 +3,10 @@ import base64, logging, io, json, os, requests, six, time
 # import environment variables
 SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')         # Spotify client id stored as local env. var.
 SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET') # Spotify client secret stored as local env. var.
-#AZURE_STORAGE = os.environ.get('AZURE_STORAGE')                 # Connection string stored as local env. var.
 ROOT = os.environ.get('ROOT')   # because local paths change between machines
 
 assert SPOTIFY_CLIENT_ID
 assert SPOTIFY_CLIENT_SECRET
-#assert AZURE_STORAGE
 assert ROOT
 
 # Authorization for Spotify
