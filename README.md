@@ -31,7 +31,18 @@ fixing it.
 
 # Useful commands when developing
 
-### Add entry to database
+## Restart server 
+
+if you make any changes to `settings.py` or other places in the project that aren't showing up right away (i.e. radio plots, css formatting, html templates),
+ you may need to restart the server. This is easily done with:
+```sh
+source restart.sh
+```
+
+## Changes to the database 
+The database serves data to various pages on the site, from the CV items, to notes and updates. 
+You can add changes through the Django GUI at https://perhalvorsen.com/admin, or via command line. 
+These next few tips will show how to execute these changes through a Python shell in the command line. 
 
 First, nagivate to the folder, activate the environment, and open a python shell in the project:
 ```sh
@@ -40,7 +51,9 @@ source siteenv/bin/activate
 python manage.py shell
 ```
 
-Then, import the model you want to add new entry for, along with the interactive-adder tool.
+### Add entry to database
+
+To add a new entry, import the model you want to add the entry for, along with the interactive-adder tool.
 Models and their fields can be found at [home/model.py](home/models.py).
 
 ```python
@@ -51,17 +64,32 @@ interactive_add(Notes)
 
 >>> title: My New Note
 >>> descr: Small description of content
->>> file_loc: path/to/this/note.md
+>>> file_loc: /path/to/this/note.md
 >>> img_loc: path/to/note/image.png
->>> pub_date: to_dt(year=2023, month=7, day=3)
+>>> pub_date: 2023-07-03
 >>> Added: {...}
 ``` 
 
+### Update entry in database
+To update an item currently present in the database, you'll again need to import the desired model.
+You will also need to know the unique field identifier for that item, usually `title` or `main`.
 
-### Restart server 
-
-if you make any changes to `settings.py` or other places in the project that aren't showing up right away,
- you may need to restart the server. This is easily done with:
-```sh
-source restart.sh
+Building off the previous exmaple, we would get something like:
 ```
+from home.models import Notes
+
+new_note = Notes.objects.get(title="My New Note")
+
+print(new_note.file_loc)
+new_note.file_loc = "/new/path/to/note.md"
+print(new_note.file_loc)
+
+new_note.save()
+
+>>> '/path/to/this/note.md'
+>>> '/new/path/to/note.md'
+```
+
+
+If you want to see all the items listed for that model, run `Notes.objects.get_queryset()`. 
+
