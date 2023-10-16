@@ -4,6 +4,7 @@ from home.models import Cv, Update, Notes, Code
 from django.utils import timezone
 from django import template
 from datetime import timedelta
+from django.shortcuts import redirect
 
 register = template.Library()
 
@@ -36,7 +37,6 @@ class CvView(generic.ListView):
         return lang_list
 
 
-
 class UpdateView(generic.ListView):
     template_name = 'home/index.html'
     model = Update
@@ -45,6 +45,7 @@ class UpdateView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context['update_list'] = Update.objects.all().order_by('-pub_date')[:7] # most recent 7
         return context
+
 
 class NotesView(generic.ListView):
     template_name = 'home/notes.html'
@@ -77,18 +78,6 @@ def notes(request):
 
 def visuals(request):
     return render(request, 'home/visuals.html')
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
