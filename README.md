@@ -75,7 +75,7 @@ To update an item currently present in the database, you'll again need to import
 You will also need to know the unique field identifier for that item, usually `title` or `main`.
 
 Building off the previous exmaple, we would get something like:
-```
+```python
 from home.models import Notes
 
 new_note = Notes.objects.get(title="My New Note")
