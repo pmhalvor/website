@@ -18,6 +18,29 @@
 				<h3 class="cv3">Currently studying Data Science (MSc) </br> at the University of Oslo with a focus on Natural Language Processing</h3>
 				<h3 class="cv3">Previously studied Math with Informatics (BSc) </br> at the University of Oslo with a focus on Data Science</h3>
 				
+
+				<div class="sectioncv">
+					<h2 style="color:#b3d9e5">Work</h2>
+					{% for item in work_list %}
+						<p class="JobTitle">{{ item.main }}</p>
+						<p class="explain">{{ item.loc }}</br>
+							<em>{{ item.sub }}</em><br/>
+							{{ item.start|date:"M Y"}} - {{ item.stop|date:"M Y"}} <br/>
+						</p>
+					{% endfor %}
+				</div>
+						
+				<div class="sectioncv">
+					<h2 style="color:#b3d9e5">Education</h2>
+					{% for item in edu_list %}
+						<p class="JobTitle">{{ item.main }}</p>
+						<p class="explain">{{ item.loc }}</br>
+							<em>{{ item.sub }}</em><br/>
+							{{ item.start|date:"M Y" }} - {{ item.stop|date:"M Y" }} <br/>
+						</p>
+					{% endfor %}
+				</div>
+
 				<div class="sectioncv">
 					<h2 style="color:#b3d9e5">Languages</h2>
 					{% for item in lang_list %}
@@ -31,28 +54,6 @@
 					{% endfor %}
 				</div>
 
-				<div class="sectioncv">
-					<h2 style="color:#b3d9e5">Education</h2>
-					{% for item in edu_list %}
-						<p class="JobTitle">{{ item.main }}</p>
-						<p class="explain">{{ item.loc }}</br>
-							<em>{{ item.sub }}</em><br/>
-							{{ item.start|date:"M Y" }} - {{ item.stop|date:"M Y" }} <br/>
-						</p>
-					{% endfor %}
-				</div>
-
-				<div class="sectioncv">
-					<h2 style="color:#b3d9e5">Work</h2>
-					{% for item in work_list %}
-						<p class="JobTitle">{{ item.main }}</p>
-						<p class="explain">{{ item.loc }}</br>
-							<em>{{ item.sub }}</em><br/>
-							{{ item.start|date:"M Y"}} - {{ item.stop|date:"M Y"}} <br/>
-						</p>
-					{% endfor %}
-				</div>
-						
 			</div>
 
 			{% include "includes/footer.html" %}
