@@ -6,6 +6,11 @@ config.json
 
 _environ.json
 
+durations.csv
+duration_df.pkl
+
+
+
 */__pycache__
 
 *.pyc 
