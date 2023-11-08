@@ -14,5 +14,5 @@ urlpatterns=[
     #.com/home/notes
     path('notes/', views.NotesView.as_view(), name='notes'),
     #.com/home/visuals
-    path('visuals/', views.visuals, name='visuals'),
+    path('prompts/', views.prompts, name='prompts'),
 ]

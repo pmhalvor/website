@@ -76,8 +76,8 @@ def code(request):
 def notes(request):
     return render(request, 'home/notes.html')
 
-def visuals(request):
-    return render(request, 'home/visuals.html')
+def prompts(request):
+    return render(request, 'home/prompts.html')
 
 
 
