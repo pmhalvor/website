@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
+from django.views.decorators.cache import never_cache
 from home.models import Cv, Update, Notes, Code
 from django.utils import timezone
 from django import template
@@ -76,6 +77,7 @@ def code(request):
 def notes(request):
     return render(request, 'home/notes.html')
 
+@never_cache
 def prompts(request):
     return render(request, 'home/prompts.html')
 
