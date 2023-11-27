@@ -9245,7 +9245,7 @@ Our dataset is not initially imbalanced, but our unstratified train-test-split c
 <p>The grid search plots help us get an idea of the variations of model performance when using different parameters.
 It seems like we were getting close to the optimal values for the Random Forest and SVM models, but not the KNN model.
 The KNN model also refit within less than a second, telling us that the dataset may be too small to train a good KNN model, or there might be some bug in our implementation.</p>
-<p>After fine-tuning, the Random Forest and the SVM models were almost neck-and-neck on F1 and accuracy scores, with Random FOrest having the slight edge.
+<p>After fine-tuning, the Random Forest and the SVM models were almost neck-and-neck on F1 and accuracy scores, with Random Forest having the slight edge.
 This jump in performance on the evaluation set tells us that our fine-tuning was successful, and that we did not overfit the model to the test set.
 The KNN model performed better on the evaluation set than it did during the grid search, but still much worse than our other two classifiers.</p>
 <h2 id="Training-time">Training time<a class="anchor-link" href="#Training-time">¶</a></h2><p>Our fastest model by far is the KNN model, with a training time of barely a second.
