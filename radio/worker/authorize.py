@@ -5,6 +5,7 @@ SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')         # Spotify client
 SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET') # Spotify client secret stored as local env. var.
 SPOTIFY_REDIRECT_URI = os.environ.get('SPOTIFY_REDIRECT_URI', "https://localhost:8888/callback")  #  Redirect uri stored as local env. var.
 ROOT = os.environ.get('ROOT')   # because local paths change between machines
+VERBOSE = False
 
 assert SPOTIFY_CLIENT_ID
 assert SPOTIFY_CLIENT_SECRET
@@ -49,7 +50,7 @@ def get_cache_token() -> dict:
     if os.path.exists(f'{ROOT}/.data'):
         with open(path, 'r') as f:
             data = json.load(f)
-            print(f"Loaded cache_token data: \n {data}")
+            print(f"Loaded cache_token data: \n {data}") if VERBOSE else None
     else:
         data = {}
     return data      
@@ -67,7 +68,7 @@ def is_token_expired(token_info) -> bool:
     now = int(time.time())
 
     time_difference = now - int(token_info.get("timestamp", 0))
-    print(f"Time difference: {time_difference}")
+    print(f"Time difference: {time_difference}") if VERBOSE else None
     expired = time_difference > 3600
 
     if token_info.get("token") in (None, "null"):
@@ -103,7 +104,7 @@ def refresh_access_token(refresh_token) -> dict:
     )
     token_info = response.json()
 
-    print(f"Returned token info: \n {token_info}")
+    print(f"Returned token info: \n {token_info}") if VERBOSE else None
 
     payload = {
         "refresh_token": token_info.get("refresh_token", refresh_token),
@@ -162,7 +163,9 @@ def get_token_first_time(code) -> dict:
         data: {PAYLOAD}
         header: {HEADERS}
         """
-    )
+    ) if VERBOSE else None
+
+
     # post request
     response = requests.post(
         url=OAUTH_TOKEN_URL,
@@ -171,7 +174,7 @@ def get_token_first_time(code) -> dict:
     )
     token_info = response.json()
 
-    print(token_info)
+    print(token_info) if VERBOSE else None
 
     return token_info
 
