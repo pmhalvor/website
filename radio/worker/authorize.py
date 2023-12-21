@@ -25,9 +25,9 @@ def get_token(code = None) -> str:
     '''
     cache_token = get_cache_token()
 
-    if cache_token.get("access_token"): 
+    if cache_token.get("access_token", cache_token.get("token")): 
         if is_token_expired(cache_token):
-            cache_token = refresh_access_token(cache_token['refresh_token'])
+            cache_token = refresh_access_token(cache_token.get('refresh_token'))
     elif code:
         cache_token = get_token_first_time(code)
         store_renewed_token(cache_token)
@@ -71,7 +71,7 @@ def is_token_expired(token_info) -> bool:
     print(f"Time difference: {time_difference}") if VERBOSE else None
     expired = time_difference > 3600
 
-    if token_info.get("token") in (None, "null"):
+    if token_info.get("access_token", token_info.get("token")) in (None, "null"):
         expired = True
 
     return expired
@@ -108,7 +108,7 @@ def refresh_access_token(refresh_token) -> dict:
 
     payload = {
         "refresh_token": token_info.get("refresh_token", refresh_token),
-        "token": token_info.get("access_token"),
+        "access_token": token_info.get("access_token"),
         "timestamp": int(time.time())
     }
 
