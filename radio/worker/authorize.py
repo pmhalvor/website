@@ -180,7 +180,7 @@ def get_token_first_time(code) -> dict:
 
 
 # Build url to generate access code (cannot use requests to call)
-def login_to_authorize():
+def login_to_authorize(scopes=['user-read-currently-playing', 'user-read-recently-played']):
     """
     Can not call requests to get access code.
     """
@@ -189,7 +189,7 @@ def login_to_authorize():
     OAUTH_TOKEN_URL = "https://accounts.spotify.com/authorize"
     PAYLOAD = {
         'client_id': SPOTIFY_CLIENT_ID,
-        'scope': 'user-read-currently-playing',
+        'scope': ",".join(scopes),
         'redirect_uri': SPOTIFY_REDIRECT_URI,
         'state': 1337,
         'response_type': 'code'
@@ -216,7 +216,7 @@ def get_code_from_url(url):
     """
     Get code from url
     """
-    code = url.split("code=")[1].split("&state")[0]
+    code = url.split("code=")[1].split("&")[0]
     return code
 
 
