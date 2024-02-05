@@ -1,16 +1,19 @@
-import base64, logging, io, json, os, requests, six, time
+import base64, json, os, requests, six, time
 
 # import environment variables
 SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')         # Spotify client id stored as local env. var.
 SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET') # Spotify client secret stored as local env. var.
+SPOTIFY_REDIRECT_URI = os.environ.get('SPOTIFY_REDIRECT_URI', "https://localhost:8888/callback")  #  Redirect uri stored as local env. var.
 ROOT = os.environ.get('ROOT')   # because local paths change between machines
+VERBOSE = False
 
 assert SPOTIFY_CLIENT_ID
 assert SPOTIFY_CLIENT_SECRET
 assert ROOT
 
+
 # Authorization for Spotify
-def get_token() -> str:
+def get_token(code = None) -> str:
     '''
     Steps:
         X get token from local file ".data"
@@ -22,10 +25,17 @@ def get_token() -> str:
     '''
     cache_token = get_cache_token()
 
-    if is_token_expired(cache_token):
-        cache_token = refresh_access_token(cache_token['refresh_token'])
+    if cache_token.get("access_token", cache_token.get("token")): 
+        if is_token_expired(cache_token):
+            cache_token = refresh_access_token(cache_token.get('refresh_token'))
+    elif code:
+        cache_token = get_token_first_time(code)
+        store_renewed_token(cache_token)
+    else:
+        login_to_authorize()
+        return None
 
-    return cache_token['token']
+    return cache_token.get("access_token", cache_token.get("token"))  # keep default return value as before to not break prod code
 
 
 # Read cached token from FileShare
@@ -33,19 +43,17 @@ def get_cache_token() -> dict:
     """
     Steps:
         X load local data
-        X return payload
+        X return data as dict
     """
         
-    path = f'{ROOT}/.data' if os.path.exists(f'{ROOT}/.data') else '~/.data'
-    with open(path, 'r') as f:
-        data = json.load(f)
-        payload = {
-            "refresh_token": data["refresh_token"],
-            "timestamp": data["timestamp"],
-            "token": data["token"],
-        }
-
-    return payload      
+    path = f'{ROOT}/.data' 
+    if os.path.exists(f'{ROOT}/.data'):
+        with open(path, 'r') as f:
+            data = json.load(f)
+            print(f"Loaded cache_token data: \n {data}") if VERBOSE else None
+    else:
+        data = {}
+    return data      
     
 
 # Check if cached token is still valid 
@@ -59,14 +67,11 @@ def is_token_expired(token_info) -> bool:
     """
     now = int(time.time())
 
-    try:
-        time_difference = now - int(token_info["timestamp"])
-        print(f"Time difference: {time_difference}")
-        expired = time_difference > 3600
-    except:
-        expired = True  # TODO: clean this up
+    time_difference = now - int(token_info.get("timestamp", 0))
+    print(f"Time difference: {time_difference}") if VERBOSE else None
+    expired = time_difference > 3600
 
-    if token_info.get("token") in (None, "null"):
+    if token_info.get("access_token", token_info.get("token")) in (None, "null"):
         expired = True
 
     return expired
@@ -99,11 +104,11 @@ def refresh_access_token(refresh_token) -> dict:
     )
     token_info = response.json()
 
-    print(f"Returned token info: \n {token_info}")
+    print(f"Returned token info: \n {token_info}") if VERBOSE else None
 
     payload = {
         "refresh_token": token_info.get("refresh_token", refresh_token),
-        "token": token_info.get("access_token"),
+        "access_token": token_info.get("access_token"),
         "timestamp": int(time.time())
     }
 
@@ -127,12 +132,8 @@ def make_headers() -> dict:
 
 # Store the renewed token locally 
 def store_renewed_token(token_info):
-    if os.path.exists(f'{ROOT}/.data'):
-        with open(f'{ROOT}/.data', 'w') as f:
-            json.dump(token_info, f, indent=4)
-    else:
-        with open('~/.data', 'w') as f:
-            json.dump(token_info, f, indent=4)
+    with open(f'{ROOT}/.data', 'w+') as f:
+        json.dump(token_info, f, indent=4)
     return True
 
 
@@ -151,7 +152,7 @@ def get_token_first_time(code) -> dict:
     OAUTH_TOKEN_URL = "https://accounts.spotify.com/api/token"
     PAYLOAD = {
         'grant_type': 'authorization_code',
-        'redirect_uri': 'https://localhost:8888/callback',
+        'redirect_uri': SPOTIFY_REDIRECT_URI,
         'code': code,
     }
     HEADERS = make_headers()
@@ -162,7 +163,9 @@ def get_token_first_time(code) -> dict:
         data: {PAYLOAD}
         header: {HEADERS}
         """
-    )
+    ) if VERBOSE else None
+
+
     # post request
     response = requests.post(
         url=OAUTH_TOKEN_URL,
@@ -171,13 +174,13 @@ def get_token_first_time(code) -> dict:
     )
     token_info = response.json()
 
-    print(token_info)
+    print(token_info) if VERBOSE else None
 
     return token_info
 
 
 # Build url to generate access code (cannot use requests to call)
-def get_code():
+def login_to_authorize(scopes=['user-read-currently-playing', 'user-read-recently-played']):
     """
     Can not call requests to get access code.
     """
@@ -185,25 +188,36 @@ def get_code():
     # parameters for post request
     OAUTH_TOKEN_URL = "https://accounts.spotify.com/authorize"
     PAYLOAD = {
-        'client_id': '9656ff22d7604d078e98e54a1870b92d',
-        'scope': 'user-read-currently-playing',
-        'redirect_uri': 'https://localhost:8888/callback',
-        'state': 1111000011110000,
+        'client_id': SPOTIFY_CLIENT_ID,
+        'scope': ",".join(scopes),
+        'redirect_uri': SPOTIFY_REDIRECT_URI,
+        'state': 1337,
         'response_type': 'code'
     }
-    HEADERS = make_headers()
     
-    # post request
-    response = requests.post(
+    # get request to authoirize urtl
+    response = requests.get(
         url=OAUTH_TOKEN_URL,
-        data=PAYLOAD,
-        # headers=HEADERS
+        params=PAYLOAD,
     )
-    token_info = response.json()
 
-    print(token_info)
+    if response.status_code != 200:
+        raise Exception(response.status_code, response.text)
+    
+    print("You need to log in using this url: ")
+    print(response.url)
+    
+    print("After logging in, you will be redirected to a url that looks like this: ")
+    print("https://localhost:8888/callback?code=<SOME_LONG_HASH_CODE>&state=1337")
+    print("Copy the url and feed it into the get_code_from_url function to get the code.")
 
-    return token_info
+
+def get_code_from_url(url):
+    """
+    Get code from url
+    """
+    code = url.split("code=")[1].split("&")[0]
+    return code
 
 
 if __name__ == '__main__':
