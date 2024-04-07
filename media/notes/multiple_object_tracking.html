@@ -7517,46 +7517,46 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Multiple-object-tracking">Multiple object tracking<a class="anchor-link" href="#Multiple-object-tracking">¶</a></h1><p>2024-04-07 <br/>
-<a href="perhalvorsen.com">Per Halvorsen</a> <br/>
+<a href="https://perhalvorsen.com">Per Halvorsen</a> <br/>
 <a href="https://github.com/pmhalvor/ocean-species-identification">GitHub</a> <br/>
 <a href="https://www.linkedin.com/in/pmhalvor/">LinkedIn</a> <br/></p>
 <p>In this note is meant to serve as a compendium of resources for multiple object tracking.
 It can be interpreted as a work-in-progress, with the intention to be expanded upon as more resources arise.</p>
 <p>Previous notes on this topic are <a href="https://perhalvorsen.com/media/notes/mbari_benthic_object_detector.html">Exploring the Monterey Bay Benthic Object Detector</a> and <a href="https://perhalvorsen.com/media/notes/super_resolution_benthic_object_detection.html">Applying Super-resolution to MBARI Benthic Object Detector</a>.</p>
 <h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><ul>
-<li><p>Background</p>
+<li><p><a href="#Background">Background</a></p>
 <ul>
-<li>Object detection</li>
-<li>Object tracking</li>
+<li><a href="#Object-detection">Object detection</a></li>
+<li><a href="#Object-tracking">Object tracking</a></li>
 </ul>
 </li>
-<li><p>Tools for tracking</p>
+<li><p><a href="#Tools-for-tracking">Tools for tracking</a></p>
 <ul>
-<li>Classic CV techniques<ul>
-<li>Segmentation<ul>
-<li>Background subtraction</li>
-<li>Contour detection</li>
-<li>Mean-shift filtering</li>
+<li><a href="#Classic">Classic CV techniques</a><ul>
+<li><a href="#Segmentation">Segmentation</a><ul>
+<li><a href="#Background-detection">Background subtraction</a></li>
+<li><a href="#Contour-detection">Contour detection</a></li>
+<li><a href="#Mean-shift-clusteringsegmentation">Mean-shift filtering</a></li>
 </ul>
 </li>
-<li>Association<ul>
-<li>Hungarian algorithm</li>
-<li>Kalman filter</li>
-<li>Mahalanobis distance</li>
+<li><a href="#Association">Association</a><ul>
+<li><a href="#Hungarian-algorithm">Hungarian algorithm</a></li>
+<li><a href="#Kalman-filter">Kalman filter</a></li>
+<li><a href="#Mahalanobis-distance">Mahalanobis distance</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Deep learning techniques<ul>
-<li>SORT</li>
-<li>DeepSORT</li>
-<li>ByteTrack</li>
+<li><a href="#Modern">Modern techniques</a><ul>
+<li><a href="#SORT">SORT</a></li>
+<li><a href="#DeepSORT">DeepSORT</a></li>
+<li><a href="#ByteTrack">ByteTrack</a></li>
 </ul>
 <!-- - OC_SORT -->
 </li>
 </ul>
 </li>
-<li><p>Implementation</p>
+<li><p><a href="#Implementation">Implementation</a></p>
 <!-- - DeepSORT (deep-sort-realtime) -->
 <ul>
 <li>ByteTrack (Roboflow)</li>
@@ -8005,15 +8005,16 @@ Since we still want to use the Benthic Object Detector from MBARI, we will also 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [85]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">moviepy.editor</span> <span class="kn">import</span> <span class="n">VideoFileClip</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -8021,8 +8022,122 @@ Since we still want to use the Benthic Object Detector from MBARI, we will also 
 <span class="kn">import</span> <span class="nn">torch</span>
 
 
-<span class="n">model_name</span> <span class="o">=</span> <span class="s2">"../../models/fathomnet_benthic/mbari-mb-benthic-33k.pt"</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'ultralytics/yolov5'</span><span class="p">,</span> <span class="s1">'custom'</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span>  <span class="n">force_reload</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">MODEL_PATH</span> <span class="o">=</span> <span class="s2">"../../models/fathomnet_benthic/mbari-mb-benthic-33k.pt"</span>
+<span class="c1"># model = torch.hub.load('ultralytics/yolov5', 'custom', path=model_name,  force_reload=True)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>In order to testour tracker properly, we need to gather in some video data, where we know the true classifications.
+Using the <code>screen_capture.py</code> script found in <code>src/tools/</code>, we scraped some short clips of animals from different sources on YouTube.
+We can use these clips to manually evaluate the performance of the YOLOv5 + ByteTrack pipeline.
+They get stored locally in the <code>data/</code> directory.</p>
+<p>Some of the sources for videos we scraped include:</p>
+<ul>
+<li><a href="https://www.youtube.com/user/MontereyBayAquarium">Monterey Bay Aquarium</a></li>
+<li><a href="https://www.youtube.com/@DeepMarineScenes">Deep Marine Scenes</a></li>
+<li><a href="https://www.youtube.com/@EVNautilus">EVNatilus</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="ByteTrack-(default)">ByteTrack (default)<a class="anchor-link" href="#ByteTrack-(default)">¶</a></h3><p>We can start by running the default ByteTrack model on a video clip of a sea feather, otherwise known as a Crinoidea.
+The sample clip can be found at <code>data/example/sea_feather.mp4</code>.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">YOLOv5_ByteTracker</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="n">MODEL_PATH</span><span class="p">,</span> <span class="o">**</span><span class="n">tracker_params</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'ultralytics/yolov5'</span><span class="p">,</span> <span class="s1">'custom'</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">model_path</span><span class="p">,</span>  <span class="n">force_reload</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_tracker</span><span class="p">(</span><span class="o">**</span><span class="n">tracker_params</span><span class="p">)</span>  <span class="c1"># create self.tracker and self.suffix attributes</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">box_annotator</span> <span class="o">=</span> <span class="n">sv</span><span class="o">.</span><span class="n">BoundingBoxAnnotator</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_annotator</span> <span class="o">=</span> <span class="n">sv</span><span class="o">.</span><span class="n">LabelAnnotator</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">init_tracker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">tracker_params</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Update the tracker parameters."""</span>
+        <span class="c1"># for systematic naming of output files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="s2">"_"</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tracker_params</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span> <span class="k">if</span> <span class="n">tracker_params</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracker</span> <span class="o">=</span> <span class="n">sv</span><span class="o">.</span><span class="n">ByteTrack</span><span class="p">(</span><span class="o">**</span><span class="n">tracker_params</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Detection callback callled for each frame in the video. Used in process_video later"""</span>
+
+        <span class="c1"># frame = super_resolution_model(frame)  # TODO add when ready</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span> <span class="c1">#[0]</span>
+        <span class="n">detections</span> <span class="o">=</span> <span class="n">sv</span><span class="o">.</span><span class="n">Detections</span><span class="o">.</span><span class="n">from_yolov5</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="n">detections</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracker</span><span class="o">.</span><span class="n">update_with_detections</span><span class="p">(</span><span class="n">detections</span><span class="p">)</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">"#</span><span class="si">{</span><span class="n">tracker_id</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">class_id</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">confidence</span><span class="si">:</span><span class="s2">0.2f</span><span class="si">}</span><span class="s2">"</span>
+            <span class="k">for</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">confidence</span><span class="p">,</span> <span class="n">class_id</span><span class="p">,</span> <span class="n">tracker_id</span><span class="p">,</span> <span class="n">_</span>
+            <span class="ow">in</span> <span class="n">detections</span>
+        <span class="p">]</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_annotator</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">scene</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">detections</span><span class="o">=</span><span class="n">detections</span><span class="p">)</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_annotator</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">scene</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">detections</span><span class="o">=</span><span class="n">detections</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">frame</span>
+
+
+    <span class="k">def</span> <span class="nf">mot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">"../data/example"</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s2">"../data/results"</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">"mp4"</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Apply the MOT callback to a video and save the result to a new file."""</span>
+        <span class="n">output_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="s2">"/"</span> <span class="ow">in</span> <span class="n">name</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">:</span>
+            <span class="n">output_name</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="si">}</span><span class="s2">"</span>
+        
+        <span class="n">sv</span><span class="o">.</span><span class="n">process_video</span><span class="p">(</span>
+            <span class="n">source_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> 
+            <span class="n">target_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">output_name</span><span class="si">}</span><span class="s2">_mot.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> 
+            <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">callback</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">output_name</span><span class="si">}</span><span class="s2">_mot.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">"</span>
+
+
+    <span class="k">def</span> <span class="nf">vid2gif</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">video_path</span><span class="p">,</span> <span class="n">gif_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Convert a video to a gif."""</span>
+        <span class="n">clip</span> <span class="o">=</span> <span class="n">VideoFileClip</span><span class="p">(</span><span class="n">video_path</span><span class="p">)</span>
+        <span class="n">clip</span><span class="o">.</span><span class="n">write_gif</span><span class="p">(</span><span class="n">gif_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gif_path</span>
+
+
+    <span class="k">def</span> <span class="nf">mot_show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">"../data/example"</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s2">"../data/results"</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">"mp4"</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Wrapper to display the result of the MOT callback as a gif."""</span>
+        <span class="n">mot_output_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mot</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span>
+        <span class="n">gif_output_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vid2gif</span><span class="p">(</span><span class="n">mot_output_path</span><span class="p">,</span> <span class="n">mot_output_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">".mp4"</span><span class="p">,</span> <span class="s2">".gif"</span><span class="p">))</span>
+
+        <span class="c1"># display the gif</span>
+        <span class="k">return</span> <span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">gif_output_path</span><span class="p">)</span>
+
+
+<span class="n">tracker</span> <span class="o">=</span> <span class="n">YOLOv5_ByteTracker</span><span class="p">(</span><span class="n">MODEL_PATH</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mot_show</span><span class="p">(</span><span class="s2">"sea_feather"</span><span class="p">)</span> 
 </pre></div>
 </div>
 </div>
@@ -8044,6 +8159,25 @@ Adding AutoShape...
 </pre>
 </div>
 </div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>MoviePy - Building file ../data/results/sea_feather_mot.gif with imageio.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>                                                              </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>&lt;IPython.core.display.Image object&gt;</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -8053,67 +8187,39 @@ Adding AutoShape...
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Using the <code>screen_capture.py</code>script found in <code>src/tools/</code>, we scraped some short clips of animals from different sources on YouTube.
-We can use these clips to manually evaluate the performance of the YOLOv5 + ByteTrack pipeline.
-They get stored locally in the <code>data/</code> directory.</p>
-<p>Some of the sources for videos we scraped include:</p>
-<ul>
-<li><a href="https://www.youtube.com/user/MontereyBayAquarium">Monterey Bay Aquarium</a></li>
-<li><a href="https://www.youtube.com/@DeepMarineScenes">Deep Marine Science</a></li>
-<li><a href="https://www.youtube.com/@EVNautilus">EVNatilus</a></li>
-</ul>
+<p><img alt="" src="../img/mot/sea_feather_mot.gif"/></p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [122]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># good detections from 8 upwards</span>
-<span class="n">i</span> <span class="o">=</span> <span class="mi">32</span>  <span class="c1"># 32 is good</span>
-<span class="n">byte_tracker</span> <span class="o">=</span> <span class="n">sv</span><span class="o">.</span><span class="n">ByteTrack</span><span class="p">(</span>
-    <span class="n">track_activation_threshold</span><span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
-    <span class="n">frame_rate</span><span class="o">=</span><span class="mi">10</span>
-<span class="p">)</span>
-
-<span class="n">box_annotator</span> <span class="o">=</span> <span class="n">sv</span><span class="o">.</span><span class="n">BoundingBoxAnnotator</span><span class="p">()</span>
-<span class="n">label_annotator</span> <span class="o">=</span> <span class="n">sv</span><span class="o">.</span><span class="n">LabelAnnotator</span><span class="p">()</span>
-
-<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">frame</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="c1"># frame = super_resolution_model(frame)</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span> <span class="c1">#[0]</span>
-    <span class="n">detections</span> <span class="o">=</span> <span class="n">sv</span><span class="o">.</span><span class="n">Detections</span><span class="o">.</span><span class="n">from_yolov5</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-    <span class="n">detections</span> <span class="o">=</span> <span class="n">byte_tracker</span><span class="o">.</span><span class="n">update_with_detections</span><span class="p">(</span><span class="n">detections</span><span class="p">)</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="sa">f</span><span class="s2">"#</span><span class="si">{</span><span class="n">tracker_id</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">class_id</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">confidence</span><span class="si">:</span><span class="s2">0.2f</span><span class="si">}</span><span class="s2">"</span>
-        <span class="k">for</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">confidence</span><span class="p">,</span> <span class="n">class_id</span><span class="p">,</span> <span class="n">tracker_id</span><span class="p">,</span> <span class="n">_</span>
-        <span class="ow">in</span> <span class="n">detections</span>
-    <span class="p">]</span>
-    <span class="n">frame</span> <span class="o">=</span> <span class="n">box_annotator</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">scene</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">detections</span><span class="o">=</span><span class="n">detections</span><span class="p">)</span>
-    <span class="n">frame</span> <span class="o">=</span> <span class="n">label_annotator</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">scene</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">detections</span><span class="o">=</span><span class="n">detections</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">frame</span>
-
-
-
-<span class="k">def</span> <span class="nf">mot</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">"../data/video"</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s2">"../data/results"</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">"mp4"</span><span class="p">):</span>
-    <span class="n">output_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="s2">"/"</span> <span class="ow">in</span> <span class="n">name</span> <span class="k">else</span> <span class="n">name</span>
-    
-    <span class="n">sv</span><span class="o">.</span><span class="n">process_video</span><span class="p">(</span><span class="n">source_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">target_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">output_name</span><span class="si">}</span><span class="s2">_mot.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">output_name</span><span class="si">}</span><span class="s2">_mot.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">"</span>
-
-
-<span class="k">def</span> <span class="nf">mot_show</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">"../data/video"</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s2">"../data/results"</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">"mp4"</span><span class="p">):</span>
-    <span class="n">output_path</span> <span class="o">=</span> <span class="n">mot</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">"open "</span> <span class="o">+</span> <span class="n">output_path</span><span class="p">)</span>
-
-<span class="n">mot_show</span><span class="p">(</span><span class="sa">f</span><span class="s2">"aquarium_</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">03</span><span class="si">}</span><span class="s2">/aquarium_</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">03</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">"mp4"</span><span class="p">)</span>
-</pre></div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><em>Crinoidea example footage from the <a href="https://www.youtube.com/@DeepMarineScenes">Deep Marine Scenes</a> YouTube channel.</em></p>
+<p>As can be seen in the gif above, our out-of-the-box tracker worked quite well on our example video.</p>
 </div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="ByteTrack-parameters">ByteTrack parameters<a class="anchor-link" href="#ByteTrack-parameters">¶</a></h3><p>The <code>supervision.ByteTrack</code> class comes with a few tunable parameters.
+These include:</p>
+<ul>
+<li><code>track_activation_threshold</code>: the confidence threshold for detections</li>
+<li><code>lost_track_buffer</code>: a buffer or number of frames to keep tracking id alive when no detections for that object</li>
+<li><code>minimum_matching_threshold</code>: the minimum similarity score (IOU or cosine-sim) for matching detections across frames</li>
+<li><code>frame_rate</code>: the frame rate of the video</li>
+</ul>
+<p>By adjusting these, we can see how the model detections can lead to very different tracking results.</p>
+<p>Let's see want happens when we start tuning the parameters. To start, let's increase the confidence threshold needed to activate a track (default value here is 0.25).</p>
 </div>
 </div>
 </div>
@@ -8122,12 +8228,11 @@ They get stored locally in the <code>data/</code> directory.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [123]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># convert to gif</span>
-<span class="n">clip</span> <span class="o">=</span> <span class="n">VideoFileClip</span><span class="p">(</span><span class="sa">f</span><span class="s2">"../data/results/aquarium_</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">03</span><span class="si">}</span><span class="s2">_mot.mp4"</span><span class="p">)</span>
-<span class="n">clip</span><span class="o">.</span><span class="n">write_gif</span><span class="p">(</span><span class="sa">f</span><span class="s2">"../data/example/aquarium_</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">03</span><span class="si">}</span><span class="s2">_mot.gif"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">tracker</span><span class="o">.</span><span class="n">init_tracker</span><span class="p">(</span><span class="n">track_activation_threshold</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mot_show</span><span class="p">(</span><span class="s2">"sea_feather"</span><span class="p">)</span> 
 </pre></div>
 </div>
 </div>
@@ -8140,7 +8245,7 @@ They get stored locally in the <code>data/</code> directory.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>MoviePy - Building file ../data/example/aquarium_032_mot.gif with imageio.
+<pre>MoviePy - Building file ../data/results/sea_feather_track_activation_threshold0.4_mot.gif with imageio.
 </pre>
 </div>
 </div>
@@ -8150,18 +8255,11 @@ They get stored locally in the <code>data/</code> directory.</p>
 <pre>                                                              </pre>
 </div>
 </div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>&lt;IPython.core.display.Image object&gt;</pre>
 </div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>An example output form the tracker can be seen below:</p>
-<p><img alt="No description has been provided for this image" src="https://github.com/pmhalvor/ocean-species-identification/blob/9c86125363b59360b9622b7ece5e5181a2a9adf0/data/example/aquarium_032_mot_cropped.gif" style="display: block; margin-left: auto; margin-right: auto;" width="750"/><br/></p>
-<p><em>Crinoidea example footage from the <a href="https://www.youtube.com/@DeepMarineScenes">Deep Marine Science</a> YouTube channel.</em></p>
 </div>
 </div>
 </div>
@@ -8172,10 +8270,225 @@ They get stored locally in the <code>data/</code> directory.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We must admit, it took a few tries before getting footage that actually had decent tracking results.
-The quality of the footage, the frame rate, the number of objects in the frame, and the object's movement all play a role in the tracking performance.</p>
-<p>However, the main focus here was to get a reasonable tracking for an object obviously classifiable to the human eye.
-With a working implementation in place, we can wrap up this blog-post and move on to the next step in this project, namely model distribution and deployment.
+<p><img alt="" src="../img/mot/sea_feather_track_activation_threshold0.4_mot.gif"/></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Notice how the tracker now has a harder time keeping track of the sea feather.
+At some point, detections are no longer confident enough to be consider worth tracking. Let's find a middle ground between the two thresholds.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">tracker</span><span class="o">.</span><span class="n">init_tracker</span><span class="p">(</span><span class="n">track_activation_threshold</span><span class="o">=</span><span class="mf">0.29</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mot_show</span><span class="p">(</span><span class="s2">"sea_feather"</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>MoviePy - Building file ../data/results/sea_feather_track_activation_threshold0.29_mot.gif with imageio.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>                                                              </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>&lt;IPython.core.display.Image object&gt;</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><img alt="" src="../img/mot/sea_feather_track_activation_threshold0.29_mot.gif"/></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Notice how there are a few frames now where the tracker loses the sea feather and removes teh bounding box, but then quickly recovers it after about 2-3 frames.
+Its especially interesting here to look at the ID shown in the top left corner of the bounding box.
+This the is the unique tracked object ID stored internally in thre tracker.</p>
+<p>If an object with similar appearance is detected later, and that ID's lost buffer hasn't expired, the tracker will assign the object the same id as before, as seen above.
+This re-identification is possible thanks to the deep learning embeddings used in the ByteTrack algorithm.</p>
+<p>If the lost buffer expires however, the tracker will assign a new ID to the object, as seen in the gif above.
+Let's now adjust the lost buffer from its default value at 30 frames to a single frame, to see this new ID assignment in action.
+We will need to use the same confidence threshold as before, since that was the one that lost the object for a few detections in a row.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">tracker</span><span class="o">.</span><span class="n">init_tracker</span><span class="p">(</span><span class="n">track_activation_threshold</span><span class="o">=</span><span class="mf">0.29</span><span class="p">,</span> <span class="n">lost_track_buffer</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mot_show</span><span class="p">(</span><span class="s2">"sea_feather"</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>MoviePy - Building file ../data/results/sea_feather_track_activation_threshold0.29_lost_track_buffer1_mot.gif with imageio.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>                                                              </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[30]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>&lt;IPython.core.display.Image object&gt;</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><img alt="" src="../img/mot/sea_feather_track_activation_threshold0.29_lost_track_buffer1_mot.gif"/></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>We now see that the tracker lost the sea feather, which later gets classified as an anemone, specifically a Bolocera.
+This highlights the importance of the leway given by the lost buffer, as it allows the tracker to re-identify objects that were occluded or changed appearance.</p>
+<p>Another potential problem that can arise here is prolonged misclassifications of objects.
+If the inital detection is incorrect, the tracker may continue to track the object as if it were the misclassified object, even when the object detector has corrected itself.</p>
+<p>This potential flaw in our pipeline might be fixed by tuning the minimum matching threshold, which is a threshold (IOU or cosine-similarity score) for matching detections across frames. In the <a href="https://supervision.roboflow.com/latest/trackers/#bytetrack">documentation</a>, it states that high values here will increase accuracy, but may lead to more fragmented tracks, while lowering would improve compleness but may lead to more false positives.
+Initial experimentation seems the opposite from what is documented (lower values give high fragmentation while higher values give little to no change).
+We will reserve looking further into this metric for future work, where we can test on a wider variety of videos and objects.
+Though we will not test this parameter here, it is important to keep in mind when tuning the tracker for your specific use case.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h3><p>As can be inferred from the small experimentation ran above, the parameters of the tracker can be quite fragile</p>
+<p>If the confidence threshold is too high, the tracker may lose objects that are still visible in the video.
+However, if the confidence is too low, the tracker may assign wrongly identify an object and stick with that misclassification for the rest of the video.</p>
+<p>If the lost buffer is too low, the tracker may assign new IDs to objects that are still visible in the video.
+Though, if the buffer is too high, the tracker make have re-identifying objects that were difficult to predict for a few frames due to pose changes and occlusions.</p>
+<p>Feel free to experiment with these parameters on your own, and see how they affect the tracking performance of the ByteTrack algorithm.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Extra-resources">Extra resources<a class="anchor-link" href="#Extra-resources">¶</a></h3><p>If you want to use screen_capture.py to scrape clips from the web on your end, you can easily run tracking on resulting videos using the below code:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># i = 0  # change this to the video you want to process</span>
+<span class="c1"># tracker.mot_show(f"aquarium_{i:03}/aquarium_{i:03}", data_dir="../data/video", output_dir="../data/results", ext="mp4") </span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Disclaimer">Disclaimer<a class="anchor-link" href="#Disclaimer">¶</a></h3><p>We must admit, it took a few tries before getting footage that actually had decent tracking results.
+The quality of the footage, the frame rate, the number of objects in the frame, and the object's movement all play a role in the tracking performance.
+This means the example chosen above was a bit cherry-picked to show the best results.</p>
+<p>In a real-world scenario, the tracker may not perform as well as shown here, and may require more tuning to get the desired results.
+However, the main focus here was to get a reasonable tracking for an object obviously classifiable to the human eye.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Up-next:-Dockerizing-our-pipeline">Up next: Dockerizing our pipeline<a class="anchor-link" href="#Up-next:-Dockerizing-our-pipeline">¶</a></h2><p>With a working implementation in place, we can move on to the next step in this project, namely model distribution and deployment.
 Follow along on that development in <a href="https://github.com/pmhalvor/ocean-species-identification/pull/3">PR#3</a>.</p>
 </div>
 </div>
