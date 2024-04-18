@@ -10,8 +10,7 @@ _environ.json
 
 *.pyc 
 
-docker*
-Docker*
+Dockerfile*
 entry*
 .travis.yml
 .env*
