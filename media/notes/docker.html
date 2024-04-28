@@ -7516,61 +7516,76 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Containerization-with-Docker">Containerization with Docker<a class="anchor-link" href="#Containerization-with-Docker">¶</a></h1><p>2024-04-17 <br/>
+<h1 id="Containerization-Foundations">Containerization Foundations<a class="anchor-link" href="#Containerization-Foundations">¶</a></h1><h2 id="A-Docker-Tutorial">A Docker Tutorial<a class="anchor-link" href="#A-Docker-Tutorial">¶</a></h2><p>2024-04-17 <br/>
 <a href="https://perhalvorsen.com">Per Halvorsen</a> | <a href="https://github.com/pmhalvor/ocean-species-identification">GitHub</a> | <a href="https://www.linkedin.com/in/pmhalvor/">LinkedIn</a></p>
 <hr/>
-<h2 id="Abstract">Abstract<a class="anchor-link" href="#Abstract">¶</a></h2><p>In this note, we want to explore the basics of containerization with Docker.
+<p><img alt="No description has been provided for this image" src="../img/docker-foundations.png" style="display: block; margin: 0 auto;" width="700"/></p>
+<!-- center div with source -->
+<div style="text-align:center;">
+Source: <i>Vitlycke hällristningar by Daniel Rydén, 2014 (<a href="https://www.dryden.se/2014/07/tillbaka-till-bronsaldern/">Upplevelse Bloggen</a>)</i>
+</div>
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h2><p>In this note, we want to explore the basics of containerization with Docker.
 To start the note off, some background terminology needed to understand these technologies is covered, basically summarizing the <a href="https://docs.docker.com/get-started/overview/">Docker overview</a>.
 From here, we introduce a small example project and go through the necessary steps to build custom images suited specifically to the needs of the project.
 Iterating on these simpler images, we then wrap a simplified machine learning model with a GUI into a container and show how to run and interact with this locally.
 The note rounds off with some tips on how such a model would be deployed to a server.</p>
-<h1 id="Outline">Outline<a class="anchor-link" href="#Outline">¶</a></h1><p><strong><a href="#Introduction">Introduction</a></strong></p>
+<h1 id="Outline">Outline<a class="anchor-link" href="#Outline">¶</a></h1><p><strong><a href="#Background">Background</a></strong></p>
 <ul>
-<li>Problem definition<ul>
+<li><a href="#Problem">Problem definition</a><ul>
 <li>Scope</li>
 <li>Fields</li>
 </ul>
 </li>
-<li>Best solution<ul>
-<li>Basic idea of containerization</li>
+<li><a href="#Solution">Best solution</a><ul>
+<li>The basic idea of containerization</li>
 <li>Runnable anywhere</li>
 <li>Opportunities: local development runnable on the cloud, or easily portable app, like a tool-box.</li>
 </ul>
 </li>
+<li><a href="#Terminology">Terminology</a><ul>
+<li>Essential: images, containers, Dockerfile, build, host machine</li>
+<li>Additional: registry, repository, volume, network</li>
 </ul>
-<p>Background</p>
-<ul>
-<li>Vocabulary: summarized notes from <a href="https://docs.docker.com/get-started/overview/">Docker overview</a></li>
-<li>Architecture</li>
-<li>Diagrams: from various tutorials or draw our own</li>
-<li>Local requirements<ul>
+</li>
+<li><a href="#Architecture">Architecture</a><ul>
+<li>Docker client</li>
+<li>Docker daemon</li>
+<li>Diagrams from various tutorials or draw our own</li>
+</ul>
+</li>
+<li><a href="#Local-requirements">Local requirements</a><ul>
 <li>Docker Desktop</li>
 <li>Docker Hub account</li>
 <li>Installation</li>
 </ul>
 </li>
-<li>Basic starter commands<ul>
+</ul>
+<p><strong><a href="#Tutorial">Tutorial</a></strong></p>
+<ul>
+<li><p><a href="#Basic-commands">Basic starter commands</a></p>
+<ul>
 <li>Browsing images</li>
 <li>Pushing and pulling</li>
 <li>Run examples</li>
+<li>Shell access: Python and bash</li>
 <li>Build custom images</li>
 </ul>
 </li>
-</ul>
-<p>A simple example</p>
+<li><p><a href="#A-simple-example">A simple example</a></p>
 <ul>
-<li>Gradio app<ul>
+<li>Gradio app</li>
 <li>Expose a port</li>
 <li>Pip install a library</li>
 <li>Save output to a file</li>
 </ul>
 </li>
-</ul>
-<p>Our img2vid example</p>
+<li><p><a href="#Our-img2vid-example">Our img2vid example</a></p>
 <ul>
 <li>Use the img2vid.py file to start</li>
 <li>Bake into image and run as executable</li>
 <li>Bake into a Gradio app, and run locally</li>
+</ul>
+</li>
 </ul>
 <!-- * (Attempt) Run from a server, or just mention and say “More on that later” -->
 <!-- A template project
@@ -7581,23 +7596,27 @@ Our complex example
 * Prepare the image 
     * All repos necessary 
     * All configs necessary  -->
-<p>Conclusion</p>
+<p><strong><a href="#Conclusion">Conclusion</a></strong></p>
 <ul>
-<li>Recap</li>
+<li>Recap<ul>
+<li>Images, containers, running, building</li>
+<li>Volumes, port exposure, isolated environments</li>
+<li>Gradio app, img2vid example</li>
+<li>Installing dependencies, uploading and downloading files</li>
+</ul>
+</li>
 <li>Future work<ul>
 <li>Deploy to server</li>
 <li>More complex scenarios<ul>
 <li>Lightweight images using multistage build or alpine</li>
 <li>More complex models: multiple-stage pipelines or multiple models</li>
 <li>Running multiple containers using docker-compose</li>
-<li>Networking and volumes using docker-compose</li>
-<li>Dockerfile best practices</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<h1 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">¶</a></h1><h2 id="Problem">Problem<a class="anchor-link" href="#Problem">¶</a></h2><p>In software development, it is often necessary to run code on different machines, with different operating systems, and with different dependency versions.
+<h1 id="Background">Background<a class="anchor-link" href="#Background">¶</a></h1><h2 id="Problem">Problem<a class="anchor-link" href="#Problem">¶</a></h2><p>In software development, it is often necessary to run code on different machines, with different operating systems, and with different dependency versions.
 The underlying code is the same, but the environment in which it runs can vary significantly.
 Some may argue that well-written code should be executable on any machine, but in reality, things are not always that simple.</p>
 <p>Often, systems require specific drivers, modules, or libraries to run, or the code is written in a language that is not natively supported by the target machine.
@@ -7669,6 +7688,7 @@ Password: **************
 <p>This will allow you to push and pull images from the registry, as well as manage your account settings.
 Alternatively, you can log in through the Docker Desktop GUI.</p>
 <p><img alt="No description has been provided for this image" src="../img/DockerDesktop.png" style="display: block; margin: 0 auto;" width="500"/></p>
+<div style="text-align:center;">Source: <i><a href="https://docs.docker.com/get-started/overview/#docker-architecture">Docker overview</a></i></div>
 <h2 id="Basic-commands">Basic commands<a class="anchor-link" href="#Basic-commands">¶</a></h2><h3 id="Browsing-images">Browsing images<a class="anchor-link" href="#Browsing-images">¶</a></h3><p>To see what images are available on your local machine, you can run the following command:</p>
 <pre><code>$ docker images
 </code></pre>
@@ -7895,7 +7915,8 @@ This is useful when we want to share data between multiple containers, or when m
 For more on the many ways of configuring volumes, refer to the <a href="https://docs.docker.com/storage/volumes/">Docker documentation</a>.</p>
 <br/>
 <p>With these basic functionalities in place, we can now move on to more complex tasks, involving external libraries and port exposures.</p>
-<h1 id="A-full-example">A full example<a class="anchor-link" href="#A-full-example">¶</a></h1><p>To further increase the complexity of our above example, we will create a simple <a href="https://www.gradio.app/">Gradio</a> app that mimics our local greet script, but with a GUI accessible via a web browser.</p>
+<h1 id="A-simple-example">A simple example<a class="anchor-link" href="#A-simple-example">¶</a></h1><p>Let's expand on the loose example above to a simple <a href="https://www.gradio.app/">Gradio</a> app that mimics our local greet script, but with a GUI accessible via a web browser.
+This will allow us to explore how to expose a port in a Docker container, install a library, and save outputs to a file.</p>
 <p>Gradio is a Python library that allows you to create web interfaces for your machine-learning models, data processing pipelines, or any other Python function.
 It is easy to use and requires minimal code to create a fully functional web app that can be shared with others.</p>
 <p>To create a Gradio app locally, we need to install the <code>gradio</code> library and write a Python script that defines the app's interface and functionality. Let's adapt our previous <code>greet3.py</code> script to work with Gradio.</p>
@@ -7933,7 +7954,8 @@ To<span class="w"> </span>create<span class="w"> </span>a<span class="w"> </span
 </pre></div>
 <p>This will start a local server that hosts the Gradio app, accessible at the given URL.
 Open a browser and head to the url:</p>
-<p><img alt="No description has been provided for this image" src="../img/gradio1.png" style="display: block; margin: 0 auto;" width="700"/></p>
+<p><img alt="No description has been provided for this image" src="../img/gradio1.png" style="display: block; margin: 0 auto;" width="700"/>
+<br/></p>
 <p>With that working locally, let's repeat all these steps in a Docker container.
 Be sure to close the server using <code>Ctrl+C</code> before proceeding.</p>
 <p>First, we need to update our <code>Dockerfile</code> to include the <code>gradio</code> library and expose a port for the web interface.</p>
@@ -7989,8 +8011,9 @@ You can find the script at <a href="https://github.com/pmhalvor/ocean-species-id
 </pre></div>
 <p>The output should look something like this:</p>
 <!-- insert gif when ready  -->
-<p><img alt="No description has been provided for this image" src="../img/aquarium.gif" style="display: block; margin: 0 auto;" width="700"/>
-<br/></p>
+<p><img alt="No description has been provided for this image" src="../img/aquarium.gif" style="display: block; margin: 0 auto;" width="700"/></p>
+<div style="text-align:center;">Source: <i>Live Open Sea Cam - Monterey Bay Aquarium (<a href="https://www.youtube.com/watch?v=R34ot1LETK0">Youtube</a>)</i></div>
+<br/>
 <p>To make this script more accessible, we can bake it into a Docker image that runs the script as an executable, and another that wraps the script in a Gradio app, allowing users to upload images and download the output video.</p>
 <p>Containerizing the app makes it more accessible to users who don't have <code>opencv</code> and all its machine-specific dependencies installed on their local devices, or even Python for that matter.
 They can simply run the Docker container with the input files and get the output video.</p>
@@ -8033,6 +8056,8 @@ This way, the container can access the input files and write the output video to
 <div class="highlight"><pre><span></span>$<span class="w"> </span>open<span class="w"> </span>docker/output/aquarium-docker.mp4
 </pre></div>
 <p><img alt="No description has been provided for this image" src="../img/aquarium.gif" style="display: block; margin: 0 auto;" width="700"/></p>
+<div style="text-align:center;">Source: <i>Live Open Sea Cam - Monterey Bay Aquarium (<a href="https://www.youtube.com/watch?v=R34ot1LETK0">Youtube</a>)</i></div>
+<br/>
 <p>Great! We now have a Docker image that works as an executable app.
 It can convert a series of images into a video, without the need for <code>opencv</code> or Python to be installed on the host machine.</p>
 <h2 id="img2vid-as-a-Gradio-app">img2vid as a Gradio app<a class="anchor-link" href="#img2vid-as-a-Gradio-app">¶</a></h2><p>To make the app more accessible and user-friendly, we can wrap the <code>img2vid.py</code> script in a Gradio app that allows users to upload images and download the output video.</p>
@@ -8136,7 +8161,8 @@ $<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </spa
 </pre></div>
 <p>If all goes well, you should now be able to interact with the app, upload your images, convert them to a video, and download the video to your local machine, all from the Docker image.
 That means, this Docker image can be shared and run on any system with Docker installed.</p>
-<p><img alt="No description has been provided for this image" src="../img/gradio2.png" style="display: block; margin: 0 auto;" width="700"/></p>
+<p><img alt="No description has been provided for this image" src="../img/gradio2.png" style="display: block; margin: 0 auto;" width="700"/>
+<br/></p>
 <p>To share it with the world, let's push it to Docker Hub.</p>
 <div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>tag<span class="w"> </span>img2vid-app:gradio<span class="w"> </span>your-docker-id/img2vid-app:gradio
 $<span class="w"> </span>docker<span class="w"> </span>push<span class="w"> </span>your-docker-id/img2vid-app:gradio
@@ -8145,14 +8171,13 @@ $<span class="w"> </span>docker<span class="w"> </span>push<span class="w"> </sp
 <p><img alt="No description has been provided for this image" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2dram8yY3BucGtpNmoxOGN4ejNydTN4ZXNqN2FjZTFlcXpucjJwdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/FmBhzktIjvdZe/giphy.gif" style="display: block; margin: 0 auto;" width="500"/>
 <br/></p>
 <p>The image I made for this example can be found at <a href="https://hub.docker.com/r/permortenhalvorsen024/img2vid-app">permortenhalvorsen024/img2vid-app</a>.</p>
-<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h1><p>In this note, we have covered the basics of Docker, including what containers are, how to build images, and how to run containers.
-We looked into data management and storage through mounting volumes.
-On top of Docker fundamentals, we explored how to create a simple Gradio app capable of being served from a container.</p>
-<p>We expanded on the simple examples typical in most tutorials by creating a Docker image that runs a Python script to convert a series of images into a video.
-This was a novel Python script we wrote for another project but showcased how Docker can be used as an easy means of sharing tools and scripts with others.
-The dependency on <code>opencv</code> and other image processing-specific libraries made it a perfect candidate for containerization.
-The ability to upload and download files through a Gradio app was a nice touch, paving the way for more complex containerized applications, like object detection or tracking models.</p>
-<p>By containerizing our applications, we make them more accessible to users who don't have the necessary dependencies installed on their local machines.
+<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h1><p>In this note, we covered the basics of Docker, including how <strong>containers</strong> are running instances of <strong>images</strong>, and how to build and run customized images and containers.
+We looked into data management and storage methods using mounted volumes.
+On top of these Docker fundamentals, we explored how to create and serve a simple Gradio app from within a container.</p>
+<p>We expanded on the simple examples typical in most tutorials by creating a Docker image that runs our own Python script that converts a series of images into a video.
+<code>img2vid.py</code> was a novel Python script written for another project but showcased how Docker helps solve the problem of running code with dependencies on different machines, as with <code>opencv</code> and its system-specific requirements.
+The ability to upload and download files through a <strong>Gradio</strong> app was a nice touch, paving the way for more complex containerized ML applications, like object detection or tracking models.</p>
+<p>Through containerization, apps are made more accessible to users who don't have (or want) the necessary dependencies installed on their local machines, without any loss of functionality.
 By pushing the Docker images to a registry like Docker Hub, anyone can pull the images and run the applications on their local machines.</p>
 <h2 id="Next-Steps">Next Steps<a class="anchor-link" href="#Next-Steps">¶</a></h2><ul>
 <li>Connect a container to a server, accessible from the internet.</li>
