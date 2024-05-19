@@ -1,4 +1,9 @@
 {
     "jupyter.jupyterServerType": "local",
-    "python.defaultInterpreterPath": "./siteenv/bin/python3"
+    "python.defaultInterpreterPath": "./siteenv/bin/python3",
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#8e9bec",
+        "titleBar.activeBackground": "#7e9fee",
+        "titleBar.activeForeground": "#291405"
+    }
 }
