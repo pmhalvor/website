@@ -173,6 +173,13 @@ def get_token_first_time(code) -> dict:
 
     print(token_info)
 
+    # add needed key-values to tokenn info before storing
+    token_info["timestamp"] = int(time.time())
+    token_info["token"] = token_info["access_token"]
+
+    # store for later use
+    store_renewed_token(token_info)
+
     return token_info
 
 
@@ -186,24 +193,29 @@ def get_code():
     OAUTH_TOKEN_URL = "https://accounts.spotify.com/authorize"
     PAYLOAD = {
         'client_id': '9656ff22d7604d078e98e54a1870b92d',
-        'scope': 'user-read-currently-playing',
+        'scope': 'user-read-currently-playing,user-read-recently-played',
         'redirect_uri': 'https://localhost:8888/callback',
         'state': 1111000011110000,
         'response_type': 'code'
     }
     HEADERS = make_headers()
-    
+    """
     # post request
     response = requests.post(
         url=OAUTH_TOKEN_URL,
         data=PAYLOAD,
         # headers=HEADERS
     )
-    token_info = response.json()
+    #token_info = response.json()
 
-    print(token_info)
+    #print(token_info)
 
-    return token_info
+    #return token_info
+    return response
+    """
+    import urllib.parse
+    return f"{OAUTH_TOKEN_URL}{urllib.parse.urlencode(PAYLOAD)}"
+
 
 
 if __name__ == '__main__':
