@@ -214,7 +214,7 @@ def get_code():
     return response
     """
     import urllib.parse
-    return f"{OAUTH_TOKEN_URL}{urllib.parse.urlencode(PAYLOAD)}"
+    return f"{OAUTH_TOKEN_URL}?{urllib.parse.urlencode(PAYLOAD)}"
 
 
 
