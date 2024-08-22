@@ -22,7 +22,7 @@ def get_token() -> str:
     '''
     cache_token = get_cache_token()
 
-    if is_token_expired(cache_token):
+    if is_token_expired(cache_token) or cache_token.get("token") in (None, "null"):
         cache_token = refresh_access_token(cache_token['refresh_token'])
 
     return cache_token['token']
@@ -40,9 +40,9 @@ def get_cache_token() -> dict:
     with open(path, 'r') as f:
         data = json.load(f)
         payload = {
-            "refresh_token": data["refresh_token"],
-            "timestamp": data["timestamp"],
-            "token": data["token"],
+            "refresh_token": data.get("refresh_token", None),
+            "timestamp": data.get("timestamp", None),
+            "token": data.get("token", None),
         }
 
     return payload      
