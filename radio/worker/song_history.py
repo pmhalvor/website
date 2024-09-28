@@ -239,8 +239,16 @@ def run() -> bool:
     print("End up updated df", updated_df.tail())
 
     return updated_df
+
+
+def print_current():
+    token = get_token()
+    data = get_current(token=token)
+    print(data)
+
 ###########################
 
 
 if __name__=='__main__':
     run()
+    print_current()
