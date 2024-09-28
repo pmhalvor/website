@@ -17,3 +17,4 @@ entry*
 
 *.code*
 */.vscode
+*duration_df.pkl
