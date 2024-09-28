@@ -116,7 +116,8 @@ def df_to_csv(df=None) -> str:
 def get_current(token=None) -> dict:
     if not token:
         token = get_token()
-    URL = "https://api.spotify.com/v1/me/player"  # api-endpoint for current playback
+    # URL = "https://api.spotify.com/v1/me/player"  # api-endpoint for current playback
+    URL = "https://api.spotify.com/v1/me/player/currently-playing"  # api-endpoint for current playback
     HEAD = {'Authorization': 'Bearer '+token}     # provide auth. crendtials
     content = r.get(url=URL, headers=HEAD)
     if content.status_code == 200:
