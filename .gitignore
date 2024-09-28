@@ -17,4 +17,4 @@ entry*
 
 *.code*
 */.vscode
-*duration_df.pkl
+*/worker/store/duration_df.pkl
