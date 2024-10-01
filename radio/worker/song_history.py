@@ -155,16 +155,20 @@ def get_tracks(token=None, batch_id_str=None) -> dict:
     return tracks
 
 
-def get_durations(id_list = '', token=None, store=True):
+def get_durations(id_list = [], token=None, store=True):
     """
     Should both load the previously stored duraitons and join with new durations.
 
     """
-    pth = os.path.join(dir_path, 'store', 'duration_df.pkl')
+    pth = os.path.join(ROOT, "data", 'durations.csv')
 
     # load durations pickle
-    with open(pth, 'rb') as f:
-        durations = pickle.load(f)
+    # with open(pth, 'rb') as f:
+    #    durations = pickle.load(f)
+
+    # load durations as pandas df
+    durations = pd.read_csv(pth, index_col=False)
+    print(durations.tail())
 
     new_durations = pd.DataFrame({
         'id':list(set(id_list)),
@@ -208,12 +212,13 @@ def get_durations(id_list = '', token=None, store=True):
                         "batch_ids_str": batch_id_str
                     }
                 }
-                with open(os.path.join(dir_path, 'store', 'error_response.json'), 'w+') as f:
+                with open(os.path.join(ROOT, 'durations_error_response.json'), 'w+') as f:
                     json.dump(data, f)
 
         # this only gets stored again when new ids are added
         print(f'Storing at {pth}')
-        durations.to_pickle(pth)
+        #durations.to_pickle(pth)
+        durations.to_csv(pth, index=False)
         print('Success!')
 
     return durations
