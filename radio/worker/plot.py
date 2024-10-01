@@ -183,7 +183,7 @@ if __name__=='__main__':
     # print('Downloading to df()...')
     # df, mdf = load_df()
 
-    # artist_duration()
+    artist_duration()
     song_plays()
 
     print('end')
