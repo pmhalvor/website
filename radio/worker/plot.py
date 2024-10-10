@@ -35,13 +35,13 @@ def artist_duration(n=37):
 
     top_artists = pd.DataFrame(top_artists).reset_index()
     top_artists.columns=['artist', 'time']
-    top_artists.rename(columns={"time":"seconds"}, inplace=True)
+    top_artists.rename(columns={"time":"minutes"}, inplace=True)
     top_artists.index = [f'Rank: {n-i}' for i in range(n)]
 
     figure = top_artists.plot.barh(
-        x = 'seconds',
+        x = 'minutes',
         y = 'artist',
-        color='seconds',
+        color='minutes',
         hover_name = top_artists.index,
         template='plotly_dark'
     )
