@@ -12,7 +12,16 @@
 			const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 		</script>
 	</head>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-VK53JVJFXL"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
 
+		gtag('config', 'G-VK53JVJFXL');
+	</script>
+	
 	<body>
 		{% include "includes/navbar_.html" %}
 
