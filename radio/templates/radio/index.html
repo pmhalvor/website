@@ -14,7 +14,16 @@
 		<script src="{% static 'js/retrieve.js' %}" type="text/javascript" name="submit">console.log(csrftoken);</script>
 		
 	</head>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-VK53JVJFXL"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
 
+		gtag('config', 'G-VK53JVJFXL');
+	</script>
+	
 	<body>
 		{% include "includes/navbar.html" %}
 
