@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'phsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'sitedb',
         'USER': 'pmhalvor',
         'PASSWORD': POSTGRES_PASSWORD,

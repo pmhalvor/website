@@ -2,7 +2,7 @@
 
 import datetime
 from django.db import migrations, models
-from django.utils.timezone import utc
+from django.utils import timezone
 
 
 class Migration(migrations.Migration):
@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='update',
             name='pub_date',
-            field=models.DateTimeField(default=datetime.datetime(2020, 12, 20, 0, 5, 38, 84608, tzinfo=utc), verbose_name='pub_date'),
+            field=models.DateTimeField(default=datetime.datetime(2020, 12, 20, 0, 5, 38, 84608, tzinfo=timezone.get_current_timezone()), verbose_name='pub_date'),
             preserve_default=False,
         ),
     ]

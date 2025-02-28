@@ -21,13 +21,13 @@ class CvView(generic.ListView):
         context['work_list'] = Cv.objects.filter(cat='Work').order_by('-start')
         context['edu_list'] = Cv.objects.filter(cat='Education')
         context['lang_list'] = self.get_lang_list_correct_time()
-        context['now'] = timezone.now()
+        context['now'] = timezone.now().astimezone(timezone.get_current_timezone())
 
         return context
 
     def get_lang_list_correct_time(self):
         lang_list = []
-        now = timezone.now()
+        now = timezone.now().astimezone(timezone.get_current_timezone())
         for item in Cv.objects.filter(cat='Language').order_by('start'):
             if item.start.month > now.month:
                 year = item.start.year + 1
