@@ -6,6 +6,7 @@ from django.utils import timezone
 from django import template
 from datetime import timedelta
 from django.shortcuts import redirect
+from .prompts_data import prompts_list  # Import the list
 
 register = template.Library()
 
@@ -79,27 +80,5 @@ def notes(request):
 
 @never_cache
 def prompts(request):
-    return render(request, 'home/prompts.html')
-
-
-
-#############################    GRAVEYARD     #########################################
-# # keep as before for comparison
-# def vote(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     try:
-#         selected_choice = question.choice_set.get(pk=request.POST['choice'])
-#     except (KeyError, Choice.DoesNotExist):
-#         # Redisplay the question voting form.
-#         return render(request, 'polls/detail.html', {
-#             'question': question,
-#             'error_message': "You didn't select a choice.",
-#         })
-#     else:
-#         selected_choice.votes += 1
-#         selected_choice.save()
-#         # Always return an HttpResponseRedirect after successfully dealing
-#         # with POST data. This prevents data from being posted twice if a
-#         # user hits the Back button.
-#         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
-
+    context = {'prompts_list': prompts_list}  # Pass the list in the context
+    return render(request, 'home/prompts.html', context)

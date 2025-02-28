@@ -3,8 +3,9 @@
 		<head>
 			<title>prompts</title>
             {% load static %}
+            {% load home_tags %}
 			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-			<link rel="stylesheet" type="text/css" href="{% static 'css/notes.css' %}">
+			<link rel="stylesheet" type="text/css" href="{% static 'css/prompts.css' %}">
 			<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 		</head>
 		<!-- Google tag (gtag.js) -->
@@ -24,83 +25,9 @@
 				<h3>Quick chats with ChatGPT</h3>
 				You may need to be logged in to view some of these prompts.
 
-				<div class="card">
-					<a href= "https://chatgpt.com/share/e/9808d736-fc0d-4e97-ad1c-cba4a79b8070" class="card">
-						<img src="{% static 'img/chatgpt_logo.png' %}" class="card">
-						<h3>Anomaly detection</h3>
-						<p>Some deep learning approaches to anomaly detection on an image dataset.</p>
-					</a>
-				</div>
-				
-				<div class="card">
-					<a href= "https://chat.openai.com/share/40498b9c-4f3f-4221-a2a5-9140ed9905e0" class="card">
-						<img src="{% static 'img/chatgpt_logo.png' %}" class="card">
-						<h3>Facts about lobsters</h3>
-						<p>Why would lobsters need 12 color receptors?</p>
-					</a>
-				</div>
-				<div class="card">
-					<a href= "https://chat.openai.com/share/dd5826fe-622c-4208-8d73-b820c628b668" class="card">
-						<img src="{% static 'img/chatgpt_logo.png' %}" class="card">
-						<h3>Building regex strings</h3>
-						<p>Extracting an S3 bucket name from a full resource path.</p>
-					</a>
-				</div>
-				<div class="card">
-					<a href= "https://chat.openai.com/share/eefbbd37-38eb-42f3-bf4f-948647c706e7" class="card">
-						<img src="{% static 'img/chatgpt_logo.png' %}" class="card">
-						<h3>Dealing with unbalanced data</h3>
-						<p>Some techniques for dealing with skewed data in ML projects.</p>
-					</a>
-				</div>
-				<div class="card">
-					<a href= "https://chat.openai.com/share/0d5764e2-1be3-41af-a1a3-3d3e6ea92b12" class="card">
-						<img src="{% static 'img/chatgpt_logo.png' %}" class="card">
-						<h3>Naming Music Workout DJ</h3>
-						<p>Brainstorming potential names for my Endurabeats app.</p>
-					</a>
-				</div>
-				<!-- row -->
-				<div class="card">
-					<a href= "https://chat.openai.com/share/7dccc3ca-575f-4a00-890e-97ce67424cce" class="card">
-						<img src="{% static 'img/chatgpt_logo.png' %}" class="card">
-						<h3>Activation Functions</h3>
-						<p>A refresher on activation functions and weight decay with an example.</p>
-					</a>
-				</div>
-				<div class="card">
-					<a href= "https://chat.openai.com/share/b3d02f46-ded9-4ad5-bf6d-7eff8f3f018e" class="card">
-						<img src="{% static 'img/chatgpt_logo.png' %}" class="card">
-						<h3>Rom-com Movie suggestions</h3>
-						<p>Brainstorming what to watch with a robot assistant.</p>
-					</a>
-				</div>
-				
-				<div class="card">
-					<a href= "https://chat.openai.com/share/2de6f54c-84d3-40f2-b6bc-76a54b8f2f27" class="card">
-						<img src="{% static 'img/chatgpt_logo.png' %}" class="card">
-						<h3>Python reduce function</h3>
-						<p>Two breif examples of how "functools.reduce" works.</p>
-					</a>
-				</div>
-				
-					
-				<!-- <div class="card">
-					<a href= "{% static 'notes/SpotifyVisuals.html' %}" class="card">
-						<img src="{% static 'img/Spotify.png' %}" class="card">
-						<h3>Spotify API</h3>
-						<p>Some visuals using data from the Spotify API</p>
-					</a>
-				</div>				 -->
-				<!-- <div class="card">
-					<a href= "{% static 'notes/MedicalProject.pdf' %}" class="card">
-						<img src="{% static 'img/medical.png' %}" class="card">
-						<h3>Predict symptoms, disease, and recovery from gene data</h3>
-						<p>A data science project using gene expressions to 
-						predict symptoms, disease status, and recovery 
-						probability after placebo.</p>
-					</a>
-				</div> -->
+				{% for item in prompts_list %}
+					{% card img_url=item.img_url title=item.title descr=item.descr file_url=item.file_url %}
+				{% endfor %}
 			</div>
 
 
