@@ -13,12 +13,7 @@ div.sectioncv{
 
 
 h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2em;
-	font-weight: 900;
 	text-shadow: 2px 2px 2px  #7f7f7f;
-	text-align: right;
-    margin-right: 5%;
 }
 h3.cv3{
     text-align: right;
@@ -26,7 +21,7 @@ h3.cv3{
     margin: 3%
 }
 
-img{
+img.avatarcv{
 	border-radius: 50%;
 	height: 300px;
 	width: 300px;

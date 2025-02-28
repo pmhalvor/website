@@ -33,7 +33,25 @@ div.card{
 	text-align: center;
 	vertical-align:top;
 }
-
+h1 {
+	font-family: 'Poppins', sans-serif;
+    font-size: 2em;
+	font-weight: 900;
+	text-shadow: -0.035em 0.035em red;
+	text-align: right;
+    margin-right: 5%;
+}
+h2{
+    text-align: left;;
+}
+img.avatar{
+	border-radius: 50%;
+	height: 300px;
+	width: 300px;
+	float: left;
+	margin-left: -3%;
+	margin-top: -30px;
+}
 
 /* NAV BAR & FOOTER */
 nav{
