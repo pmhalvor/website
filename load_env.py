@@ -1,20 +1,24 @@
 import json, os, sys
 
-VERBOSE = False
-if len(sys.argv)>1:
-	print(sys.argv[1])
-	VERBOSE = True
+
+def main(verbose=False):
+	f = open('_environ.json')
+
+	var = json.load(f)
+
+	f.close()
+
+	os.environ.update(**var)
+
+	if verbose:
+		print('environment loaded:\n', var) 
 
 
-f = open('_environ.json')
+if __name__ == '__main__':
 
-var = json.load(f)
-
-f.close()
-
-
-
-os.environ.update(**var)
-
-print('environment loaded:\n', var) if VERBOSE else None
-
+	VERBOSE = None
+	if len(sys.argv)>1:
+		print(sys.argv[1])
+		VERBOSE = True
+		
+	main(VERBOSE)
