@@ -1,5 +1,6 @@
 .about{
-    background-color: rgb(37, 37, 37, 0.9);
+    background-color: rgb(37, 37, 37, 0.75);
+    text-shadow: -0.075em 0.075em rgb(7, 16, 118);
 }
 img.avatar{
     border-radius: 50%;

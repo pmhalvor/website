@@ -3,6 +3,7 @@ import json
 import os
 from notion_client import Client
 from datetime import datetime
+import pandas as pd
 
 class CachedNotionClient:
     def __init__(self, token, cache_dir='./notion_cache', cache_ttl=3600):
@@ -94,6 +95,23 @@ def parse_cv_results(results):
             'end_date': extract_date(result, 'end')
         }
         parsed_results.append(parsed_result)
+
+    # convert to pandas, sort by start date and convert back to list
+    df = pd.DataFrame(parsed_results)
+    df['start_date'] = pd.to_datetime(df['start_date'])
+    df['end_date'] = pd.to_datetime(df['end_date'])
+
+    df = df.sort_values(by='start_date', ascending=False)
+
+    df['duration'] = round((df['end_date'] - df['start_date']).dt.days / 365, 2)
+
+    # convert dates to readable format
+    df['start_date'] = df['start_date'].dt.strftime('%b %Y')
+    df['end_date'] = df['end_date'].dt.strftime('%b %Y')
+    df = df.fillna('')
+
+    parsed_results = df.to_dict(orient='records')
+
     return parsed_results
 
 
@@ -143,7 +161,7 @@ def extract_optional_text(result, key):
 def extract_date(result, key):
     value = result['properties']['date']['date'].get(key)
     if value is None:
-        return datetime.now().isoformat()
+        return datetime.now().isoformat(timespec='seconds')
     return datetime.strptime(value, "%Y-%m-%d").isoformat()
 
 
