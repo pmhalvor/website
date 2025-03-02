@@ -64,7 +64,9 @@ def parse_about_results(results):
             'content': [line.get("plain_text") for line in result['properties']['Text']['rich_text']]
         }
         parsed_results.append(parsed_result)
-    return parsed_results
+    
+    # reverse order to show most recent first
+    return parsed_results[::-1]
 
 
 def parse_cv_results(results):
@@ -123,7 +125,7 @@ def parse_notes_results(results):
         parsed_results.append(parsed_result)
 
     
-    return parsed_results +parsed_results+parsed_results
+    return parsed_results +parsed_results+parsed_results #TODO remove when more filled in
 
 
 # utils 
