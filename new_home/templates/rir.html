@@ -3,23 +3,8 @@
 {% block title %}RIR{% endblock %}
 
 {% block content %}
-    <h1>My random readings from around the internet</h1>
-    <div class="container">
-        {% for item in items %}
-            <div class="card">
-                <a href="{{ item.properties.URL.url }}" class="card">
-                    {% if item.properties.Name and item.properties.Name.title and item.properties.Name.title[0] and item.properties.Name.title[0].plain_text %}
-                        <h3>{{ item.properties.Name.title[0].plain_text }}</h3>
-                    {% else %}
-                        <h3>Untitled</h3>
-                    {% endif %}
-                    {% if item.properties.URL and item.properties.URL.url %}
-                        <p>{{ item.properties.URL.url }}</p>
-                    {% else %}
-                        <p>No URL available</p>
-                    {% endif %}
-                </a>
-            </div>
-        {% for %}
-    </div>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/rir.css') }}">
+    <img src="{{ url_for('static', filename='img/lookingcolors.jpg') }}" class="avatar">
+    <h1><em>random <br> internet <br>readings</em></h1>  
+    <iframe src="https://funny-reminder-5cc.notion.site/ebd/f81274aaa59248128819d712ee8279c6?v=e5332dbb35904c46a3905c00e0a6b0df" width="100%" height="600" frameborder="0" allowfullscreen />
 {% endblock %}
