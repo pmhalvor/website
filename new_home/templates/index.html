@@ -3,21 +3,34 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1>Updates</h1>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
+    <img src="{{ url_for('static', filename='img/lookingcolors.jpg') }}" class="avatar">
+    <div class="intro" id="return">
+        <h1>per halvorsen<br></h1>
+        <div class="intro-text">
+            <em> 
+                welcome to my site <br>
+                my own little space <br>
+                showcasing my work <br>
+                both old and new <br>
+            </em>
+        </div>
+    </div>
+
+    <h2><em>Recent updates:</em></h2>
     <div class="container row">
         {% for item in updates %}
-            <div class="card">
-                <h2>{{ item.title }}</h2>
-                <p>{{ item.description }}</p>
-                <p>Published: {{ item.publish_date }}</p>
-                {% if item.file %}
-                    <a href="{{ item.file }}">File</a>
-                {% endif %}
-                {% if item.image %}
-                    <img src="{{ item.image }}" alt="{{ item.title }}">
-                {% endif %}
-                <p>Tags: {% for tag in item.tags %}{{ tag }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
-            </div>
+            <em>
+                <a href="{{ item.url }}" class="card">
+                    <div class="card">
+                        <img src="{{ item.image }}" alt="{{ item.title }}" class="img-card">
+                        <h3>{{ item.title}}</h3>
+                        <div class="tags">
+                            {% for tag in item.tags %}{{ tag }}{% if not loop.last %} - {% endif %}{% endfor %}
+                        </div>
+                    </div>
+                </a>
+            </em>
         {% endfor %}
     </div>
 {% endblock %}

@@ -121,7 +121,9 @@ def parse_notes_results(results):
             'tags': [tag['name'] for tag in result['properties']['tags']['multi_select']]
         }
         parsed_results.append(parsed_result)
-    return parsed_results
+
+    
+    return parsed_results +parsed_results+parsed_results
 
 
 # utils 

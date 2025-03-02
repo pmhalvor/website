@@ -61,10 +61,39 @@ img.driphead{
     }
 }
 
-p {
-    padding: 3%;
-    margin-top:-2%;
-    margin-left: 30%;
+/* INTRO */
+.container{
+    background-color: rgb(37,37,37,0.0);
+}
+div.intro-text{
+    text-align: right;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5em;
+    text-shadow: -0.05em 0.05em rgb(84, 96, 230), -0.1em 0.1em rgb(7, 16, 118);
+}
+img.avatar{
+    border-radius: 50%;
+    height: auto;
+    width: 50%;
+    position: absolute;
+    top: 7%;
+    left: 5%;
+    z-index: -1;
+}
+h1{
+    font-family: 'Poppins', sans-serif;
+    text-shadow: -0.05em 0.05em rgb(158, 168, 218), -0.1em 0.1em rgb(84, 96, 230), -0.15em 0.15em rgb(29, 43, 197), -0.2em 0.2em rgb(7, 16, 118);
+    font-size: 5em;
+    font-weight: 900;
+    text-align: right;
+    font-style: italic;
+    margin-top: -5%;
+}
+h2{
+    font-family: 'Poppins', sans-serif;
+    font-size: 2em;
+    font-weight: 700;
+    text-align: left;
 }
 
 
@@ -72,8 +101,10 @@ p {
 .row{
     overflow: auto;
     white-space: nowrap;
-    padding: 10px;
-    background-color: rgb(75, 75, 75);
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 2%;
+    background-color: rgb(75, 75, 75, 0.50);
     border-radius: 10px;
 }
 .row::-webkit-scrollbar{
@@ -88,7 +119,7 @@ p {
     border-bottom-right-radius: 5px;
     background-color: black;
 }
-img.card{
+img.img-card{
     width: 200px;
     height: 200px;
     margin-left: auto;
@@ -96,3 +127,12 @@ img.card{
     border-radius: 10px;
     margin-top:20px;
 }
+
+div.tags{
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75em;
+    font-weight: 700;
+    text-align: center;
+    color: white;
+}
+
