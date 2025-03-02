@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}RIR{% endblock %}
+
+{% block content %}
+    <h1>My random readings from around the internet</h1>
+    <div class="container">
+        {% for item in items %}
+            <div class="card">
+                <a href="{{ item.properties.URL.url }}" class="card">
+                    {% if item.properties.Name and item.properties.Name.title and item.properties.Name.title[0] and item.properties.Name.title[0].plain_text %}
+                        <h3>{{ item.properties.Name.title[0].plain_text }}</h3>
+                    {% else %}
+                        <h3>Untitled</h3>
+                    {% endif %}
+                    {% if item.properties.URL and item.properties.URL.url %}
+                        <p>{{ item.properties.URL.url }}</p>
+                    {% else %}
+                        <p>No URL available</p>
+                    {% endif %}
+                </a>
+            </div>
+        {% for %}
+    </div>
+{% endblock %}

@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Notes{% endblock %}
 
 {% block content %}
-    <h1>Updates</h1>
-    <div class="container row">
-        {% for item in updates %}
+    <h1>Notes</h1>
+    <div class="container">
+        {% for item in notes %}
             <div class="card">
                 <h2>{{ item.title }}</h2>
                 <p>{{ item.description }}</p>
