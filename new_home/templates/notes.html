@@ -3,21 +3,24 @@
 {% block title %}Notes{% endblock %}
 
 {% block content %}
-    <h1>Notes</h1>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/notes.css') }}">
+    <img src="{{ url_for('static', filename='img/lookingcolors.jpg') }}" class="avatar">
+    <h1><em>notes</em></h1>
     <div class="container">
         {% for item in notes %}
-            <div class="card">
-                <h2>{{ item.title }}</h2>
-                <p>{{ item.description }}</p>
-                <p>Published: {{ item.publish_date }}</p>
-                {% if item.file %}
-                    <a href="{{ item.file }}">File</a>
-                {% endif %}
-                {% if item.image %}
-                    <img src="{{ item.image }}" alt="{{ item.title }}">
-                {% endif %}
-                <p>Tags: {% for tag in item.tags %}{{ tag }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
-            </div>
+
+            <em>
+                <a href="{{ item.file }}" class="card">
+                    <div class="card">
+                        <img src="{{ item.image }}" alt="{{ item.title }}" class="img-card">
+                        <h2>{{ item.title}}</h2>
+                        <p>{{ item.description }}</p>
+                        <div class="tags">
+                            {% for tag in item.tags %}{{ tag }}{% if not loop.last %} - {% endif %}{% endfor %}
+                        </div>
+                    </div>
+                </a>
+            </em>
         {% endfor %}
     </div>
 {% endblock %}

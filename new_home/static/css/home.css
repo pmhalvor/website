@@ -71,15 +71,6 @@ div.intro-text{
     font-size: 1.5em;
     text-shadow: -0.05em 0.05em rgb(84, 96, 230), -0.1em 0.1em rgb(7, 16, 118);
 }
-img.avatar{
-    border-radius: 50%;
-    height: auto;
-    width: 50%;
-    position: absolute;
-    top: 7%;
-    left: 5%;
-    z-index: -1;
-}
 h1{
     font-family: 'Poppins', sans-serif;
     text-shadow: -0.05em 0.05em rgb(158, 168, 218), -0.1em 0.1em rgb(84, 96, 230), -0.15em 0.15em rgb(29, 43, 197), -0.2em 0.2em rgb(7, 16, 118);
@@ -135,4 +126,3 @@ div.tags{
     text-align: center;
     color: white;
 }
-

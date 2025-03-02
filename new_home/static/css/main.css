@@ -11,7 +11,7 @@ body{
 	overflow-x: hidden;
 }
 .container{
-    background-color: rgb(37,37,37,0.2);
+    background-color: rgb(37,37,37,0.0);
     border-radius: 13px;
     color: white;
     font-family:'Source Sans Pro', sans-serif;
@@ -31,18 +31,22 @@ body{
 }
 
 /* HEADERS */
-h1 {
+h1{
     font-family: 'Poppins', sans-serif;
+    text-shadow: -0.05em 0.05em rgb(158, 168, 218), -0.1em 0.1em rgb(84, 96, 230), -0.15em 0.15em rgb(29, 43, 197), -0.2em 0.2em rgb(7, 16, 118);
     font-size: 7em;
     font-weight: 900;
-	text-align: right;
-    text-shadow: -0.05em 0.05em rgb(158, 168, 218), -0.1em 0.1em rgb(84, 96, 230), -0.15em 0.15em rgb(29, 43, 197), -0.2em 0.2em rgb(7, 16, 118);
+    text-align: right;
+    font-style: italic;
+    margin-top: -5%;
 }
 h2{
     text-align: left;
 	font-style: italic;
 	font-family: 'Poppins', sans-serif;
     text-shadow: -0.1em 0.1em rgb(84, 96, 230), -0.2em 0.2em rgb(7, 16, 118);
+    font-size: 2em;
+    font-weight: 700;
 }
 h3{
 	color: white;
@@ -55,11 +59,15 @@ h3{
 }
 img.avatar{
 	border-radius: 50%;
-	height: 300px;
-	width: 300px;
 	float: left;
 	margin-left: -3%;
 	margin-top: -30px;
+    height: auto;
+    width: 50%;
+    position: absolute;
+    top: 7%;
+    left: 5%;
+    z-index: -1;
 }
 
 /* CARDS */
