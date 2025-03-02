@@ -1,6 +1,7 @@
 /siteenv
 
 */.data
+sitedb
 
 config.json
 
@@ -18,3 +19,5 @@ entry*
 *.code*
 */.vscode
 */worker/store/duration_df.pkl
+
+notion_cache/

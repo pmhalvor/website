@@ -4,8 +4,6 @@ from django.views.decorators.cache import never_cache
 from home.models import Cv, Update, Notes, Code
 from django.utils import timezone
 from django import template
-from datetime import timedelta
-from django.shortcuts import redirect
 from .prompts_data import prompts_list  # Import the list
 
 register = template.Library()
