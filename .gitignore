@@ -1,6 +1,8 @@
 /siteenv
 
 */.data
+sitedb
+.cache
 
 config.json
 
