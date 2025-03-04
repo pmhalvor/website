@@ -11,7 +11,6 @@ _environ.json
 
 *.pyc 
 
-Dockerfile*
 entry*
 .travis.yml
 .env*
