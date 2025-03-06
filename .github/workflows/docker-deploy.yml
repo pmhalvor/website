@@ -28,6 +28,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_PAT }}
 
+      # Make empty .env file to avoid error in GHA
+      - name: Create empty .env file
+        run: |
+          echo "" >> .env
+
       # Build the image using docker-compose (with platform option, if set in your compose file)
       - name: Build image via docker-compose
         run: docker compose build
