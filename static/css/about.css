@@ -1,20 +1,4 @@
 /* PAGE CONTENTS */
-h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2em;
-	font-weight: 900;
-	text-shadow: -0.035em 0.035em red;
-	text-align: right;
-    margin-right: 5%;
-}
-img.avatar{
-	border-radius: 50%;
-	height: 300px;
-	width: 300px;
-	float: left;
-	margin-left: -3%;
-	margin-top: -30px;
-}
 div.container{
     font-weight: 600;
 	text-align: right;

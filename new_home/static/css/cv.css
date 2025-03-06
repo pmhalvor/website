@@ -1,0 +1,34 @@
+h1{
+    font-family: 'Poppins', sans-serif;
+    text-shadow: -0.05em 0.05em rgb(158, 168, 218), -0.1em 0.1em rgb(84, 96, 230), -0.15em 0.15em rgb(29, 43, 197), -0.2em 0.2em rgb(7, 16, 118);
+    font-size: 7em;
+    font-weight: 900;
+    text-align: right;
+    font-style: italic;
+    margin-top: -5%;
+}
+h2{
+    font-family: 'Poppins', sans-serif;
+    font-size: 3em;
+    font-weight: 700;
+    text-align: left;
+}
+
+/* CARDS */
+.cv-container{
+    justify-content: center;
+    margin-top: 10%;
+    text-align: center;
+}
+.container{
+    background-color: rgb(37,37,37,0.0);
+}
+div.card{
+	width: 275px;
+	height: 275px;
+    background-color: rgb(137, 137, 137, 0.0);
+    border-radius: 13px;
+    display: block;
+	text-align: center;
+	text-wrap: wrap;
+}

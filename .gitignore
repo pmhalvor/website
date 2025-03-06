@@ -1,6 +1,10 @@
 /siteenv
 
 */.data
+sitedb
+.cache
+duck*
+old_*
 
 config.json
 
@@ -10,7 +14,6 @@ _environ.json
 
 *.pyc 
 
-Dockerfile*
 entry*
 .travis.yml
 .env*
@@ -18,3 +21,5 @@ entry*
 *.code*
 */.vscode
 */worker/store/duration_df.pkl
+
+notion_cache/

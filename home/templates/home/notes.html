@@ -3,6 +3,7 @@
 		<head>
 			<title>notes</title>
             {% load static %}
+            {% load home_tags %}
 			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 			<link rel="stylesheet" type="text/css" href="{% static 'css/notes.css' %}">
 			<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
@@ -22,13 +23,7 @@
 			
 			<div class="container">
 				{% for item in notes_list %}
-					<div class="card">
-						<a href="{{ item.file_loc.url }}">
-							<img src="{{ item.img_loc.url }}" class="card">
-							<h3>{{ item.title }}</h3>
-							<p> {{ item.descr }} </p>
-						</a>
-					</div>
+					{% card img_url=item.img_loc.url title=item.title descr=item.descr file_url=item.file_loc.url %}
 				{% endfor %}
 
 			</div>

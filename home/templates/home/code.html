@@ -1,25 +1,20 @@
 <!DOCTYPE html>
 	<html>
 		<head>
-			<title>code</title>
             {% load static %}
+            {% load home_tags %}
+			<title>code</title>
 			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 			<link rel="stylesheet" type="text/css" href="{% static 'css/code.css' %}">
 			<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 		</head>
 
 		<body>
-            {% include "includes/navbar.html" %}
+            {% include "includes/navbar2.html" %}
 			
 			<div class="container">
 				{% for item in code_list %}
-					<div class="card">
-						<a href= "{{ item.file_loc.url }}" class="card">
-							<img src="{{ item.img_loc.url }}" class="card">
-							<h3>{{ item.title }}</h3>
-							<p>{{  item.descr }}</p>
-						</a>
-					</div>
+					{% card img_url=item.img_loc.url title=item.title descr=item.descr file_url=item.file_loc.url %}
 				{% endfor %}
 			</div>
 
