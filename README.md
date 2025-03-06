@@ -1,6 +1,5 @@
-# perhalvorsen.com (master)
-
-Hello and welcome to my site!
+# perhalvorsen.com 
+Repository for my personal website, [perhalvorsen.com](https://perhalvorsen.com).
 
 This master branch represents the latest, stable version of the site.
 Checkout the development branch to see what I currently am working on. 
@@ -8,7 +7,14 @@ Otherwise, take a peek at the previous releases of the site, to see what
  changes have been implemented.
 
 
-Changelog:
+
+I use this site as a portfolio, shining light on some of the web-development 
+projects I've taken part in.
+If there are any malfunctions on your end, 
+send me an email or pull request, and I'll work on
+fixing it.
+
+## Changelog:
 - 2.1.0: Updated server to Ubuntu 4.23 and ensure environment vars present
 - 2.0.0: Migrated off of Azure. Everything is now soley hosted on Digial Ocean server
 - 1.1.4: current, recents, and plots loaded seperately from `/radio`, allowing for smoother user experience
@@ -22,14 +28,14 @@ Changelog:
 - 1.0.1: Static site from previous deploy hosted from server.
 
 
-I use this site as a portfolio, shining light on some of the web-development 
-projects I've taken part in.
-If there are any malfunctions on your end, 
-send me an email or pull request, and I'll work on
-fixing it.
-
-
 # Useful commands when developing
+
+## Run site container
+Uses `docker compose` to build, run, then tear down the site container. 
+```sh
+make run
+```
+
 
 ## Restart server 
 

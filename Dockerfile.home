@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+WORKDIR /new_home
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY new_home/*.py ./
+COPY new_home/templates ./templates
+COPY new_home/static ./static
+
+ENV FLASK_ENV=production
+ARG PORT=5001
+ENV PORT=${PORT}
+
+EXPOSE ${PORT}
+
+CMD ["sh", "-c", "gunicorn -b 0.0.0.0:${PORT} app:app"]
