@@ -1,18 +1,13 @@
 # perhalvorsen.com 
 Repository for my personal website, [perhalvorsen.com](https://perhalvorsen.com).
 
-This master branch represents the latest, stable version of the site.
-Checkout the development branch to see what I currently am working on. 
-Otherwise, take a peek at the previous releases of the site, to see what
- changes have been implemented.
+Changes are pushed to ghcr.io/pmhavor/website (PAT needed).
+On my server, I use [watchtower](https://containrrr.dev/watchtower/) to automatically update the site when a new image is pushed to the registry.
 
 
-
-I use this site as a portfolio, shining light on some of the web-development 
-projects I've taken part in.
-If there are any malfunctions on your end, 
-send me an email or pull request, and I'll work on
-fixing it.
+I use this site as a portfolio, 
+showcasing some of the web-development projects I've taken part in.
+If you noticed anything wrong, feel free to open a PR.
 
 ## Changelog:
 - 2.1.0: Updated server to Ubuntu 4.23 and ensure environment vars present
