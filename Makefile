@@ -6,9 +6,12 @@ push:
 	docker compose push
 
 pull:
+	git pull
 	docker compose pull
 
 build-push: build push
+
+pull-up: pull up
 
 # run the server
 up:
@@ -20,4 +23,3 @@ down:
 run: up down
 
 restart: down up
-
