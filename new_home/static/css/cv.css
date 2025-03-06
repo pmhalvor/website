@@ -13,15 +13,6 @@ h2{
     font-weight: 700;
     text-align: left;
 }
-img.avatar{
-    border-radius: 50%;
-    height: auto;
-    width: 50%;
-    position: absolute;
-    top: 7%;
-    left: 5%;
-    z-index: -1;
-}
 
 /* CARDS */
 .cv-container{

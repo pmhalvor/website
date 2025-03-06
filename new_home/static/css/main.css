@@ -21,6 +21,7 @@ body{
     margin-top: 50px;
     padding: 2%;
     text-align: center;
+	z-index: 1;
 }
 .intro{
     margin-top: 50px;
@@ -67,7 +68,7 @@ img.avatar{
     position: absolute;
     top: 7%;
     left: 5%;
-    z-index: -1;
+	z-index: -1;
 }
 
 /* CARDS */
