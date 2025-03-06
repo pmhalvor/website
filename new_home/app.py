@@ -1,9 +1,8 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template
 from notion import CachedNotionClient, parse_about_results, parse_cv_results, parse_notes_results
 from config import Env
 from flask import request
 
-env = Env("new_home/.env")  # use when running python new_home/app.py
 env = Env(".env")           # use when running python app.py
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
