@@ -7,6 +7,8 @@ gunicorn==20.0.4
 matplotlib==3.10.1
 nbformat==5.10.4
 notion-client==2.3.0
+sqlparse==0.4.1
+spotipy==2.25.1
 # psycopg2 #-binary
 pytz==2020.4
 sqlparse==0.4.1
