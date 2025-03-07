@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from notion import CachedNotionClient, parse_about_results, parse_cv_results, parse_notes_results
 from config import Env
 from flask import request
@@ -68,6 +68,16 @@ def rir():
     paginated_items = items[start:end]
 
     return render_template("rir.html", items=paginated_items, page=page)
+
+
+@app.route('/callback')
+def callback():
+    # Get the 'code' parameter from the request URL
+    code = request.args.get('code')
+    if code:
+        return jsonify({'code': code})
+    else:
+        return jsonify({'error': 'No code parameter found'}), 400
 
 
 if __name__ == '__main__':
