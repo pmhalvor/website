@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Updates{% endblock %}
+
+{% block content %}
+    <h1>Updates</h1>
+    <div class="container">
+        {% for item in updates %}
+            <div class="card">
+                <h2>{{ item.title }}</h2>
+                <p>{{ item.description }}</p>
+                <p>Published: {{ item.publish_date }}</p>
+                {% if item.file %}
+                    <a href="{{ item.file }}">File</a>
+                {% endif %}
+                {% if item.image %}
+                    <img src="{{ item.image }}" alt="{{ item.title }}">
+                {% endif %}
+                <p>Tags: {% for tag in item.tags %}{{ tag }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

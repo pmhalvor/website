@@ -3,7 +3,6 @@ from notion import CachedNotionClient, parse_about_results, parse_cv_results, pa
 from config import Env
 from flask import request
 
-env = Env("new_home/.env")  # use when running python new_home/app.py
 env = Env(".env")           # use when running python app.py
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
@@ -72,4 +71,5 @@ def rir():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    import os
+    app.run(port=os.environ.get('PORT', 5001)) # TODO test other ports 

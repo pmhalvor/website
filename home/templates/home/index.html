@@ -2,6 +2,7 @@
 	<html>
 		<head>
             {% load static %}
+            {% load home_tags %}
 			<title>home</title>
 			<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 			<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
@@ -42,12 +43,7 @@
                 <h2><em>Recent updates:</em></h2>
                 <div class="row">
                     {% for item in update_list %}
-                        <div class="card">
-                            <a href="{{ item.file_loc }}" class="card">
-                                <img src="{{ item.img_loc.url }}" class="card">
-                                <h3><em>{{ item.title }}</em></h3>
-                            </a>
-                        </div>
+                        {% card img_url=item.img_loc.url title=item.title descr="" file_url=item.file_loc %}
                     {% endfor %}
                 </div>
             </div>
@@ -59,4 +55,3 @@
 		</body>
 		
 </html>
-

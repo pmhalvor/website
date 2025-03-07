@@ -12,7 +12,8 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 # load env vars from local json via absolute path
-with open("/home/pmhalvor/site/phsite/config.json") as f:
+# with open("/home/pmhalvor/site/phsite/config.json") as f:
+with open("~/personal/website/phsite/config.json") as f:
     config = json.load(f)
 
 # check required keys are actually present in config.json
