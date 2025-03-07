@@ -3,6 +3,8 @@
 */.data
 sitedb
 .cache
+duck*
+old_*
 
 config.json
 
