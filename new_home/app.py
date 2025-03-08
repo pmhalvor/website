@@ -70,6 +70,12 @@ def rir():
     return render_template("rir.html", items=paginated_items, page=page)
 
 
+@app.route('/radio')
+def radio():
+
+    return render_template("radio.html")
+
+
 @app.route('/callback')
 def callback():
     # Get the 'code' parameter from the request URL
