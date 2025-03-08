@@ -9,6 +9,7 @@ app = Flask(__name__, static_folder='static', template_folder='templates')
 
 NOTION_TOKEN = env.notion_sitedb_token
 DATABASE_ID = env.notion_database_id
+RADIO_URL = env.radio_url
 CACHE_DIR = "./notion_cache"
 CACHE_TTL = 3600
 
@@ -72,8 +73,7 @@ def rir():
 
 @app.route('/radio')
 def radio():
-
-    return render_template("radio.html")
+    return render_template("radio.html", radio_url=RADIO_URL)
 
 
 @app.route('/callback')
