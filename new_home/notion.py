@@ -143,7 +143,7 @@ def parse_notes_results(results):
         parsed_results.append(parsed_result)
 
     
-    return parsed_results +parsed_results+parsed_results #TODO remove when more filled in
+    return parsed_results
 
 
 # utils 
