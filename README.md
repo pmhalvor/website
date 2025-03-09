@@ -31,8 +31,18 @@ Uses `docker compose` to build, run, then tear down the site container.
 make run
 ```
 
+## Run locally for development
+Navigate to `new_home/` and run the app:
+```sh
+cd new_home/
+python app.py
+``` 
+Ensure you have a `.env` file with your Notion credentials:
+- `NOTION_SITEDB_TOKEN`
+- `NOTION_SITEDB_ID`
 
-## Restart server 
+
+## (Old) Restart server 
 
 if you make any changes to `settings.py` or other places in the project that aren't showing up right away (i.e. radio plots, css formatting, html templates),
  you may need to restart the server. This is easily done with:
@@ -40,7 +50,7 @@ if you make any changes to `settings.py` or other places in the project that are
 source restart.sh
 ```
 
-## Changes to the database 
+## (Old) Changes to the database 
 The database serves data to various pages on the site, from the CV items, to notes and updates. 
 You can add changes through the Django GUI at https://perhalvorsen.com/admin, or via command line. 
 These next few tips will show how to execute these changes through a Python shell in the command line. 
