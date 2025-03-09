@@ -3,7 +3,8 @@ from notion import CachedNotionClient, parse_about_results, parse_cv_results, pa
 from config import Env
 from flask import request
 
-env = Env(".env")           # use when running python app.py
+
+env = Env(".env")         
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 

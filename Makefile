@@ -20,6 +20,7 @@ up:
 down:
 	docker compose down
 
-run: up down
+run:
+	python new_home/app.py
 
 restart: down up
