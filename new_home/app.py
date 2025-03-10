@@ -1,15 +1,16 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, jsonify
 from notion import CachedNotionClient, parse_about_results, parse_cv_results, parse_notes_results
 from config import Env
 from flask import request
 
-env = Env("new_home/.env")  # use when running python new_home/app.py
-env = Env(".env")           # use when running python app.py
+
+env = Env(".env")         
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
 NOTION_TOKEN = env.notion_sitedb_token
 DATABASE_ID = env.notion_database_id
+RADIO_URL = env.radio_url
 CACHE_DIR = "./notion_cache"
 CACHE_TTL = 3600
 
@@ -69,6 +70,21 @@ def rir():
     paginated_items = items[start:end]
 
     return render_template("rir.html", items=paginated_items, page=page)
+
+
+@app.route('/radio')
+def radio():
+    return render_template("radio.html", radio_url=RADIO_URL)
+
+
+@app.route('/callback')
+def callback():
+    # Get the 'code' parameter from the request URL
+    code = request.args.get('code')
+    if code:
+        return jsonify({'code': code})
+    else:
+        return jsonify({'error': 'No code parameter found'}), 400
 
 
 if __name__ == '__main__':

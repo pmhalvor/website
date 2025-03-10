@@ -1,18 +1,13 @@
 # perhalvorsen.com 
 Repository for my personal website, [perhalvorsen.com](https://perhalvorsen.com).
 
-This master branch represents the latest, stable version of the site.
-Checkout the development branch to see what I currently am working on. 
-Otherwise, take a peek at the previous releases of the site, to see what
- changes have been implemented.
+Changes are pushed to ghcr.io/pmhavor/website (PAT needed).
+On my server, I use [watchtower](https://containrrr.dev/watchtower/) to automatically update the site when a new image is pushed to the registry.
 
 
-
-I use this site as a portfolio, shining light on some of the web-development 
-projects I've taken part in.
-If there are any malfunctions on your end, 
-send me an email or pull request, and I'll work on
-fixing it.
+I use this site as a portfolio, 
+showcasing some of the web-development projects I've taken part in.
+If you noticed anything wrong, feel free to open a PR.
 
 ## Changelog:
 - 2.1.0: Updated server to Ubuntu 4.23 and ensure environment vars present
@@ -36,8 +31,18 @@ Uses `docker compose` to build, run, then tear down the site container.
 make run
 ```
 
+## Run locally for development
+Navigate to `new_home/` and run the app:
+```sh
+cd new_home/
+python app.py
+``` 
+Ensure you have a `.env` file with your Notion credentials:
+- `NOTION_SITEDB_TOKEN`
+- `NOTION_SITEDB_ID`
 
-## Restart server 
+
+## (Old) Restart server 
 
 if you make any changes to `settings.py` or other places in the project that aren't showing up right away (i.e. radio plots, css formatting, html templates),
  you may need to restart the server. This is easily done with:
@@ -45,7 +50,7 @@ if you make any changes to `settings.py` or other places in the project that are
 source restart.sh
 ```
 
-## Changes to the database 
+## (Old) Changes to the database 
 The database serves data to various pages on the site, from the CV items, to notes and updates. 
 You can add changes through the Django GUI at https://perhalvorsen.com/admin, or via command line. 
 These next few tips will show how to execute these changes through a Python shell in the command line. 
