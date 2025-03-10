@@ -184,7 +184,7 @@ if __name__ == "__main__":
     about_data = sdb_client.get_database(env.notion_sitedb_about_id)
     cv_data = sdb_client.get_database(env.notion_sitedb_cv_id)
     notes_data = sdb_client.get_database(env.notion_sitedb_notes_id)
-    updates_data = sdb_client.get_database(env.notion_sitedb_updates_id)
+    updates_data = sdb_client.get_database(env.notion_sitedb_update_id)
 
     pp(parse_about_results(about_data['results']))
     pp(parse_cv_results(cv_data['results']))
