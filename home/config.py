@@ -5,6 +5,7 @@ class Env:
     def __init__(self, env_file: str = ".env"):
         load_dotenv(env_file)
         self.env_vars = {key.lower(): value for key, value in os.environ.items()}
+        print("Found env vars:", self.env_vars)
 
     def __getattr__(self, item):
         try:

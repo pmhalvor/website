@@ -4,7 +4,7 @@ from config import Env
 from flask import request
 
 
-env = Env(".env")         
+env = Env("../.env")         
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 

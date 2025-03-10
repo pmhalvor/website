@@ -1,13 +1,13 @@
 FROM python:3.11-slim
 
-WORKDIR /new_home
+WORKDIR /home
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY new_home/*.py ./
-COPY new_home/templates ./templates
-COPY new_home/static ./static
+COPY home/*.py ./
+COPY home/templates ./templates
+COPY home/static ./static
 
 ENV FLASK_ENV=production
 ARG PORT=5001

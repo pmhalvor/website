@@ -177,7 +177,7 @@ def extract_url(result, key):
 if __name__ == "__main__":
     from config import Env
 
-    env = Env("new_home/.env")
+    env = Env(".env")
 
     sdb_client = CachedNotionClient(env.notion_sitedb_token)
 
