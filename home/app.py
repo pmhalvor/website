@@ -9,7 +9,6 @@ env = Env(".env")
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
 NOTION_TOKEN = env.notion_sitedb_token
-DATABASE_ID = env.notion_database_id
 RADIO_URL = env.radio_url
 CACHE_DIR = "./notion_cache"
 CACHE_TTL = 3600
@@ -55,21 +54,7 @@ def notes():
 
 @app.route('/rir')
 def rir():
-    try:
-        database_data = notion_client.get_database(DATABASE_ID)
-        items = database_data['results'] if 'results' in database_data else []
-    except Exception as e:
-        items = []
-        print(f"Error fetching data from Notion: {e}")
-
-    # Pagination logic
-    page = request.args.get('page', 1, type=int)
-    per_page = 20
-    start = (page - 1) * per_page
-    end = start + per_page
-    paginated_items = items[start:end]
-
-    return render_template("rir.html", items=paginated_items, page=page)
+    return render_template("rir.html")
 
 
 @app.route('/radio')
