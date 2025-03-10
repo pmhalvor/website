@@ -2,3 +2,10 @@
     background-color: rgb(37, 37, 37, 0.75);
     text-shadow: -0.075em 0.075em rgb(7, 16, 118);
 }
+p{
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5em;
+    font-weight: 700;
+    font-style: italic;
+    text-align: right;
+}
