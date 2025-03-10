@@ -12,15 +12,17 @@ pull:
 build-push: build push
 
 pull-up: pull up
+build-up: build up
 
-# run the server
 up:
 	docker compose up -d
 
 down:
 	docker compose down
 
-run:
-	python new_home/app.py
+restart: up
 
-restart: down up
+# run the server
+run:
+	python home/app.py
+
