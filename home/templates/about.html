@@ -10,7 +10,7 @@
     {% for item in about %}
         <h2><em>{{ item.title }}</em></h2>
         {% for line in item.content %}
-            <p>{{ line }}</p>
+            <p>{{ line|safe }}</p>
         {% endfor %}
     {% endfor %}
 </div>
