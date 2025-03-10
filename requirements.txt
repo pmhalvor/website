@@ -1,21 +1,10 @@
-asgiref==3.8.1
-Django==5.1.6
-django_extensions==3.2.3
-django-mathfilters==1.0.0
 flask==3.1.0
 gunicorn==20.0.4
 matplotlib==3.10.1
 nbformat==5.10.4
 notion-client==2.3.0
-sqlparse==0.4.1
 spotipy==2.25.1
-# psycopg2 #-binary
-pytz==2020.4
 Pillow==11.1.0
-pandas==2.2.3
-plotly==6.0.0
-pydantic==2.10.6
-pydantic-settings==2.8.1
 pytest==8.3.4
 python-dotenv==1.0.1
 pyyaml==6.0.2

@@ -1,18 +1,13 @@
 # perhalvorsen.com 
 Repository for my personal website, [perhalvorsen.com](https://perhalvorsen.com).
 
-This master branch represents the latest, stable version of the site.
-Checkout the development branch to see what I currently am working on. 
-Otherwise, take a peek at the previous releases of the site, to see what
- changes have been implemented.
+Changes are pushed to ghcr.io/pmhavor/website (PAT needed).
+On my server, I use [watchtower](https://containrrr.dev/watchtower/) to automatically update the site when a new image is pushed to the registry.
 
 
-
-I use this site as a portfolio, shining light on some of the web-development 
-projects I've taken part in.
-If there are any malfunctions on your end, 
-send me an email or pull request, and I'll work on
-fixing it.
+I use this site as a portfolio, 
+showcasing some of the web-development projects I've taken part in.
+If you noticed anything wrong, feel free to open a PR.
 
 ## Changelog:
 - 2.1.0: Updated server to Ubuntu 4.23 and ensure environment vars present
@@ -36,66 +31,12 @@ Uses `docker compose` to build, run, then tear down the site container.
 make run
 ```
 
-
-## Restart server 
-
-if you make any changes to `settings.py` or other places in the project that aren't showing up right away (i.e. radio plots, css formatting, html templates),
- you may need to restart the server. This is easily done with:
+## Run locally for development
+Navigate to `new_home/` and run the app:
 ```sh
-source restart.sh
-```
-
-## Changes to the database 
-The database serves data to various pages on the site, from the CV items, to notes and updates. 
-You can add changes through the Django GUI at https://perhalvorsen.com/admin, or via command line. 
-These next few tips will show how to execute these changes through a Python shell in the command line. 
-
-First, nagivate to the folder, activate the environment, and open a python shell in the project:
-```sh
-cd /path/to/site
-source siteenv/bin/activate
-python manage.py shell
-```
-
-### Add entry to database
-
-To add a new entry, import the model you want to add the entry for, along with the interactive-adder tool.
-Models and their fields can be found at [home/model.py](home/models.py).
-
-```python
-from home.models import Notes
-from tools.table import interactive_add, to_dt
-
-interactive_add(Notes)
-
->>> title: My New Note
->>> descr: Small description of content
->>> file_loc: /path/to/this/note.md
->>> img_loc: path/to/note/image.png
->>> pub_date: 2023-07-03
->>> Added: {...}
+cd new_home/
+python app.py
 ``` 
-
-### Update entry in database
-To update an item currently present in the database, you'll again need to import the desired model.
-You will also need to know the unique field identifier for that item, usually `title` or `main`.
-
-Building off the previous exmaple, we would get something like:
-```python
-from home.models import Notes
-
-new_note = Notes.objects.get(title="My New Note")
-
-print(new_note.file_loc)
-new_note.file_loc = "/new/path/to/note.md"
-print(new_note.file_loc)
-
-new_note.save()
-
->>> '/path/to/this/note.md'
->>> '/new/path/to/note.md'
-```
-
-
-If you want to see all the items listed for that model, run `Notes.objects.get_queryset()`. 
-
+Ensure you have a `.env` file with your Notion credentials:
+- `NOTION_SITEDB_TOKEN`
+- `NOTION_SITEDB_ID`

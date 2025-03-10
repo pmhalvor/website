@@ -5,6 +5,7 @@ sitedb
 .cache
 duck*
 old_*
+.hide/
 
 config.json
 
