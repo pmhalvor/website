@@ -6,7 +6,7 @@ from flask import request
 
 env = Env(".env")         
 
-app = Flask(__name__, static_folder='./static', template_folder='./templates')
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
 NOTION_TOKEN = env.notion_sitedb_token
 RADIO_URL = env.radio_url

@@ -103,7 +103,7 @@ def parse_cv_results(results):
 
     df = df.sort_values(by='start_date', ascending=False)
 
-    df['duration'] = round((df['end_date'] - df['start_date']).dt.days / 365, 2)
+    df['duration'] = round((df['end_date'] - df['start_date']).dt.days / 365, 1) # calculate duration in years
 
     # convert dates to readable format
     df['start_date'] = df['start_date'].dt.strftime('%b %Y')
@@ -142,13 +142,18 @@ def parse_notes_results(results):
         }
         parsed_results.append(parsed_result)
 
-    
+
+    parsed_results = order_by(parsed_results, 'publish_date', reverse=True)
+
     return parsed_results
 
 
 # utils 
 def pp(content):
     print(json.dumps(content, indent=2))
+
+def order_by(results, key, reverse=True):
+    return sorted(results, key=lambda x: x[key], reverse=reverse)
 
 
 def extract_optional_text(result, key):

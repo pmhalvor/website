@@ -21,10 +21,10 @@
             <h2>work</h2>
             {% for item in work_list %}
                 <div class="card">
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.subtitle }}</p>
-                    <p>{{ item.location }}</p>
-                    <p>{{ item.start_date }} - {{ item.end_date }}</p>
+                    <h3>{{ item.title | safe }}</h3>
+                    <p>{{ item.subtitle | safe }}</p>
+                    <p>{{ item.location | safe }}</p>
+                    <p>{{ item.start_date | safe }} - {{ item.end_date | safe }}</p>
                 </div>
             {% endfor %}
         </div>
@@ -33,10 +33,10 @@
             <h2>education</h2>
             {% for item in edu_list %}
                 <div class="card">
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.subtitle }}</p>
-                    <p>{{ item.location }}</p>
-                    <p>{{ item.start_date }} - {{ item.end_date }}</p>
+                    <h3>{{ item.title | safe }}</h3>
+                    <p>{{ item.subtitle | safe }}</p>
+                    <p>{{ item.location | safe }}</p>
+                    <p>{{ item.start_date | safe }} - {{ item.end_date | safe }}</p>
                 </div>
             {% endfor %}
         </div>
@@ -44,11 +44,11 @@
         <div class="cv-column">
             <h2>languages</h2>
             {% for item in lang_list %}
-                <div class="card" style="height: 125px;">
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.subtitle }}</p>
-                    <p>{{ item.location }}</p>
-                    <p>{{ item.start_date }} - {{ item.end_date }}</p>
+                <div class="card" style="height: 150px;">
+                    <h3>{{ item.title | safe }}</h3>
+                    <p>{{ item.subtitle | safe }}</p>
+                    <p>{{ item.location | safe }}</p>
+                    <p>{{ item.duration | safe }} years</p>
                 </div>
             {% endfor %}
         </div>
