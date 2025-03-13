@@ -7,8 +7,8 @@
     <div class="container">
         {% for item in updates %}
             <div class="card">
-                <h2>{{ item.title }}</h2>
-                <p>{{ item.description }}</p>
+                <h2>{{ item.title|safe }}</h2>
+                <p>{{ item.descriptio|safe }}</p>
                 <p>Published: {{ item.publish_date }}</p>
                 {% if item.file %}
                     <a href="{{ item.file }}">File</a>
@@ -16,7 +16,7 @@
                 {% if item.image %}
                     <img src="{{ item.image }}" alt="{{ item.title }}">
                 {% endif %}
-                <p>Tags: {% for tag in item.tags %}{{ tag }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+                <p>Tags: {% for tag in item.tags %}{{ tag|safe }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
             </div>
         {% endfor %}
     </div>
