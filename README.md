@@ -10,6 +10,7 @@ showcasing some of the web-development projects I've taken part in.
 If you noticed anything wrong, feel free to open a PR.
 
 ## Changelog:
+- 3.0.0: Refactor Django -> Flask, postgres -> Notion, plus Dockerized (see inital update in [#13](https://github.com/pmhalvor/website/pull/13) and Django removal in [#14](https://github.com/pmhalvor/website/pull/14))
 - 2.1.0: Updated server to Ubuntu 4.23 and ensure environment vars present
 - 2.0.0: Migrated off of Azure. Everything is now soley hosted on Digial Ocean server
 - 1.1.4: current, recents, and plots loaded seperately from `/radio`, allowing for smoother user experience
