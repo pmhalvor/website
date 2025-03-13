@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+<img src="{{ url_for('static', filename='img/lookingcolors.jpg') }}" class="avatar">
+<h1><em>about</em></h1>
+<div class="container about">
+    {% for item in about %}
+        <h2><em>{{ item.title }}</em></h2>
+        {% for line in item.content %}
+            <p>{{ line|safe }}</p>
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endblock %}

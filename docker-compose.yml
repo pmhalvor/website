@@ -1,9 +1,9 @@
 services:
-  new_home:
+  home:
     build:
       context: .
       dockerfile: Dockerfile.home
-    container_name: new_home
+    container_name: home
     image: ghcr.io/pmhalvor/website:${TAG}
     restart: always
     ports:
