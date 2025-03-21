@@ -8,7 +8,7 @@
 <h1><em>about</em></h1>
 <div class="container about">
     {% for item in about %}
-        <h2><em>{{ item.title }}</em></h2>
+        <h2><em>{{ item.title|safe }}</em></h2>
         {% for line in item.content %}
             <p>{{ line|safe }}</p>
         {% endfor %}
