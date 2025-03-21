@@ -44,7 +44,7 @@
         <div class="cv-column">
             <h2>languages</h2>
             {% for item in lang_list %}
-                <div class="card" style="height: 150px;">
+                <div class="card" style="height:auto; min-height: 50px;">
                     <h3>{{ item.title | safe }}</h3>
                     <p>{{ item.subtitle | safe }}</p>
                     <p>{{ item.location | safe }}</p>
