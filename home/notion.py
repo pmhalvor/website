@@ -94,6 +94,10 @@ def parse_cv_results(results):
             'start_date': extract_date(result, 'start'),
             'end_date': extract_date(result, 'end')
         }
+
+        if result['properties']["hide"]["select"]["name"] == "True":
+            continue
+
         parsed_results.append(parsed_result)
 
     # convert to pandas, sort by start date and convert back to list
@@ -101,9 +105,13 @@ def parse_cv_results(results):
     df['start_date'] = pd.to_datetime(df['start_date'])
     df['end_date'] = pd.to_datetime(df['end_date'])
 
+    df['duration'] = round((df['end_date'] - df['start_date']).dt.days / 365, 1) # calculate duration in years
+
     df = df.sort_values(by='start_date', ascending=False)
 
-    df['duration'] = round((df['end_date'] - df['start_date']).dt.days / 365, 1) # calculate duration in years
+    # order languages by duration
+    languages = df[df['category'] == 'Language'].sort_values(by='duration', ascending=False)
+    df = pd.concat((df[df['category'] != 'Language'], languages), ignore_index=True)
 
     # convert dates to readable format
     df['start_date'] = df['start_date'].dt.strftime('%b %Y')
@@ -140,7 +148,12 @@ def parse_notes_results(results):
             'image': extract_url(result, 'image'),
             'tags': [tag['name'] for tag in result['properties']['tags']['multi_select']]
         }
+        
+        # limit to 5 tags
+        parsed_result['tags'] = parsed_result['tags'][:5]
+        
         parsed_results.append(parsed_result)
+
 
 
     parsed_results = order_by(parsed_results, 'publish_date', reverse=True)

@@ -3,8 +3,8 @@
 {% block title %}CV{% endblock %}
 
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/cv.css') }}">
-    <img src="{{ url_for('static', filename='img/cafe.png') }}" class="avatar">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/cv.css') | safe }}">
+    <img src="{{ url_for('static', filename='img/cafe.png') | safe }}" class="avatar">
     <h1><em><br>cv</em></h1>
     <style>
         .cv-container {
@@ -44,7 +44,7 @@
         <div class="cv-column">
             <h2>languages</h2>
             {% for item in lang_list %}
-                <div class="card" style="height: 150px;">
+                <div class="card" style="height:auto; min-height: 50px;">
                     <h3>{{ item.title | safe }}</h3>
                     <p>{{ item.subtitle | safe }}</p>
                     <p>{{ item.location | safe }}</p>
