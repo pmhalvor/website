@@ -16,7 +16,11 @@
                         <h2>{{ item.title | safe}}</h2>
                         <p>{{ item.description|safe }}</p>
                         <div class="tags">
-                            {% for tag in item.tags %}{{ tag|safe }}{% if not loop.last %}{% endif %}{% endfor %}
+                            {% for tag in item.tags %}
+                                <span class="tag">
+                                    {{ tag|safe }}{% if not loop.last %} {% endif %}
+                                </span>
+                            {% endfor %}
                         </div>
                     </div>
                 </a>

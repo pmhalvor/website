@@ -97,7 +97,7 @@ def parse_cv_results(results):
 
         if result['properties']["hide"]["select"]["name"] == "True":
             continue
-        
+
         parsed_results.append(parsed_result)
 
     # convert to pandas, sort by start date and convert back to list
@@ -148,7 +148,12 @@ def parse_notes_results(results):
             'image': extract_url(result, 'image'),
             'tags': [tag['name'] for tag in result['properties']['tags']['multi_select']]
         }
+        
+        # limit to 5 tags
+        parsed_result['tags'] = parsed_result['tags'][:5]
+        
         parsed_results.append(parsed_result)
+
 
 
     parsed_results = order_by(parsed_results, 'publish_date', reverse=True)
