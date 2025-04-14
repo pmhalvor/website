@@ -18,8 +18,9 @@ h2{
 }
 h3{
     font-family: 'Poppins', sans-serif;
+    text-shadow:-0.075em 0.075em rgb(84, 96, 230), -0.15em 0.15em rgb(7, 16, 118);
     font-weight: 700;
-    margin-bottom: -5px;
+    margin-bottom: -7px;
 }
 
 /* CARDS */
@@ -31,15 +32,15 @@ h3{
     background-color: rgb(37,37,37,0.0);
 }
 div.card{
-	width: 275px;
-	height: 275px;
+	width: 250px;
+	min-height: 150px;
+    height: auto;
     background-color: rgb(137, 137, 137, 0.0);
     border-radius: 13px;
     display: block;
 	text-align: center;
 	text-wrap: wrap;
     justify-content: center;
-    margin-bottom: -50px;
 }
 p{
     margin-bottom:-15px;
