@@ -2,11 +2,13 @@
   // Parallax for background shapes. Assigns different speeds per shape.
   const config = [
     {sel: '.red-rectangle', speed: 0.5},
-    {sel: '.blue-circle', speed: 0.45},
-    {sel: '.yellow-square', speed: 0.4},
+    {sel: '.blue-square', speed: 0.3},
     {sel: '.yellow-triangle', speed: 0.6},
-    {sel: '.red-circle', speed: 0.3},
-    {sel: '.blue-square', speed: 0.45},
+    {sel: '.blue-circle', speed: 0.4},
+    {sel: '.red-circle', speed: 0.4},
+    {sel: '.yellow-square', speed: 0.3},
+    {sel: '.blue-rectangle', speed: 0.1},
+    {sel: '.red-triangle', speed: 0.05},
 
   ];
 
