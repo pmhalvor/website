@@ -1,5 +1,11 @@
 /siteenv
 
+# uv stuff
+.venv
+.python-version
+pyproject.toml
+uv.lock
+
 */.data
 sitedb
 .cache
