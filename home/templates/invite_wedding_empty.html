@@ -9,27 +9,29 @@
 
 <body>
     <div class="container">
+        <div class="red-rectangle"></div>
+        <div class="blue-circle"></div>
+        <div class="yellow-square"></div>
         hmm, it seems like you used a broken link. 
-        <br><br>
-        using the info on your invitation, please answer the following questions to access the invite:
-        <br><br>
+        <br>
+        unlock your invitation by answering the following questions:
 
         <form method="get" action="{{ url_for('wedding_invite') }}">
             <br><br>
 
-            <label for="who">who? (Oldest+Youngest)</label><br>
+            <label for="who">who?<br>(Oldest+Youngest)</label>
             <input id="who" name="who" placeholder="e.g. Alice+Bob" required><br><br>
 
             
-            <label for="when">when? (yyyy-mm-dd)</label><br>
+            <label for="when">when?<br>(yyyy-mm-dd)</label>
             <input id="when" name="when" placeholder="2025-09-30" required><br><br>
             
 
-            <label for="where">where? (Venue Name)</label><br>
+            <label for="where">where?<br>(Venue Name)</label>
             <input id="where" name="where" placeholder="Venue Name" required><br><br>
             
 
-            <label for="activity">activity at 16?</label><br>
+            <label for="activity">activity at 16?<br>(lowercase)</label>
             <input id="activity" name="activity" placeholder="activity" required><br><br>
             
 
@@ -39,6 +41,8 @@
 
 
     </div>
+</div>
+    <script src="{{ url_for('static', filename='js/wedding-parallax.js') }}"></script>
 </body>
 </html>
 
