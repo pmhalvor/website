@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Frank & Per's Wedding{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/wedding.css') }}">
+    {% include "includes/analytics.html" %}
+</head>
+
+<body>
+    <div class="container">
+        hmm, it seems like you used a broken link. 
+        <br><br>
+        using the info on your invitation, please answer the following questions to access the invite:
+        <br><br>
+
+        <form method="get" action="{{ url_for('wedding_invite') }}">
+            <br><br>
+
+            <label for="who">who? (Oldest+Youngest)</label><br>
+            <input id="who" name="who" placeholder="e.g. Alice+Bob" required><br><br>
+
+            
+            <label for="when">when? (yyyy-mm-dd)</label><br>
+            <input id="when" name="when" placeholder="2025-09-30" required><br><br>
+            
+
+            <label for="where">where? (Venue Name)</label><br>
+            <input id="where" name="where" placeholder="Venue Name" required><br><br>
+            
+
+            <label for="activity">activity at 16?</label><br>
+            <input id="activity" name="activity" placeholder="activity" required><br><br>
+            
+
+            <button type="submit">Submit</button>
+            
+        </form>
+
+
+    </div>
+</body>
+</html>
+

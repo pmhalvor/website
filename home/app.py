@@ -1,7 +1,8 @@
 from flask import Flask, render_template, jsonify
 from notion import CachedNotionClient, parse_about_results, parse_cv_results, parse_notes_results
 from config import Env
-from flask import request
+from flask import request, redirect
+from invite import check_wedding_invite
 
 
 env = Env(".env")         
@@ -21,17 +22,20 @@ async def home():
     updates = parse_notes_results(updates_data['results'])
     return render_template('index.html', updates=updates[:7]) # most recent 7
 
+
 @app.route('/updates')
 async def updates():
     updates_data = await notion_client.get_database(env.notion_sitedb_update_id)
     updates = parse_notes_results(updates_data['results'])
     return render_template('updates.html', updates=updates)
 
+
 @app.route('/about')
 async def about():
     about_data = await notion_client.get_database(env.notion_sitedb_about_id)
     about = parse_about_results(about_data['results'])
     return render_template('about.html', about=about)
+
 
 @app.route('/cv')
 async def cv():
@@ -70,6 +74,44 @@ def callback():
         return jsonify({'code': code})
     else:
         return jsonify({'error': 'No code parameter found'}), 400
+
+
+@app.route('/invite/wedding')
+async def wedding_invite_empty():
+    """
+    If user does not provide query parameters, 
+    present a simple for to answer questions about the wedding.
+
+    These will be used as the key/value pairs to render the invite. 
+
+    who, 
+    when, 
+    where
+    """
+
+    return render_template("invite_wedding_empty.html")
+
+
+@app.route('/invite/wedding/')
+async def wedding_invite():
+    """
+    Check query parameters.
+
+    If false, redirect to empty invite page.
+    """
+    if not check_wedding_invite(request.args, env):
+        # redirect to empty invite page
+        return redirect('/invite/wedding')
+
+    return render_template("invite_wedding.html")
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
