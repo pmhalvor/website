@@ -20,7 +20,7 @@
         
         <div class="invite-content">
             {% for item in invite_wedding %}
-                <h2><em>{{ item.title|safe }}</em></h2>
+                <h2>{{ item.title|safe }}</h2>
                 {% for line in item.content %}
                     <p>{{ line|safe }}</p>
                 {% endfor %}
