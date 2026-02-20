@@ -163,6 +163,23 @@ def parse_notes_results(results):
     return parsed_results
 
 
+def parse_invite_wedding_results(results):
+    parsed_results = []
+    for result in results:
+        parsed_result = {
+            "order": result['properties']['Order']['number'],
+            'title': result['properties']['Name']['title'][0]['text']['content'],
+            'content': [line.get("plain_text") for line in result['properties']['Text']['rich_text']]
+        }
+        parsed_results.append(parsed_result)
+
+    
+    # fixed order
+    parsed_results = order_by(parsed_results, 'order', reverse=False)
+    
+    return parsed_results
+
+
 # utils 
 def pp(content):
     print(json.dumps(content, indent=2))

@@ -3,6 +3,20 @@ body{
 	background-color: #ffffff;
 }
 
+h1{
+    font-family: 'Poppins', sans-serif;
+    /* text-shadow: -0.05em 0.05em rgb(158, 168, 218), -0.1em 0.1em rgb(84, 96, 230), -0.15em 0.15em rgb(29, 43, 197), -0.2em 0.2em rgb(7, 16, 118); */
+    font-size: 10em;
+    font-weight: 900;
+    text-align: center;
+}
+h2{
+    text-align: center;
+	font-family: 'Poppins', sans-serif;
+    /* text-shadow: -0.1em 0.1em rgb(84, 96, 230), -0.2em 0.2em rgb(7, 16, 118); */
+    font-size: 2em;
+    font-weight: 700;
+}
 .container{
     background-color: rgb(37,37,37,0.0);
     border-radius: 13px;
@@ -12,7 +26,6 @@ body{
     font-weight: 900;
     margin-left: 15px;
     margin-right: 25px;
-    margin-top: 50px;
     padding: 2%;
     text-align: center;
     z-index: 1;
@@ -66,13 +79,24 @@ body{
     font-weight:900
 }
 
+
+/* INVITE CONTENT */
+.invite-content{
+    padding: 2%;
+    width: 75%;
+    margin: 0 auto;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1em;
+    text-align: center;
+}
+
 /* BAUHAUS SHAPES */
 .red-rectangle {
     position: absolute;
     top: 5%;
     right: 10%;
-    width: 550px;
-    height: 150px;
+    width: 700px;
+    height: 200px;
     background-color: #cf0000;
     z-index: -1;
     pointer-events: none;
@@ -94,7 +118,7 @@ body{
 }
 .yellow-square {
     position: absolute;
-    top: 50%;
+    top: 60%;
     right: 20%;
     width: 370px;
     height: 370px;
@@ -104,7 +128,45 @@ body{
     will-change: transform;
     transform: translateY(0);
 }
-
+.yellow-triangle {
+    position: absolute;
+    top: 20%;
+    left: 25%;
+    width: 0;
+    height: 0;
+    border-left: 200px solid transparent;
+    border-right: 200px solid transparent;
+    border-bottom: 350px solid #ecd801;
+    z-index: -1;
+    pointer-events: none;
+    will-change: transform;
+    transform: translateY(0);
+}   
+.red-circle {
+    position: absolute;
+    top: 50%;
+    right: 15%;
+    width: 250px;
+    height: 250px;
+    background-color: #cf0000;
+    border-radius: 50%;
+    z-index: -1;
+    pointer-events: none;
+    will-change: transform;
+    transform: translateY(0);
+}
+.blue-square {
+    position: absolute;
+    top: 15%;
+    right: 20%;
+    width: 250px;
+    height: 250px;
+    background-color: #0404da;
+    z-index: -1;
+    pointer-events: none;
+    will-change: transform;
+    transform: translateY(0);
+}
 
 
 /* LOCAL FONTS */

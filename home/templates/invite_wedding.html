@@ -12,7 +12,21 @@
         <div class="red-rectangle"></div>
         <div class="blue-circle"></div>
         <div class="yellow-square"></div>
-        Congrats! You are invited to our wedding! <br><br>
+        <div class="yellow-triangle"></div>
+        <div class="red-circle"></div>
+        <div class="blue-square"></div>
+
+        <h1>F+P</h1>
+        
+        <div class="invite-content">
+            {% for item in invite_wedding %}
+                <h2><em>{{ item.title|safe }}</em></h2>
+                {% for line in item.content %}
+                    <p>{{ line|safe }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
     </div>
+    <script src="{{ url_for('static', filename='js/wedding-parallax.js') }}"></script>
 </body>
 </html>

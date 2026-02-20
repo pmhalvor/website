@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
-from notion import CachedNotionClient, parse_about_results, parse_cv_results, parse_notes_results
+from notion import CachedNotionClient
+from notion import parse_notes_results, parse_about_results, parse_cv_results, parse_invite_wedding_results
 from config import Env
 from flask import request, redirect
 from invite import check_wedding_invite
@@ -103,7 +104,9 @@ async def wedding_invite():
         # redirect to empty invite page
         return redirect('/invite/wedding')
 
-    return render_template("invite_wedding.html")
+    invite_wedding_data = await notion_client.get_database(env.notion_sitedb_invite_wedding_id)
+    invite_wedding = parse_invite_wedding_results(invite_wedding_data['results'])
+    return render_template('invite_wedding.html', invite_wedding=invite_wedding)
 
 
 
