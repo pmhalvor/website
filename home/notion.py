@@ -1,13 +1,15 @@
 import time
 import json
 import os
-from notion_client import Client
+from notion_client import AsyncClient
+# from notion_client import Client
 from datetime import datetime
+import asyncio
 import pandas as pd
 
 class CachedNotionClient:
     def __init__(self, token, cache_dir='./notion_cache', cache_ttl=3600):
-        self.notion = Client(auth=token)
+        self.notion = AsyncClient(auth=token)
         self.cache_dir = cache_dir
         self.cache_ttl = cache_ttl  # Time-to-live in seconds
         
@@ -38,11 +40,11 @@ class CachedNotionClient:
         with open(self._get_cache_path(key), 'w') as f:
             json.dump(data, f)
     
-    def get_database(self, database_id):
+    async def get_database(self, database_id):
         cache_key = f"db_{database_id}"
             
         try:
-            data = self.notion.databases.query(database_id=database_id)
+            data = await self.notion.databases.query(database_id=database_id)
             self._write_cache(cache_key, data)
             return data
         except Exception as e:
@@ -105,7 +107,7 @@ def parse_cv_results(results):
     df['start_date'] = pd.to_datetime(df['start_date'])
     df['end_date'] = pd.to_datetime(df['end_date'])
 
-    df['duration'] = round((df['end_date'] - df['start_date']).dt.days / 365, 1) # calculate duration in years
+    df['duration'] = round((df['end_date'] - df['start_date']).dt.days / 365, 1) # calculate duration in years  # type: ignore
 
     df = df.sort_values(by='start_date', ascending=False)
 
@@ -114,8 +116,8 @@ def parse_cv_results(results):
     df = pd.concat((df[df['category'] != 'Language'], languages), ignore_index=True)
 
     # convert dates to readable format
-    df['start_date'] = df['start_date'].dt.strftime('%b %Y')
-    df['end_date'] = df['end_date'].dt.strftime('%b %Y')
+    df['start_date'] = df['start_date'].dt.strftime('%b %Y')    # type: ignore
+    df['end_date'] = df['end_date'].dt.strftime('%b %Y')        # type: ignore
     df = df.fillna('')
 
     parsed_results = df.to_dict(orient='records')
@@ -197,16 +199,19 @@ if __name__ == "__main__":
 
     env = Env(".env")
 
-    sdb_client = CachedNotionClient(env.notion_sitedb_token)
+    notion_db_client = CachedNotionClient(env.notion_sitedb_token)
 
-    about_data = sdb_client.get_database(env.notion_sitedb_about_id)
-    cv_data = sdb_client.get_database(env.notion_sitedb_cv_id)
-    notes_data = sdb_client.get_database(env.notion_sitedb_notes_id)
-    updates_data = sdb_client.get_database(env.notion_sitedb_update_id)
+    async def main():
+        about_data = await notion_db_client.get_database(env.notion_sitedb_about_id)
+        cv_data = await notion_db_client.get_database(env.notion_sitedb_cv_id)
+        notes_data = await notion_db_client.get_database(env.notion_sitedb_notes_id)
+        updates_data = await notion_db_client.get_database(env.notion_sitedb_update_id)
 
-    pp(parse_about_results(about_data['results']))
-    pp(parse_cv_results(cv_data['results']))
-    pp(parse_notes_results(notes_data['results']))
-    pp(parse_notes_results(updates_data['results']))
-    
-    print("Done.")
+        pp(parse_about_results(about_data['results']))
+        pp(parse_cv_results(cv_data['results']))
+        pp(parse_notes_results(notes_data['results']))
+        pp(parse_notes_results(updates_data['results']))
+
+        print("Done.")
+
+    asyncio.run(main())

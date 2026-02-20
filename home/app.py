@@ -16,26 +16,26 @@ CACHE_TTL = 3600
 notion_client = CachedNotionClient(token=NOTION_TOKEN, cache_dir=CACHE_DIR, cache_ttl=CACHE_TTL)
 
 @app.route('/')
-def home():
-    updates_data = notion_client.get_database(env.notion_sitedb_update_id)
+async def home():
+    updates_data = await notion_client.get_database(env.notion_sitedb_update_id)
     updates = parse_notes_results(updates_data['results'])
     return render_template('index.html', updates=updates[:7]) # most recent 7
 
 @app.route('/updates')
-def updates():
-    updates_data = notion_client.get_database(env.notion_sitedb_update_id)
+async def updates():
+    updates_data = await notion_client.get_database(env.notion_sitedb_update_id)
     updates = parse_notes_results(updates_data['results'])
     return render_template('updates.html', updates=updates)
 
 @app.route('/about')
-def about():
-    about_data = notion_client.get_database(env.notion_sitedb_about_id)
+async def about():
+    about_data = await notion_client.get_database(env.notion_sitedb_about_id)
     about = parse_about_results(about_data['results'])
     return render_template('about.html', about=about)
 
 @app.route('/cv')
-def cv():
-    cv_data = notion_client.get_database(env.notion_sitedb_cv_id)
+async def cv():
+    cv_data = await notion_client.get_database(env.notion_sitedb_cv_id)
     cv = parse_cv_results(cv_data['results'])
     # Separate into categories like in Django views
     work = [item for item in cv if item['category'] == 'Work']
@@ -46,8 +46,8 @@ def cv():
 
 
 @app.route('/notes')
-def notes():
-    notes_data = notion_client.get_database(env.notion_sitedb_notes_id)
+async def notes():
+    notes_data = await notion_client.get_database(env.notion_sitedb_notes_id)
     notes = parse_notes_results(notes_data['results'])
     return render_template("notes.html", notes=notes)
 
@@ -74,4 +74,4 @@ def callback():
 
 if __name__ == '__main__':
     import os
-    app.run(port=os.environ.get('PORT', 5001)) # TODO test other ports 
+    app.run(port=int(os.environ.get('PORT', 5001))) # TODO test other ports 
