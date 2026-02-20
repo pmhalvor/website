@@ -32,6 +32,11 @@ Uses `docker compose` to build, run, then tear down the site container.
 make run
 ```
 
+## Manual rebuild
+```sh
+docker compose build home && docker kill home && docker compose up home -d
+```
+
 ## Run locally for development
 Navigate to `new_home/` and run the app:
 ```sh
