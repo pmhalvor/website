@@ -16,14 +16,18 @@
   if (!layers.length) return;
 
   let ticking = false;
+  let lastScrollY = -1;
 
   function update() {
     const scrollY = window.scrollY || window.pageYOffset;
-    layers.forEach(l => {
-      // move down proportionally to scroll, slower than page for depth
-      const offset = Math.round(scrollY * l.speed);
-      l.el.style.transform = `translateY(${offset}px)`;
-    });
+    if (scrollY !== lastScrollY) {
+      lastScrollY = scrollY;
+      layers.forEach(l => {
+        // move down proportionally to scroll, slower than page for depth
+        const offset = Math.round(scrollY * l.speed);
+        l.el.style.transform = `translate3d(0, ${offset}px, 0)`;
+      });
+    }
     ticking = false;
   }
 
