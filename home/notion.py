@@ -9,7 +9,7 @@ import pandas as pd
 
 class CachedNotionClient:
     def __init__(self, token, cache_dir='./notion_cache', cache_ttl=3600):
-        self.notion = AsyncClient(auth=token)
+        self.token = token
         self.cache_dir = cache_dir
         self.cache_ttl = cache_ttl  # Time-to-live in seconds
         
@@ -42,9 +42,17 @@ class CachedNotionClient:
     
     async def get_database(self, database_id):
         cache_key = f"db_{database_id}"
-            
+
+        # First, check if we have a fresh (non-expired) cache to avoid an API call entirely
+        cached = self._read_cache(cache_key)
+        if cached is not None:
+            return cached
+
+        # Create a fresh AsyncClient per call so there are no stale event loop
+        # references across requests (Flask/asgiref gives each view its own loop)
         try:
-            data = await self.notion.databases.query(database_id=database_id)
+            async with AsyncClient(auth=self.token) as notion:
+                data = await notion.databases.query(database_id=database_id)
             self._write_cache(cache_key, data)
             return data
         except Exception as e:

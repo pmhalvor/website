@@ -1,3 +1,11 @@
+import time
+import asyncio
+import sys
+
+# Fix: Windows ProactorEventLoop causes 'Event loop is closed' errors with httpx/anyio
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 from flask import Flask, render_template, jsonify
 from notion import CachedNotionClient
 from notion import parse_notes_results, parse_about_results, parse_cv_results, parse_invite_wedding_results
@@ -104,7 +112,15 @@ async def wedding_invite():
         # redirect to empty invite page
         return redirect('/invite/wedding')
 
-    invite_wedding_data = await notion_client.get_database(env.notion_sitedb_invite_wedding_id)
+    invite_wedding_data = None 
+    retries = 0
+    while invite_wedding_data is None:
+        invite_wedding_data = await notion_client.get_database(env.notion_sitedb_invite_wedding_id)
+        await asyncio.sleep(1) # wait a bit before retrying
+        retries += 1
+        if retries > 5: # give up after 5 retries
+            return "Error fetching invite data. Please refresh or try again later.", 500
+
     invite_wedding = parse_invite_wedding_results(invite_wedding_data['results'])
     return render_template('invite_wedding.html', invite_wedding=invite_wedding)
 
