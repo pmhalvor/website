@@ -312,7 +312,9 @@ if __name__ == "__main__":
             )
 
             response = await notion_db_client.update_database(env.notion_sitedb_wedding_album_id, data)
+            pp(response)
 
             if i > 4:
                 break        
 
+    asyncio.run(update_album_from_local())
