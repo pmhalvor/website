@@ -188,9 +188,26 @@ def parse_invite_wedding_results(results):
     return parsed_results
 
 
+def parse_album_results(results):
+    parsed_results = []
+    for result in results:
+        parsed_result = {
+            "order": result['properties']['Order']['number'],
+            'title': result['properties']['Name']['title'][0]['text']['content'],
+            'link': [line.get("plain_text") for line in result['properties']['Text']['rich_text']]
+        }
+        parsed_results.append(parsed_result)
+    
+    # fixed order
+    parsed_results = order_by(parsed_results, 'order', reverse=False)
+    
+    return parsed_results
+
+
 # utils 
 def pp(content):
     print(json.dumps(content, indent=2))
+
 
 def order_by(results, key, reverse=True):
     return sorted(results, key=lambda x: x[key], reverse=reverse)
@@ -224,9 +241,10 @@ if __name__ == "__main__":
 
     env = Env(".env")
 
+    # sitedb check
     notion_db_client = CachedNotionClient(env.notion_sitedb_token)
 
-    async def main():
+    async def sitedb_check():
         about_data = await notion_db_client.get_database(env.notion_sitedb_about_id)
         cv_data = await notion_db_client.get_database(env.notion_sitedb_cv_id)
         notes_data = await notion_db_client.get_database(env.notion_sitedb_notes_id)
@@ -237,6 +255,15 @@ if __name__ == "__main__":
         pp(parse_notes_results(notes_data['results']))
         pp(parse_notes_results(updates_data['results']))
 
-        print("Done.")
+        print("SiteDB check done.")
 
-    asyncio.run(main())
+    # asyncio.run(sitedb_check())
+
+
+    async def album_check():
+        album_data = await notion_db_client.get_database(env.notion_wedding_album_id)
+        pp(parse_album_results(album_data['results']))
+
+        breakpoint()  # Debugging point to inspect the parsed album results
+
+    asyncio.run(album_check())
