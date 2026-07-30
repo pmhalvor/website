@@ -62,6 +62,22 @@ class CachedNotionClient:
                 return last_cache
             raise e
 
+    async def update_database(self, database_id, data):
+        cache_key = f"db_{database_id}"
+        try:
+            async with AsyncClient(auth=self.token) as notion:
+                response = await notion.databases.create(database_id=database_id, properties=data)
+            self._write_cache(cache_key, response)
+            return response
+        except Exception as e:
+            breakpoint()
+
+            # If Notion API fails, return last cached version even if expired
+            last_cache = self._read_cache(cache_key)
+            if last_cache:
+                return last_cache
+            raise e
+
 
 def parse_about_results(results):
     """
@@ -262,9 +278,20 @@ if __name__ == "__main__":
 
 
     async def album_check():
-        album_data = await notion_db_client.get_database(env.notion_sitedb_wedding_album_id)
+        # album_data = await notion_db_client.get_database(env.notion_sitedb_wedding_album_id)
 
-        pp(parse_album_results(album_data['results']))
+        # pp(parse_album_results(album_data['results']))
+
+        data = dict()
+        data['Order'] = {"number": 42}
+        data['Name'] = {"title": [{"text": {"content": "frank_per_auto"}}]}
+        data['URL'] = {"url": "img/file.txt"}
+
+        print("Updating wedding album database with test data...")
+        pp(data)
+        response = await notion_db_client.update_database(env.notion_sitedb_wedding_album_id, {
+            "properties": data
+        })
 
         breakpoint()
 
