@@ -259,13 +259,14 @@ if __name__ == "__main__":
 
     # asyncio.run(sitedb_check())
 
+    breakpoint()
+
 
     async def album_check():
         album_data = await notion_db_client.get_database(env.notion_sitedb_wedding_album_id)
-        pp(parse_album_results(album_data['results']))
+        breakpoint()
 
-         # Debugging point to inspect the parsed album results
+        # pp(parse_album_results(album_data['results']))
+
 
     asyncio.run(album_check())
-
-    breakpoint()
