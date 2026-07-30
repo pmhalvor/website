@@ -302,7 +302,7 @@ if __name__ == "__main__":
         album_dir = Path("home/static/img/.hide/")
 
         # get all .jpg files
-        jpg_files = sorted(album_dir.glob("*.jpg"))
+        jpg_files = sorted(album_dir.glob("*.JPG"))
 
         for i, jpg_file in enumerate(jpg_files):
             data = dict(
