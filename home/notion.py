@@ -307,7 +307,7 @@ if __name__ == "__main__":
         for i, jpg_file in enumerate(jpg_files):
             data = dict(
                 Name={"title": [{"text": {"content": jpg_file.stem}}]},
-                URL={"url": f"/static/img/.hide/{jpg_file.name}"},
+                URL={"url": f"img/.hide/{jpg_file.name}"},
                 Order={"number": int(jpg_file.stem.split("_")[-1])}
             )
 
