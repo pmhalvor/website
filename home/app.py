@@ -1,6 +1,8 @@
+import math
 import time
 import asyncio
 import sys
+from urllib.parse import urlencode
 
 # Fix: Windows ProactorEventLoop causes 'Event loop is closed' errors with httpx/anyio
 if sys.platform == 'win32':
@@ -146,8 +148,24 @@ async def wedding_album():
         if retries > 5: # give up after 5 retries
             return "Error fetching invite data. Please refresh or try again later.", 500
 
-    wedding_album = parse_album_results(wedding_album_data['results'])
-    return render_template('wedding_album.html', wedding_album=wedding_album)
+    all_photos = parse_album_results(wedding_album_data['results'])
+
+    photos_per_page = 5
+    total_pages = max(1, math.ceil(len(all_photos) / photos_per_page))
+    try:
+        page = int(request.args.get('page', 0))
+    except ValueError:
+        page = 0
+    page = page % total_pages
+
+    album = all_photos[page * photos_per_page:(page + 1) * photos_per_page]
+
+    auth_params = {k: request.args[k] for k in ['who', 'when', 'where', 'activity'] if k in request.args}
+    prev_url = '/wedding/album?' + urlencode({**auth_params, 'page': (page - 1) % total_pages})
+    next_url = '/wedding/album?' + urlencode({**auth_params, 'page': (page + 1) % total_pages})
+
+    return render_template('wedding_album.html', album=album, page=page,
+                           total_pages=total_pages, prev_url=prev_url, next_url=next_url)
 
 
 

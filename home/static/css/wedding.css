@@ -217,6 +217,41 @@ div.photo-card {
     width: 300px;
     text-align: center;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin: 32px auto 16px;
+}
+.pagination-btn {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    border: 2px solid #000;
+    padding: 10px 22px;
+    font-family: 'Staatliches', sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+}
+.pagination-btn:hover {
+    background: #cf0000;
+    border-color: #cf0000;
+    color: #fff;
+    text-decoration: none;
+}
+.page-indicator {
+    font-family: 'Staatliches', sans-serif;
+    font-size: 1.2em;
+    font-weight: 700;
+    min-width: 60px;
+    text-align: center;
+}
 div.photo-card img {
     width: 100%;
     height: auto;

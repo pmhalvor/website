@@ -11,31 +11,34 @@
     <div class="container">
         <div class="red-rectangle"></div>
         <div class="blue-circle"></div>
-        <div class="yellow-square"></div>
+        <!-- <div class="yellow-square"></div>
         <div class="yellow-triangle"></div>
         <div class="red-circle"></div>
         <div class="blue-square"></div>
         <div class="blue-rectangle"></div>
-        <div class="red-triangle"></div>
+        <div class="red-triangle"></div> -->
 
         <h1>F+P</h1>
         
-        <div class="album-content">
+        <div class="album-content" id="album-content">
             {% for photo in album %}
                 <div class="photo-card">
-                    <!-- <h2>{{ photo.title|safe }}</h2> -->
                     <a href="{{ photo.link|safe }}">
-                        <img src="{{ photo.image|safe }}" alt="{{ photo.title|safe }}">
+                        <img src="{{ photo.link|safe }}" alt="{{ photo.title|safe }}">
                     </a>
                     <br>
                 </div>
             {% endfor %}
         </div>
 
-        <img src="{{ url_for('static', filename='img/frank_og_per.jpg') }}" alt="frank_og_per">
+        <div class="pagination">
+            <a class="pagination-btn" href="{{ prev_url }}">&#8592; Prev</a>
+            <span class="page-indicator">{{ page + 1 }} / {{ total_pages }}</span>
+            <a class="pagination-btn" href="{{ next_url }}">Next &#8594;</a>
+        </div>
+
         <div class="credits">
-            <p>photo by <a href="https://www.tommyellingsen.com/">Tommy Ellingsen</a></p>
-            <p>invitation design by <a href="https://www.perhalvorsen.com/">Per</a></p>
+            <p>photos by <a href="https://www.tommyellingsen.com/">Tommy Ellingsen</a></p>
         </div>
 
     </div>

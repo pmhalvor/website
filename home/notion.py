@@ -209,7 +209,7 @@ def parse_album_results(results):
         parsed_result = {
             "order": result['properties']['Order']['number'],
             'title': result['properties']['Name']['title'][0]['text']['content'],
-            'link': result['properties']['URL']['url'],
+            'link': "../static/" + result['properties']['URL']['url'],
         }
         parsed_results.append(parsed_result)
     
