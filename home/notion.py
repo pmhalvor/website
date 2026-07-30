@@ -289,9 +289,7 @@ if __name__ == "__main__":
 
         print("Updating wedding album database with test data...")
         pp(data)
-        response = await notion_db_client.update_database(env.notion_sitedb_wedding_album_id, {
-            "properties": data
-        })
+        response = await notion_db_client.update_database(env.notion_sitedb_wedding_album_id, data)
 
         breakpoint()
 
