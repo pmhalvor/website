@@ -295,4 +295,24 @@ if __name__ == "__main__":
 
     asyncio.run(album_check())
 
-    breakpoint()
+
+    from pathlib import Path
+    
+    async def update_album_from_local():
+        album_dir = Path("home/static/img/.hide/")
+
+        # get all .jpg files
+        jpg_files = sorted(album_dir.glob("*.jpg"))
+
+        for i, jpg_file in enumerate(jpg_files):
+            data = dict(
+                Name={"title": [{"text": {"content": jpg_file.stem}}]},
+                URL={"url": f"/static/img/.hide/{jpg_file.name}"},
+                Order={"number": int(jpg_file.stem.split("_")[-1])}
+            )
+
+            response = await notion_db_client.update_database(env.notion_sitedb_wedding_album_id, data)
+
+            if i > 4:
+                break        
+
