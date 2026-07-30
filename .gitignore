@@ -30,3 +30,5 @@ entry*
 */worker/store/duration_df.pkl
 
 notion_cache/
+
+*/.hide/
