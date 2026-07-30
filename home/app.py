@@ -8,7 +8,7 @@ if sys.platform == 'win32':
 
 from flask import Flask, render_template, jsonify
 from notion import CachedNotionClient
-from notion import parse_notes_results, parse_about_results, parse_cv_results, parse_invite_wedding_results
+from notion import parse_notes_results, parse_about_results, parse_cv_results, parse_invite_wedding_results, parse_album_results
 from config import Env
 from flask import request, redirect
 from invite import check_wedding_invite
@@ -126,10 +126,28 @@ async def wedding_invite():
 
 
 
+@app.route('/wedding/album')
+async def wedding_album():
+    """
+    Check query parameters.
 
+    If false, redirect to empty invite page.
+    """
+    if not check_wedding_invite(request.args, env):
+        # redirect to empty invite page
+        return redirect('/invite/wedding')
 
+    wedding_album_data = None 
+    retries = 0
+    while wedding_album_data is None:
+        wedding_album_data = await notion_client.get_database(env.notion_sitedb_wedding_album_id)
+        await asyncio.sleep(1) # wait a bit before retrying
+        retries += 1
+        if retries > 5: # give up after 5 retries
+            return "Error fetching invite data. Please refresh or try again later.", 500
 
-
+    wedding_album = parse_album_results(wedding_album_data['results'])
+    return render_template('wedding_album.html', wedding_album=wedding_album)
 
 
 

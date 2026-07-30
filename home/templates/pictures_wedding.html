@@ -20,17 +20,19 @@
 
         <h1>F+P</h1>
         
-        <div class="invite-content">
-            {% for item in invite_wedding %}
-                <h2>{{ item.title|safe }}</h2>
-                {% for line in item.content %}
-                    <p>{{ line|safe }}</p>
-                {% endfor %}
-                <br><br>
+        <div class="album-content">
+            {% for photo in album %}
+                <div class="photo-card">
+                    <!-- <h2>{{ photo.title|safe }}</h2> -->
+                    <a href="{{ photo.link|safe }}">
+                        <img src="{{ photo.image|safe }}" alt="{{ photo.title|safe }}">
+                    </a>
+                    <br>
+                </div>
             {% endfor %}
         </div>
 
-        <img src="{{ url_for('static', filename='img/frank_og_per.jpg') }}" class="invite-signature" alt="frank_og_per">
+        <img src="{{ url_for('static', filename='img/frank_og_per.jpg') }}" alt="frank_og_per">
         <div class="credits">
             <p>photo by <a href="https://www.tommyellingsen.com/">Tommy Ellingsen</a></p>
             <p>invitation design by <a href="https://www.perhalvorsen.com/">Per</a></p>

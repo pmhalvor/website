@@ -199,12 +199,32 @@ h2{
     transform: translateY(0);
 }  
 
-img{
+img.invite-signature{
     border-radius: 50%;
     z-index: 1;
     width: 50%;
     margin-top: -10%;
 }
+
+div.album-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+div.photo-card {
+    width: 300px;
+    text-align: center;
+}
+div.photo-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+
 
 .credits{
     font-family: sans-serif;
