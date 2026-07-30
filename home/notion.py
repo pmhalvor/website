@@ -299,7 +299,7 @@ if __name__ == "__main__":
     from pathlib import Path
     
     async def update_album_from_local():
-        album_dir = Path("home/static/img/.hide/")
+        album_dir = Path("home/static/img/wedding_album/")
 
         # get all .jpg files
         jpg_files = sorted(album_dir.glob("*.JPG"))
@@ -307,7 +307,7 @@ if __name__ == "__main__":
         for i, jpg_file in enumerate(jpg_files):
             data = dict(
                 Name={"title": [{"text": {"content": jpg_file.stem}}]},
-                URL={"url": f"img/.hide/{jpg_file.name}"},
+                URL={"url": f"img/wedding_album/{jpg_file.name}"},
                 Order={"number": int(jpg_file.stem.split("_")[-1])}
             )
 
