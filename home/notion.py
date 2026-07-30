@@ -293,7 +293,7 @@ if __name__ == "__main__":
         print("Update response:")
         pp(response)
 
-    asyncio.run(album_check())
+    # asyncio.run(album_check())
 
 
     from pathlib import Path
