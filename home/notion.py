@@ -67,8 +67,7 @@ class CachedNotionClient:
         try:
             async with AsyncClient(auth=self.token) as notion:
                 print(f"Updating database {database_id} with data: {data}")
-                response = await notion.databases.create(database_id=database_id, properties=data)
-                print(f"Update response: {response}")
+                response = await notion.pages.create(parent=dict(database_id=database_id), properties=data)
             self._write_cache(cache_key, response)
             return response
         except Exception as e:
