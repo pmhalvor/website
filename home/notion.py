@@ -66,12 +66,12 @@ class CachedNotionClient:
         cache_key = f"db_{database_id}"
         try:
             async with AsyncClient(auth=self.token) as notion:
+                print(f"Updating database {database_id} with data: {data}")
                 response = await notion.databases.create(database_id=database_id, properties=data)
+                print(f"Update response: {response}")
             self._write_cache(cache_key, response)
             return response
         except Exception as e:
-            breakpoint()
-
             # If Notion API fails, return last cached version even if expired
             last_cache = self._read_cache(cache_key)
             if last_cache:
@@ -291,7 +291,9 @@ if __name__ == "__main__":
         pp(data)
         response = await notion_db_client.update_database(env.notion_sitedb_wedding_album_id, data)
 
-        breakpoint()
-
+        print("Update response:")
+        pp(response)
 
     asyncio.run(album_check())
+
+    breakpoint()
