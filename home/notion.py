@@ -194,7 +194,7 @@ def parse_album_results(results):
         parsed_result = {
             "order": result['properties']['Order']['number'],
             'title': result['properties']['Name']['title'][0]['text']['content'],
-            'link': [line.get("plain_text") for line in result['properties']['Text']['rich_text']]
+            'link': result['properties']['URL']['url'],
         }
         parsed_results.append(parsed_result)
     
@@ -259,14 +259,14 @@ if __name__ == "__main__":
 
     # asyncio.run(sitedb_check())
 
-    breakpoint()
 
 
     async def album_check():
         album_data = await notion_db_client.get_database(env.notion_sitedb_wedding_album_id)
-        breakpoint()
 
-        # pp(parse_album_results(album_data['results']))
+        pp(parse_album_results(album_data['results']))
+
+        breakpoint()
 
 
     asyncio.run(album_check())
