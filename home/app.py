@@ -141,20 +141,20 @@ async def wedding_album():
         # redirect to empty invite page
         return redirect('/invite/wedding')
 
-    wedding_album_data = None 
-    retries = 0
-    while wedding_album_data is None:
-        wedding_album_data = await notion_client.get_database(env.notion_sitedb_wedding_album_id)
-        await asyncio.sleep(1) # wait a bit before retrying
-        retries += 1
-        if retries > 5: # give up after 5 retries
-            return "Error fetching invite data. Please refresh or try again later.", 500
+
+    wedding_album_data = await notion_client.get_database_all(env.notion_sitedb_wedding_album_id)
+    if not wedding_album_data:
+        return "Error fetching album data. Please refresh or try again later.", 500
+        
 
     auth_params = {k: request.args[k] for k in ['who', 'when', 'where', 'activity'] if k in request.args}
     all_photos = parse_album_results(wedding_album_data['results'], auth_params)
 
     photos_per_page = 5
     total_pages = max(1, math.ceil(len(all_photos) / photos_per_page))
+
+    print(f"Total photos: {len(all_photos)}, Photos per page: {photos_per_page}, Total pages: {total_pages}")
+
     try:
         page = int(request.args.get('page', 0))
     except ValueError:

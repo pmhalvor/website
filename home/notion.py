@@ -40,7 +40,7 @@ class CachedNotionClient:
         with open(self._get_cache_path(key), 'w') as f:
             json.dump(data, f)
     
-    async def get_database(self, database_id):
+    async def get_database(self, database_id, **kwargs):
         cache_key = f"db_{database_id}"
 
         # First, check if we have a fresh (non-expired) cache to avoid an API call entirely
@@ -52,11 +52,43 @@ class CachedNotionClient:
         # references across requests (Flask/asgiref gives each view its own loop)
         try:
             async with AsyncClient(auth=self.token) as notion:
-                data = await notion.databases.query(database_id=database_id)
+                data = await notion.databases.query(database_id=database_id, **kwargs)
             self._write_cache(cache_key, data)
             return data
         except Exception as e:
             # If Notion API fails, return last cached version even if expired
+            last_cache = self._read_cache(cache_key)
+            if last_cache:
+                return last_cache
+            raise e
+
+    async def get_database_all(self, database_id):
+        """Fetch all pages from a database, handling Notion's 100-result pagination."""
+        cache_key = f"db_{database_id}_all"
+
+        cached = self._read_cache(cache_key)
+        if cached is not None:
+            return cached
+
+        all_results = []
+        start_cursor = None
+        try:
+            async with AsyncClient(auth=self.token) as notion:
+                while True:
+                    kwargs = {}
+                    if start_cursor:
+                        kwargs['start_cursor'] = start_cursor
+                    page_data = await notion.databases.query(database_id=database_id, **kwargs)
+                    all_results.extend(page_data['results'])
+                    if not page_data.get('has_more', False):
+                        break
+                    start_cursor = page_data.get('next_cursor')
+                    if not start_cursor:
+                        break
+            combined = {'results': all_results}
+            self._write_cache(cache_key, combined)
+            return combined
+        except Exception as e:
             last_cache = self._read_cache(cache_key)
             if last_cache:
                 return last_cache
