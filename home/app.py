@@ -174,7 +174,9 @@ def hidden_img(filename):
     if not check_wedding_invite(request.args, env):
         abort(403)
 
-    return send_from_directory(PROTECTED_DIR, filename)
+    response = send_from_directory(PROTECTED_DIR, filename)
+    response.headers["Cache-Control"] = "public, max-age=86400"
+    return response
 
 
 
