@@ -238,6 +238,12 @@ def parse_invite_wedding_results(results):
 def parse_album_results(results, auth_params):
     parsed_results = []
     for result in results:
+        # check for "#hidden" checkbox 
+        is_hidden = result['properties'].get('Hidden', {}).get('checkbox', False)
+
+        if is_hidden:
+            continue
+
         url_path = result['properties']['URL']['url'].removeprefix("img/")
         parsed_result = {
             "order": result['properties']['Order']['number'],
