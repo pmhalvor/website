@@ -203,13 +203,14 @@ def parse_invite_wedding_results(results):
     return parsed_results
 
 
-def parse_album_results(results):
+def parse_album_results(results, auth_params):
     parsed_results = []
     for result in results:
+        url_path = result['properties']['URL']['url'].removeprefix("img/")
         parsed_result = {
             "order": result['properties']['Order']['number'],
             'title': result['properties']['Name']['title'][0]['text']['content'],
-            'link': "../static/" + result['properties']['URL']['url'],
+            'link': "/hidden/" + url_path + "?" + "&".join([f"{k}={v}" for k, v in auth_params.items()])
         }
         parsed_results.append(parsed_result)
     

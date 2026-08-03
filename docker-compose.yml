@@ -13,6 +13,6 @@ services:
     environment:
       DEBUG: "false"
     volumes:
-      - ./home/static/img/wedding_album:/home/static/img/wedding_album
+      - ./home/protected:/home/protected
     platform: linux/amd64
 

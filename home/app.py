@@ -1,14 +1,14 @@
 import math
-import time
+import os
 import asyncio
 import sys
 from urllib.parse import urlencode
 
-# Fix: Windows ProactorEventLoop causes 'Event loop is closed' errors with httpx/anyio
-if sys.platform == 'win32':
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+# # Fix: Windows ProactorEventLoop causes 'Event loop is closed' errors with httpx/anyio
+# if sys.platform == 'win32':
+#     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, abort, render_template, jsonify, send_from_directory
 from notion import CachedNotionClient
 from notion import parse_notes_results, parse_about_results, parse_cv_results, parse_invite_wedding_results, parse_album_results
 from config import Env
@@ -24,6 +24,8 @@ NOTION_TOKEN = env.notion_sitedb_token
 RADIO_URL = env.radio_url
 CACHE_DIR = "./notion_cache"
 CACHE_TTL = 3600
+PROTECTED_DIR = os.path.join(app.root_path, "protected", "img")
+
 
 notion_client = CachedNotionClient(token=NOTION_TOKEN, cache_dir=CACHE_DIR, cache_ttl=CACHE_TTL)
 
@@ -148,7 +150,8 @@ async def wedding_album():
         if retries > 5: # give up after 5 retries
             return "Error fetching invite data. Please refresh or try again later.", 500
 
-    all_photos = parse_album_results(wedding_album_data['results'])
+    auth_params = {k: request.args[k] for k in ['who', 'when', 'where', 'activity'] if k in request.args}
+    all_photos = parse_album_results(wedding_album_data['results'], auth_params)
 
     photos_per_page = 5
     total_pages = max(1, math.ceil(len(all_photos) / photos_per_page))
@@ -160,15 +163,21 @@ async def wedding_album():
 
     album = all_photos[page * photos_per_page:(page + 1) * photos_per_page]
 
-    auth_params = {k: request.args[k] for k in ['who', 'when', 'where', 'activity'] if k in request.args}
     prev_url = '/wedding/album?' + urlencode({**auth_params, 'page': (page - 1) % total_pages})
     next_url = '/wedding/album?' + urlencode({**auth_params, 'page': (page + 1) % total_pages})
 
-    return render_template('wedding_album.html', album=album, page=page,
-                           total_pages=total_pages, prev_url=prev_url, next_url=next_url)
+    return render_template('wedding_album.html', album=album, page=page, total_pages=total_pages, prev_url=prev_url, next_url=next_url)
+
+
+@app.route("/hidden/<path:filename>")
+def hidden_img(filename):
+    if not check_wedding_invite(request.args, env):
+        abort(403)
+
+    return send_from_directory(PROTECTED_DIR, filename)
 
 
 
 if __name__ == '__main__':
     import os
-    app.run(port=int(os.environ.get('PORT', 5001))) # TODO test other ports 
+    app.run(port=int(os.environ.get('PORT', 5003)), debug=True) # TODO test other ports 
