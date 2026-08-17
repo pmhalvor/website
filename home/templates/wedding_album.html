@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Frank & Per's Wedding{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/fnp.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/wedding.css') }}">
+    {% include "includes/analytics.html" %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="blue-circle"></div>
+        <div class="yellow-square"></div>
+        <div class="red-triangle"></div> 
+        <!-- 
+            <div class="red-rectangle"></div>
+            <div class="yellow-triangle"></div>
+            <div class="red-circle"></div>
+            <div class="blue-square"></div>
+            <div class="blue-rectangle"></div>
+        -->
+
+        <h1>F+P</h1>
+        
+        <div class="album-content" id="album-content">
+            {% for photo in album %}
+                <div class="photo-card">
+                    <a href="{{ photo.link|safe }}">
+                        <img src="{{ photo.link|safe }}" alt="{{ photo.title|safe }}">
+                    </a>
+                    <br>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            <a class="pagination-btn" href="{{ prev_url }}">&#8592; Prev</a>
+            <span class="page-indicator">{{ page + 1 }} / {{ total_pages }}</span>
+            <a class="pagination-btn" href="{{ next_url }}">Next &#8594;</a>
+        </div>
+
+        <div class="credits">
+            <p>photos by <a href="https://www.tommyellingsen.com/">Tommy Ellingsen</a></p>
+        </div>
+
+    </div>
+    <script src="{{ url_for('static', filename='js/wedding-parallax.js') }}"></script>
+</body>
+</html>

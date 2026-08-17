@@ -12,4 +12,7 @@ services:
       - .env
     environment:
       DEBUG: "false"
+    volumes:
+      - ./home/protected:/home/protected
     platform: linux/amd64
+

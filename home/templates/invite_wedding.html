@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Frank & Per's Wedding{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/fnp.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/wedding.css') }}">
+    {% include "includes/analytics.html" %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="red-rectangle"></div>
+        <div class="blue-circle"></div>
+        <div class="yellow-square"></div>
+        <div class="yellow-triangle"></div>
+        <div class="red-circle"></div>
+        <div class="blue-square"></div>
+        <div class="blue-rectangle"></div>
+        <div class="red-triangle"></div>
+
+        <h1>F+P</h1>
+        
+        <div class="invite-content">
+            {% for item in invite_wedding %}
+                <h2>{{ item.title|safe }}</h2>
+                {% for line in item.content %}
+                    <p>{{ line|safe }}</p>
+                {% endfor %}
+                <br><br>
+            {% endfor %}
+        </div>
+
+        <img src="{{ url_for('static', filename='img/frank_og_per.jpg') }}" class="invite-signature" alt="frank_og_per">
+        <div class="credits">
+            <p>photo by <a href="https://www.tommyellingsen.com/">Tommy Ellingsen</a></p>
+            <p>invitation design by <a href="https://www.perhalvorsen.com/">Per</a></p>
+        </div>
+
+    </div>
+    <script src="{{ url_for('static', filename='js/wedding-parallax.js') }}"></script>
+</body>
+</html>

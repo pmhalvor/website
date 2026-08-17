@@ -1,7 +1,19 @@
-from flask import Flask, render_template, jsonify
-from notion import CachedNotionClient, parse_about_results, parse_cv_results, parse_notes_results
+import math
+import os
+import asyncio
+import sys
+from urllib.parse import urlencode
+
+# # Fix: Windows ProactorEventLoop causes 'Event loop is closed' errors with httpx/anyio
+# if sys.platform == 'win32':
+#     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
+from flask import Flask, abort, render_template, jsonify, send_from_directory
+from notion import CachedNotionClient
+from notion import parse_notes_results, parse_about_results, parse_cv_results, parse_invite_wedding_results, parse_album_results
 from config import Env
-from flask import request
+from flask import request, redirect
+from invite import check_wedding_invite
 
 
 env = Env(".env")         
@@ -12,30 +24,35 @@ NOTION_TOKEN = env.notion_sitedb_token
 RADIO_URL = env.radio_url
 CACHE_DIR = "./notion_cache"
 CACHE_TTL = 3600
+PROTECTED_DIR = os.path.join(app.root_path, "protected", "img")
+
 
 notion_client = CachedNotionClient(token=NOTION_TOKEN, cache_dir=CACHE_DIR, cache_ttl=CACHE_TTL)
 
 @app.route('/')
-def home():
-    updates_data = notion_client.get_database(env.notion_sitedb_update_id)
+async def home():
+    updates_data = await notion_client.get_database(env.notion_sitedb_update_id)
     updates = parse_notes_results(updates_data['results'])
     return render_template('index.html', updates=updates[:7]) # most recent 7
 
+
 @app.route('/updates')
-def updates():
-    updates_data = notion_client.get_database(env.notion_sitedb_update_id)
+async def updates():
+    updates_data = await notion_client.get_database(env.notion_sitedb_update_id)
     updates = parse_notes_results(updates_data['results'])
     return render_template('updates.html', updates=updates)
 
+
 @app.route('/about')
-def about():
-    about_data = notion_client.get_database(env.notion_sitedb_about_id)
+async def about():
+    about_data = await notion_client.get_database(env.notion_sitedb_about_id)
     about = parse_about_results(about_data['results'])
     return render_template('about.html', about=about)
 
+
 @app.route('/cv')
-def cv():
-    cv_data = notion_client.get_database(env.notion_sitedb_cv_id)
+async def cv():
+    cv_data = await notion_client.get_database(env.notion_sitedb_cv_id)
     cv = parse_cv_results(cv_data['results'])
     # Separate into categories like in Django views
     work = [item for item in cv if item['category'] == 'Work']
@@ -46,8 +63,8 @@ def cv():
 
 
 @app.route('/notes')
-def notes():
-    notes_data = notion_client.get_database(env.notion_sitedb_notes_id)
+async def notes():
+    notes_data = await notion_client.get_database(env.notion_sitedb_notes_id)
     notes = parse_notes_results(notes_data['results'])
     return render_template("notes.html", notes=notes)
 
@@ -72,6 +89,97 @@ def callback():
         return jsonify({'error': 'No code parameter found'}), 400
 
 
+@app.route('/invite/wedding')
+async def wedding_invite_empty():
+    """
+    If user does not provide query parameters, 
+    present a simple for to answer questions about the wedding.
+
+    These will be used as the key/value pairs to render the invite. 
+
+    who, 
+    when, 
+    where
+    """
+
+    return render_template("invite_wedding_empty.html")
+
+
+@app.route('/invite/wedding/')
+async def wedding_invite():
+    """
+    Check query parameters.
+
+    If false, redirect to empty invite page.
+    """
+    if not check_wedding_invite(request.args, env):
+        # redirect to empty invite page
+        return redirect('/invite/wedding')
+
+    invite_wedding_data = None 
+    retries = 0
+    while invite_wedding_data is None:
+        invite_wedding_data = await notion_client.get_database(env.notion_sitedb_invite_wedding_id)
+        await asyncio.sleep(1) # wait a bit before retrying
+        retries += 1
+        if retries > 5: # give up after 5 retries
+            return "Error fetching invite data. Please refresh or try again later.", 500
+
+    invite_wedding = parse_invite_wedding_results(invite_wedding_data['results'])
+    return render_template('invite_wedding.html', invite_wedding=invite_wedding)
+
+
+
+@app.route('/wedding/album')
+async def wedding_album():
+    """
+    Check query parameters.
+
+    If false, redirect to empty invite page.
+    """
+    if not check_wedding_invite(request.args, env):
+        # redirect to empty invite page
+        return redirect('/invite/wedding')
+
+
+    wedding_album_data = await notion_client.get_database_all(env.notion_sitedb_wedding_album_id)
+    if not wedding_album_data:
+        return "Error fetching album data. Please refresh or try again later.", 500
+        
+
+    auth_params = {k: request.args[k] for k in ['who', 'when', 'where', 'activity'] if k in request.args}
+    all_photos = parse_album_results(wedding_album_data['results'], auth_params)
+
+    photos_per_page = 5
+    total_pages = max(1, math.ceil(len(all_photos) / photos_per_page))
+
+    print(f"Total photos: {len(all_photos)}, Photos per page: {photos_per_page}, Total pages: {total_pages}")
+
+    try:
+        page = int(request.args.get('page', 0))
+    except ValueError:
+        page = 0
+    page = page % total_pages
+
+    album = all_photos[page * photos_per_page:(page + 1) * photos_per_page]
+
+    prev_url = '/wedding/album?' + urlencode({**auth_params, 'page': (page - 1) % total_pages})
+    next_url = '/wedding/album?' + urlencode({**auth_params, 'page': (page + 1) % total_pages})
+
+    return render_template('wedding_album.html', album=album, page=page, total_pages=total_pages, prev_url=prev_url, next_url=next_url)
+
+
+@app.route("/hidden/<path:filename>")
+def hidden_img(filename):
+    if not check_wedding_invite(request.args, env):
+        abort(403)
+
+    response = send_from_directory(PROTECTED_DIR, filename)
+    response.headers["Cache-Control"] = "public, max-age=86400"
+    return response
+
+
+
 if __name__ == '__main__':
     import os
-    app.run(port=os.environ.get('PORT', 5001)) # TODO test other ports 
+    app.run(port=int(os.environ.get('PORT', 5003)), debug=True) # TODO test other ports 

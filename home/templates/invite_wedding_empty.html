@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Frank & Per's Wedding{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/fnp.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/wedding.css') }}">
+    {% include "includes/analytics.html" %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="red-rectangle"></div>
+        <div class="blue-circle"></div>
+        <div class="yellow-square"></div>
+
+        <br><br><br>
+        unlock your invitation by answering the following questions:
+
+        <form method="get" action="{{ url_for('wedding_invite') }}">
+            <br><br>
+
+            <label for="who">who?</label>
+            <input id="who" name="who" placeholder="Oldest Youngest" required><br><br>
+
+            
+            <label for="when">when?</label>
+            <input id="when" name="when" placeholder="YYYY-MM-DD" required><br><br>
+            
+
+            <label for="where">where?</label>
+            <input id="where" name="where" placeholder="Venue Name" required><br><br>
+            
+
+            <label for="activity">activity at 16:00?<br></label>
+            <input id="activity" name="activity" placeholder="activity" required><br><br>
+            
+
+            <button type="submit">Submit</button>
+            
+        </form>
+
+
+    </div>
+</div>
+    <script src="{{ url_for('static', filename='js/wedding-parallax.js') }}"></script>
+</body>
+</html>
+
