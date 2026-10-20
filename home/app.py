@@ -156,9 +156,9 @@ async def wedding_album():
     print(f"Total photos: {len(all_photos)}, Photos per page: {photos_per_page}, Total pages: {total_pages}")
 
     try:
-        page = int(request.args.get('page', 0))
+        page = int(request.args.get('page', 8))
     except ValueError:
-        page = 0
+        page = 8
     page = page % total_pages
 
     album = all_photos[page * photos_per_page:(page + 1) * photos_per_page]
