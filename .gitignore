@@ -1,5 +1,11 @@
 /siteenv
 
+# uv stuff
+.venv
+.python-version
+pyproject.toml
+uv.lock
+
 */.data
 sitedb
 .cache
@@ -24,3 +30,8 @@ entry*
 */worker/store/duration_df.pkl
 
 notion_cache/
+
+*/.hide/
+home/static/img/wedding_album/
+home/protected/*
+home/static/img/frank_og_per*.jpg

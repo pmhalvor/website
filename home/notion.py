@@ -1,13 +1,15 @@
 import time
 import json
 import os
-from notion_client import Client
+from notion_client import AsyncClient
+# from notion_client import Client
 from datetime import datetime
+import asyncio
 import pandas as pd
 
 class CachedNotionClient:
     def __init__(self, token, cache_dir='./notion_cache', cache_ttl=3600):
-        self.notion = Client(auth=token)
+        self.token = token
         self.cache_dir = cache_dir
         self.cache_ttl = cache_ttl  # Time-to-live in seconds
         
@@ -38,13 +40,68 @@ class CachedNotionClient:
         with open(self._get_cache_path(key), 'w') as f:
             json.dump(data, f)
     
-    def get_database(self, database_id):
+    async def get_database(self, database_id, **kwargs):
         cache_key = f"db_{database_id}"
-            
+
+        # First, check if we have a fresh (non-expired) cache to avoid an API call entirely
+        cached = self._read_cache(cache_key)
+        if cached is not None:
+            return cached
+
+        # Create a fresh AsyncClient per call so there are no stale event loop
+        # references across requests (Flask/asgiref gives each view its own loop)
         try:
-            data = self.notion.databases.query(database_id=database_id)
+            async with AsyncClient(auth=self.token) as notion:
+                data = await notion.databases.query(database_id=database_id, **kwargs)
             self._write_cache(cache_key, data)
             return data
+        except Exception as e:
+            # If Notion API fails, return last cached version even if expired
+            last_cache = self._read_cache(cache_key)
+            if last_cache:
+                return last_cache
+            raise e
+
+    async def get_database_all(self, database_id):
+        """Fetch all pages from a database, handling Notion's 100-result pagination."""
+        cache_key = f"db_{database_id}_all"
+
+        cached = self._read_cache(cache_key)
+        if cached is not None:
+            return cached
+
+        all_results = []
+        start_cursor = None
+        try:
+            async with AsyncClient(auth=self.token) as notion:
+                while True:
+                    kwargs = {}
+                    if start_cursor:
+                        kwargs['start_cursor'] = start_cursor
+                    page_data = await notion.databases.query(database_id=database_id, **kwargs)
+                    all_results.extend(page_data['results'])
+                    if not page_data.get('has_more', False):
+                        break
+                    start_cursor = page_data.get('next_cursor')
+                    if not start_cursor:
+                        break
+            combined = {'results': all_results}
+            self._write_cache(cache_key, combined)
+            return combined
+        except Exception as e:
+            last_cache = self._read_cache(cache_key)
+            if last_cache:
+                return last_cache
+            raise e
+
+    async def update_database(self, database_id, data):
+        cache_key = f"db_{database_id}"
+        try:
+            async with AsyncClient(auth=self.token) as notion:
+                print(f"Updating database {database_id} with data: {data}")
+                response = await notion.pages.create(parent=dict(database_id=database_id), properties=data)
+            self._write_cache(cache_key, response)
+            return response
         except Exception as e:
             # If Notion API fails, return last cached version even if expired
             last_cache = self._read_cache(cache_key)
@@ -105,7 +162,7 @@ def parse_cv_results(results):
     df['start_date'] = pd.to_datetime(df['start_date'])
     df['end_date'] = pd.to_datetime(df['end_date'])
 
-    df['duration'] = round((df['end_date'] - df['start_date']).dt.days / 365, 1) # calculate duration in years
+    df['duration'] = round((df['end_date'] - df['start_date']).dt.days / 365, 1) # calculate duration in years  # type: ignore
 
     df = df.sort_values(by='start_date', ascending=False)
 
@@ -114,8 +171,8 @@ def parse_cv_results(results):
     df = pd.concat((df[df['category'] != 'Language'], languages), ignore_index=True)
 
     # convert dates to readable format
-    df['start_date'] = df['start_date'].dt.strftime('%b %Y')
-    df['end_date'] = df['end_date'].dt.strftime('%b %Y')
+    df['start_date'] = df['start_date'].dt.strftime('%b %Y')    # type: ignore
+    df['end_date'] = df['end_date'].dt.strftime('%b %Y')        # type: ignore
     df = df.fillna('')
 
     parsed_results = df.to_dict(orient='records')
@@ -161,9 +218,50 @@ def parse_notes_results(results):
     return parsed_results
 
 
+def parse_invite_wedding_results(results):
+    parsed_results = []
+    for result in results:
+        parsed_result = {
+            "order": result['properties']['Order']['number'],
+            'title': result['properties']['Name']['title'][0]['text']['content'],
+            'content': [line.get("plain_text") for line in result['properties']['Text']['rich_text']]
+        }
+        parsed_results.append(parsed_result)
+
+    
+    # fixed order
+    parsed_results = order_by(parsed_results, 'order', reverse=False)
+    
+    return parsed_results
+
+
+def parse_album_results(results, auth_params):
+    parsed_results = []
+    for result in results:
+        # check for "#hidden" checkbox 
+        is_hidden = result['properties'].get('Hidden', {}).get('checkbox', False)
+
+        if is_hidden:
+            continue
+
+        url_path = result['properties']['URL']['url'].removeprefix("img/")
+        parsed_result = {
+            "order": result['properties']['Order']['number'],
+            'title': result['properties']['Name']['title'][0]['text']['content'],
+            'link': "/hidden/" + url_path + "?" + "&".join([f"{k}={v}" for k, v in auth_params.items()])
+        }
+        parsed_results.append(parsed_result)
+    
+    # fixed order
+    parsed_results = order_by(parsed_results, 'order', reverse=False)
+    
+    return parsed_results
+
+
 # utils 
 def pp(content):
     print(json.dumps(content, indent=2))
+
 
 def order_by(results, key, reverse=True):
     return sorted(results, key=lambda x: x[key], reverse=reverse)
@@ -197,16 +295,63 @@ if __name__ == "__main__":
 
     env = Env(".env")
 
-    sdb_client = CachedNotionClient(env.notion_sitedb_token)
+    # sitedb check
+    notion_db_client = CachedNotionClient(env.notion_sitedb_token)
 
-    about_data = sdb_client.get_database(env.notion_sitedb_about_id)
-    cv_data = sdb_client.get_database(env.notion_sitedb_cv_id)
-    notes_data = sdb_client.get_database(env.notion_sitedb_notes_id)
-    updates_data = sdb_client.get_database(env.notion_sitedb_update_id)
+    async def sitedb_check():
+        about_data = await notion_db_client.get_database(env.notion_sitedb_about_id)
+        cv_data = await notion_db_client.get_database(env.notion_sitedb_cv_id)
+        notes_data = await notion_db_client.get_database(env.notion_sitedb_notes_id)
+        updates_data = await notion_db_client.get_database(env.notion_sitedb_update_id)
 
-    pp(parse_about_results(about_data['results']))
-    pp(parse_cv_results(cv_data['results']))
-    pp(parse_notes_results(notes_data['results']))
-    pp(parse_notes_results(updates_data['results']))
+        pp(parse_about_results(about_data['results']))
+        pp(parse_cv_results(cv_data['results']))
+        pp(parse_notes_results(notes_data['results']))
+        pp(parse_notes_results(updates_data['results']))
+
+        print("SiteDB check done.")
+
+    # asyncio.run(sitedb_check())
+
+
+
+    async def album_check():
+        # album_data = await notion_db_client.get_database(env.notion_sitedb_wedding_album_id)
+
+        # pp(parse_album_results(album_data['results']))
+
+        data = dict()
+        data['Order'] = {"number": 42}
+        data['Name'] = {"title": [{"text": {"content": "frank_per_auto"}}]}
+        data['URL'] = {"url": "img/file.txt"}
+
+        print("Updating wedding album database with test data...")
+        pp(data)
+        response = await notion_db_client.update_database(env.notion_sitedb_wedding_album_id, data)
+
+        print("Update response:")
+        pp(response)
+
+    # asyncio.run(album_check())
+
+
+    from pathlib import Path
     
-    print("Done.")
+    async def update_album_from_local():
+        album_dir = Path("home/static/img/wedding_album/")
+
+        # get all .jpg files
+        jpg_files = sorted(album_dir.glob("*.JPG"))
+
+        for i, jpg_file in enumerate(jpg_files):
+            data = dict(
+                Name={"title": [{"text": {"content": jpg_file.stem}}]},
+                URL={"url": f"img/wedding_album/{jpg_file.name}"},
+                Order={"number": int(jpg_file.stem.split("_")[-1])}
+            )
+
+            response = await notion_db_client.update_database(env.notion_sitedb_wedding_album_id, data)
+            pp(response)
+
+
+    asyncio.run(update_album_from_local())
